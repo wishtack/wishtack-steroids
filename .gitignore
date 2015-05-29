@@ -1,0 +1,15 @@
+*.pyc
+.DS_Store
+.bower-cache
+.bower-registry
+.bower-tmp
+.env-*-secret
+.idea
+.sass-cache
+.tmp
+app/bower_components
+dist
+node_modules
+src
+temp
+venv
