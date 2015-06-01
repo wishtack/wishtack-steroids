@@ -1,5 +1,16 @@
+# Setup
 
-# Gulp tasks.
+```shell
+apt-get install mongodb npm
+
+# Install gulp & Python dependencies globally. MUST BE RUN AS ROOT!
+sudo ./setup.sh --global
+
+# Install node dependencies and bower dependencies from scratch.
+./setup.sh
+```
+
+# Gulp tasks
 
 ```shell
 gulp build # Build project with uglification.
