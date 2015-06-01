@@ -3,6 +3,8 @@ import re
 from django.conf import settings
 from django.conf.urls import patterns, url
 
+from urls_app import urlpatterns as app_urlpatterns
+
 from .views.home import HomeView
 
 
@@ -24,3 +26,5 @@ urlpatterns += patterns(
         'django.views.static.serve'
     )
 )
+
+urlpatterns += app_urlpatterns
