@@ -51,7 +51,7 @@ module.exports = function buildAppFactory(args) {
 
             return gulp.src(config.appAngularTemplatesPattern)
                 .pipe(plugins.rev())
-                .pipe(gulp.dest(config.distAssetsPath))
+                .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
                 .pipe(plugins.rev.manifest())
                 .pipe(gulp.dest(config.distPath));
 
