@@ -44,6 +44,26 @@ module.exports = function buildAppFactory(args) {
 
         };
 
+        /**
+         * Copy and rev angular templates then generate file rev mapping manifest.
+         */
+        var _copyAngularTemplates = function _copyAngularTemplates() {
+
+            return gulp.src(config.appAngularTemplatesPattern)
+                .pipe(plugins.rev())
+                .pipe(gulp.dest(config.distAssetsPath))
+                .pipe(plugins.rev.manifest())
+                .pipe(gulp.dest(config.distPath));
+
+        };
+
+        /**
+         * Replace revved files.
+         */
+        var _revReplace = function _revReplace() {
+            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest.json')});
+        };
+
         var _usemin = function _usemin() {
 
             return gulp.src(config.appDjangoTemplatesPattern)
@@ -53,6 +73,8 @@ module.exports = function buildAppFactory(args) {
                     return stream
                         .pipe(plugins.usemin({
                             css: [
+                                /* Replace references to angular templates. */
+                                _revReplace(),
                                 plugins.less(),
                                 plugins.minifyCss(),
                                 plugins.rev()
@@ -61,6 +83,8 @@ module.exports = function buildAppFactory(args) {
                                 plugins.minifyHtml({empty: true})
                             ],
                             jsApp: [
+                                /* Replace references to angular templates. */
+                                _revReplace(),
                                 plugins.if(uglify, plugins.ngAnnotate()),
                                 plugins.if(uglify, plugins.uglify()),
                                 plugins.rev()
@@ -82,6 +106,7 @@ module.exports = function buildAppFactory(args) {
             loadenv(),
             'bower',
             _clean,
+            _copyAngularTemplates,
             _usemin
         )(done);
 
