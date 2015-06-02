@@ -69,8 +69,10 @@ class AdvancedAuthorizationMixin(object):
         if advanced_authorization_meta is None:
             raise AdvancedAuthorizationMixinInvalidAuthorizationClassError()
 
-        setattr(self._meta, 'detail_allowed_methods', ['delete', 'get', 'patch', 'post'])
-        setattr(self._meta, 'list_allowed_methods', ['delete', 'get', 'patch', 'post', 'put'])
+        # Allow all methods.
+        method_list = ['delete', 'get', 'patch', 'post', 'put']
+        setattr(self._meta, 'detail_allowed_methods', method_list)
+        setattr(self._meta, 'list_allowed_methods', method_list)
 
     def serialize(self, request, data, format, options=None):
         """
