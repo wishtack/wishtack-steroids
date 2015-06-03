@@ -18,6 +18,12 @@ gulp build-and-watch # Builds the project and watches for changes but disables u
 gulp bump --type=patch|minor|major # Bump application version.
 gulp runserver # Only runs the Django server.
 gulp start # Builds the app and then runs the server and watches for changes in parallel.
+gulp test # Run all tests.
+gulp test-karma # Run karma tests.
+gulp test-py # Run all python tests.
+gulp test-py-integration # Run python integration tests.
+gulp test-py-unit # Run python unit tests.
+gulp test-unit # Run karma and python unit tests.
 ```
 
 # Tricks.
