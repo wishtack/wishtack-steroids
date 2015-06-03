@@ -7,23 +7,7 @@
 
 module.exports = function configDefault() {
 
-    var minimist = require('minimist');
-    var path = require('path');
-
-    var projectPath = __dirname + '/..';
-
     var config = {};
-
-    var options = minimist(process.argv.slice(2), {
-        string: ['test-e2e-pattern']
-    });
-
-    var testE2ePattern = options['test-e2e-pattern'];
-
-    /* Transforming relative path to absolute path. */
-    if (testE2ePattern != null && !path.isAbsolute(testE2ePattern)) {
-        testE2ePattern = path.join(process.cwd(), testE2ePattern);
-    }
 
     config.appPath = 'app';
     config.appAngularPath = config.appPath + '/angular';
@@ -35,7 +19,9 @@ module.exports = function configDefault() {
     config.distAssetsPath = config.distPath + '/assets';
     config.distAssetsAngularTemplatesPath = config.distAssetsPath + '/angular';
     config.djangoTemplatesDirectory = 'templates';
-    config.testE2ePattern = testE2ePattern || projectPath + '/test/protractor/test-*.js';
+
+    /* Default protractor configuration. */
+    config.protractorConfigurator = require('./config-protractor').protractorConfigurator;
 
     return config;
 
