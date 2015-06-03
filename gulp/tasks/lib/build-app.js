@@ -80,7 +80,10 @@ module.exports = function buildAppFactory(args) {
                                 plugins.rev()
                             ],
                             html: [
-                                plugins.minifyHtml({empty: true})
+                                plugins.minifyHtml({empty: true}),
+                                /* @hack: That way we can control templates target directory without moving generated
+                                 * assets. */
+                                plugins.rename({dirname: config.djangoTemplatesDirectory})
                             ],
                             jsApp: [
                                 /* Replace references to angular templates. */
@@ -95,7 +98,7 @@ module.exports = function buildAppFactory(args) {
                                 plugins.rev()
                             ]
                         }))
-                        .pipe(gulp.dest(config.distDjangoTemplatesPath));
+                        .pipe(gulp.dest(config.distPath));
                 }));
 
         };

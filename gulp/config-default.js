@@ -34,7 +34,7 @@ module.exports = function configDefault() {
     config.distPath = 'dist';
     config.distAssetsPath = config.distPath + '/assets';
     config.distAssetsAngularTemplatesPath = config.distAssetsPath + '/angular';
-    config.distDjangoTemplatesPath = config.distPath + '/templates';
+    config.djangoTemplatesDirectory = 'templates';
     config.testE2ePattern = testE2ePattern || projectPath + '/test/protractor/test-*.js';
 
     return config;
