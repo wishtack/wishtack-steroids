@@ -23,7 +23,8 @@ urlpatterns += patterns(
     '',
     url(
         r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')),
-        'django.views.static.serve'
+        'django.views.static.serve',
+        {'document_root': settings.STATIC_PATH}
     )
 )
 

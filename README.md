@@ -10,6 +10,13 @@ sudo ./setup.sh --global
 ./setup.sh
 ```
 
+# Heroku setup.
+
+```shell
+heroku buildpacks:set https://github.com/ddollar/heroku-buildpack-multi.git
+heroku config:set NODE_ENV=production
+```
+
 # Gulp tasks
 
 ```shell

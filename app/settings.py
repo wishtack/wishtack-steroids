@@ -83,8 +83,12 @@ USE_TZ = True
 
 APPLICATION_NAME = 'app'
 
+STATIC_PATH = os.path.join(BASE_DIR, u"dist", u"assets")
+
+STATIC_URL = '/assets/'
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, u"dist", u"assets"),
+    STATIC_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -93,8 +97,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
-STATIC_URL = '/assets/'
 
 TEMPLATE_DIRS = (
     'dist/templates',
