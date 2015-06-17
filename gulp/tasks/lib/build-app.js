@@ -45,23 +45,45 @@ module.exports = function buildAppFactory(args) {
         };
 
         /**
-         * Copy and rev angular templates then generate file rev mapping manifest.
+         * Copy images.
          */
-        var _copyAngularTemplates = function _copyAngularTemplates() {
+        var _copyImages = function _copyImages() {
 
-            return gulp.src(config.appAngularTemplatesPattern)
+            return gulp.src(config.appImagesPattern)
                 .pipe(plugins.rev())
-                .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
-                .pipe(plugins.rev.manifest())
+                .pipe(gulp.dest(config.distAssetsImagesPath))
+                .pipe(plugins.rev.manifest('rev-manifest-images.json', {merge: true}))
                 .pipe(gulp.dest(config.distPath));
 
         };
 
         /**
-         * Replace revved files.
+         * Replace revved images.
+         * @hack: rev.manifest({merge: true}) doesn't seem to work.
          */
-        var _revReplace = function _revReplace() {
-            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest.json')});
+        var _revReplaceImages = function _revReplaceImages() {
+            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest-images.json')});
+        };
+
+        /**
+         * Copy and rev angular templates then generate file rev mapping manifest.
+         */
+        var _copyAngularTemplates = function _copyAngularTemplates() {
+
+            return gulp.src(config.appAngularTemplatesPattern)
+                .pipe(_revReplaceImages())
+                .pipe(plugins.rev())
+                .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
+                .pipe(plugins.rev.manifest('rev-manifest-angular-templates.json'))
+                .pipe(gulp.dest(config.distPath));
+
+        };
+
+        /**
+         * Replace revved templates.
+         */
+        var _revReplaceAngularTemplates = function _revReplaceAngularTemplates() {
+            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest-angular-templates.json')});
         };
 
         var _usemin = function _usemin() {
@@ -73,8 +95,6 @@ module.exports = function buildAppFactory(args) {
                     return stream
                         .pipe(plugins.usemin({
                             css: [
-                                /* Replace references to angular templates. */
-                                _revReplace(),
                                 plugins.less(),
                                 plugins.minifyCss(),
                                 plugins.rev()
@@ -86,8 +106,9 @@ module.exports = function buildAppFactory(args) {
                                 plugins.rename({dirname: config.djangoTemplatesDirectory})
                             ],
                             jsApp: [
-                                /* Replace references to angular templates. */
-                                _revReplace(),
+                                /* Replace references to angular templates and images. */
+                                _revReplaceAngularTemplates(),
+                                _revReplaceImages(),
                                 plugins.if(uglify, plugins.ngAnnotate()),
                                 plugins.if(uglify, plugins.uglify()),
                                 plugins.rev()
@@ -109,6 +130,7 @@ module.exports = function buildAppFactory(args) {
             loadenv(),
             'bower',
             _clean,
+            _copyImages,
             _copyAngularTemplates,
             _usemin
         )(done);

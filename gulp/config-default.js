@@ -15,9 +15,11 @@ module.exports = function configDefault() {
     config.appAngularTemplatesPattern = config.appAngularPath + '/**/*.html';
     config.appDjangoTemplatesPath = config.appPath + '/templates';
     config.appDjangoTemplatesPattern = config.appDjangoTemplatesPath + '/**/*.html';
+    config.appImagesPattern = config.appPath + '/images/**';
     config.distPath = 'dist';
     config.distAssetsPath = config.distPath + '/assets';
     config.distAssetsAngularTemplatesPath = config.distAssetsPath + '/angular';
+    config.distAssetsImagesPath = config.distAssetsPath + '/images';
     config.djangoTemplatesDirectory = 'templates';
 
     /* Default protractor configuration. */
