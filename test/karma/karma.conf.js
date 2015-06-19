@@ -8,8 +8,15 @@
 module.exports = function(config) {
 
     var appPath = 'app/';
+    var appAngularPath = appPath + 'angular/';
+    var appAngularPattern = appAngularPath + '**/*.js';
     var appBowerComponentsPath = appPath + '/bower_components/';
     var testPath = 'test/karma/';
+
+    var preprocessors = {};
+
+    /* Enable karma coverage on app's angular code. */
+    preprocessors[appAngularPattern] = ['coverage'];
 
     config.set({
         basePath: '../..',
@@ -29,6 +36,8 @@ module.exports = function(config) {
             /* Tests. */
             testPath + '**/test-*.js'
         ],
-        frameworks: ['jasmine']
+        frameworks: ['jasmine'],
+        preprocessors: preprocessors
     });
+
 };
