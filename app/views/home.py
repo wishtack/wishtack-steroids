@@ -40,5 +40,5 @@ class HomeView(View):
             {
                 'bower_dependencies': self._bower_dependencies,
                 'debug': settings.DEBUG,
-                'livereload_hostname': request.META.get('HTTP_X_FORWARDED_HOST') or 'localhost'
+                'livereload_hostname': hostname
             })
