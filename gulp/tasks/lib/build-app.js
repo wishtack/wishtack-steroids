@@ -31,6 +31,7 @@ module.exports = function buildAppFactory(args) {
             try {
                 fs.statSync(config.distPath);
                 return gulp.src(config.distPath, {read: false})
+                    .pipe(plugins.plumber())
                     .pipe(vinylPaths(del));
             }
             catch (exception) {
@@ -50,6 +51,7 @@ module.exports = function buildAppFactory(args) {
         var _copyImages = function _copyImages() {
 
             return gulp.src(config.appImagesPattern)
+                .pipe(plugins.plumber())
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsImagesPath))
                 .pipe(plugins.rev.manifest('rev-manifest-images.json', {merge: true}))
@@ -71,6 +73,7 @@ module.exports = function buildAppFactory(args) {
         var _copyAngularTemplates = function _copyAngularTemplates() {
 
             return gulp.src(config.appAngularTemplatesPattern)
+                .pipe(plugins.plumber())
                 .pipe(_revReplaceImages())
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
@@ -89,6 +92,7 @@ module.exports = function buildAppFactory(args) {
         var _usemin = function _usemin() {
 
             return gulp.src(config.appDjangoTemplatesPattern)
+                .pipe(plugins.plumber())
                 .pipe(plugins.htmlGlobExpansion({root: config.appPath}))
                 /* @hack: https://github.com/zont/gulp-usemin/issues/91. */
                 .pipe(plugins.foreach(function (stream, file) {
@@ -128,7 +132,6 @@ module.exports = function buildAppFactory(args) {
             /* Load environment before building as we might cross-env build the project.
              * I.e.: Build the production project on local machine using 'gulp build --env=prod'. */
             loadenv(),
-            'bower',
             _clean,
             _copyImages,
             _copyAngularTemplates,

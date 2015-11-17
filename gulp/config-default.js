@@ -16,6 +16,7 @@ module.exports = function configDefault() {
     config.appDjangoTemplatesPath = config.appPath + '/templates';
     config.appDjangoTemplatesPattern = config.appDjangoTemplatesPath + '/**/*.html';
     config.appImagesPattern = config.appPath + '/images/**';
+    config.bowerJsonPath = 'bower.json';
     config.distPath = 'dist';
     config.distAssetsPath = config.distPath + '/assets';
     config.distAssetsAngularTemplatesPath = config.distAssetsPath + '/angular';
