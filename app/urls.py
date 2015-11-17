@@ -6,6 +6,7 @@ from django.conf.urls import patterns, url
 from urls_app import urlpatterns as app_urlpatterns
 
 from .views.home import HomeView
+from .views.static import StaticView
 
 
 #
@@ -21,11 +22,13 @@ urlpatterns = patterns(
 #
 urlpatterns += patterns(
     '',
-    url(
-        r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')),
-        'django.views.static.serve',
-        {'document_root': settings.STATIC_PATH}
-    )
+    url(r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')),
+        StaticView.as_view(),
+        {
+            'cache_forever': True,
+            'insecure': True
+        }
+        )
 )
 
 urlpatterns += app_urlpatterns
