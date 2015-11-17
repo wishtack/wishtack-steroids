@@ -45,6 +45,20 @@ module.exports = function buildAppFactory(args) {
 
         };
 
+        var _revReplace = function _revReplace(args) {
+
+            var manifestFilePath = args.manifestFilePath;
+
+            var source = gulp.src(manifestFilePath)
+                .on('error', function (err) {
+                    console.error(err);
+                    console.error(err.stack);
+                });
+
+            return plugins.revReplace({manifest: source});
+
+        };
+
         /**
          * Copy images.
          */
@@ -64,7 +78,7 @@ module.exports = function buildAppFactory(args) {
          * @hack: rev.manifest({merge: true}) doesn't seem to work.
          */
         var _revReplaceImages = function _revReplaceImages() {
-            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest-images.json')});
+            return _revReplace({manifestFilePath: config.distPath + '/rev-manifest-images.json'});
         };
 
         /**
@@ -86,7 +100,7 @@ module.exports = function buildAppFactory(args) {
          * Replace revved templates.
          */
         var _revReplaceAngularTemplates = function _revReplaceAngularTemplates() {
-            return plugins.revReplace({manifest: gulp.src(config.distPath + '/rev-manifest-angular-templates.json')});
+            return _revReplace({manifestFilePath: config.distPath + '/rev-manifest-angular-templates.json'});
         };
 
         var _usemin = function _usemin() {
