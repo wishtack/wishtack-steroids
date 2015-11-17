@@ -27,5 +27,6 @@ module.exports = function watch() {
 
     gulp.watch(config.appAngularPattern, buildAppAndReload);
     gulp.watch(config.appDjangoTemplatesPattern, buildAppAndReload);
+    gulp.watch(config.bowerJsonPath, gulp.series('bower'));
 
 };
