@@ -97,19 +97,23 @@ module.exports = function buildAppFactory(args) {
                 /* @hack: https://github.com/zont/gulp-usemin/issues/91. */
                 .pipe(plugins.foreach(function (stream, file) {
                     return stream
+                        .pipe(plugins.plumber())
                         .pipe(plugins.usemin({
                             css: [
+                                plugins.plumber(),
                                 plugins.less(),
                                 plugins.minifyCss(),
                                 plugins.rev()
                             ],
                             html: [
+                                plugins.plumber(),
                                 plugins.minifyHtml({empty: true}),
                                 /* @hack: That way we can control templates target directory without moving generated
                                  * assets. */
                                 plugins.rename({dirname: config.djangoTemplatesDirectory})
                             ],
                             jsApp: [
+                                plugins.plumber(),
                                 /* Replace references to angular templates and images. */
                                 _revReplaceAngularTemplates(),
                                 _revReplaceImages(),
@@ -118,6 +122,7 @@ module.exports = function buildAppFactory(args) {
                                 plugins.rev()
                             ],
                             jsComponents: [
+                                plugins.plumber(),
                                 plugins.if(uglify, plugins.ngAnnotate()),
                                 plugins.if(uglify, plugins.uglify()),
                                 plugins.rev()
