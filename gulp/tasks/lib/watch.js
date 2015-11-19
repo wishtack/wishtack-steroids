@@ -9,16 +9,16 @@ module.exports = function watchFactory(args) {
 
     var gulp = require('gulp');
 
+    var build = require('./build');
     var config = require('../../config')();
     var plugins = require('../../plugins');
-    var buildApp = require('./build-app');
 
     var reload = function reload() {
         plugins.livereload.reload('/');
     };
 
     var buildAppAndReload = gulp.series(
-        buildApp(args),
+        build(args),
         reload
     );
 

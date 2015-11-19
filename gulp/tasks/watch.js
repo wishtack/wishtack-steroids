@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-module.exports = function buildAndWatch(done) {
+module.exports = function watch(done) {
 
     var args = {
         bower: false,
