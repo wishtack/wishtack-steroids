@@ -35,7 +35,7 @@ module.exports = function buildAppFactory(args) {
             try {
                 fs.statSync(config.distPath);
                 return gulp.src(config.distPath, {read: false})
-                    .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
+                    .pipe(plugins.if(plumber, plugins.plumber()))
                     .pipe(vinylPaths(del));
             }
             catch (exception) {
@@ -69,7 +69,7 @@ module.exports = function buildAppFactory(args) {
         var _copyImages = function _copyImages() {
 
             return gulp.src(config.appImagesPattern)
-                .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
+                .pipe(plugins.if(plumber, plugins.plumber()))
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsImagesPath))
                 .pipe(plugins.rev.manifest('rev-manifest-images.json', {merge: true}))
@@ -91,7 +91,7 @@ module.exports = function buildAppFactory(args) {
         var _copyAngularTemplates = function _copyAngularTemplates() {
 
             return gulp.src(config.appAngularTemplatesPattern)
-                .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
+                .pipe(plugins.if(plumber, plugins.plumber()))
                 .pipe(_revReplaceImages())
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
