@@ -5,28 +5,22 @@
  * $Id: $
  */
 
-module.exports = function watch() {
+module.exports = function buildAndWatch(done) {
+
+    var args = {
+        bower: false,
+        plumber: true,
+        uglify: false
+    };
 
     var gulp = require('gulp');
 
-    var config = require('../config')();
-    var plugins = require('../plugins');
-    var buildApp = require('./lib/build-app');
+    var build = require('./lib/build');
+    var watch = require('./lib/watch');
 
-    var reload = function reload() {
-        plugins.livereload.reload('/');
-    };
-
-    var buildAppAndReload = gulp.series(
-        buildApp({uglify: false}),
-        reload
-    );
-
-    /* Start livereload. */
-    plugins.livereload.listen({port: 8729});
-
-    gulp.watch(config.appAngularPattern, buildAppAndReload);
-    gulp.watch(config.appDjangoTemplatesPattern, buildAppAndReload);
-    gulp.watch(config.bowerJsonPath, gulp.series('bower'));
+    return gulp.series(
+        build(args),
+        watch(args)
+    )(done);
 
 };

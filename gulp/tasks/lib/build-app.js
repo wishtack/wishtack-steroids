@@ -9,7 +9,7 @@ module.exports = function buildAppFactory(args) {
 
     var NamedParameters = require('named-parameters').NamedParameters;
 
-    var args = new NamedParameters(args)
+    args = new NamedParameters(args)
         .default('bower', true)
         .default('plumber', false)
         .default('uglify', true)

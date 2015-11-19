@@ -13,12 +13,9 @@ module.exports = function start(done) {
 
     var gulp = require('gulp');
 
-    gulp.series(
-        'build',
-        gulp.parallel(
-            'runserver',
-            'watch'
-        )
+    gulp.parallel(
+        'runserver',
+        'watch'
     )(done);
 
 };
