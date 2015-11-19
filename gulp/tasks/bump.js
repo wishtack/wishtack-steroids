@@ -18,7 +18,6 @@ module.exports = function version() {
     });
 
     return gulp.src(['bower.json', 'package.json'])
-        .pipe(plugins.plumber())
         .pipe(plugins.bump({type: options.type}))
         .pipe(gulp.dest('./'));
 

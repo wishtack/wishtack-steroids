@@ -12,7 +12,11 @@ module.exports = function buildAndWatch(done) {
     var build = require('./lib/build');
 
     return gulp.series(
-        build({uglify: false}),
+        build({
+            bower: false,
+            plumber: true,
+            uglify: false
+        }),
         'watch'
     )(done);
 

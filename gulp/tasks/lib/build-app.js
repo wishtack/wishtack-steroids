@@ -10,9 +10,13 @@ module.exports = function buildAppFactory(args) {
     var NamedParameters = require('named-parameters').NamedParameters;
 
     var args = new NamedParameters(args)
+        .default('bower', true)
+        .default('plumber', false)
         .default('uglify', true)
         .values();
 
+    var bower = args.bower;
+    var plumber = args.plumber;
     var uglify = args.uglify;
 
     return function buildApp(done) {
@@ -31,7 +35,7 @@ module.exports = function buildAppFactory(args) {
             try {
                 fs.statSync(config.distPath);
                 return gulp.src(config.distPath, {read: false})
-                    .pipe(plugins.plumber())
+                    .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
                     .pipe(vinylPaths(del));
             }
             catch (exception) {
@@ -65,7 +69,7 @@ module.exports = function buildAppFactory(args) {
         var _copyImages = function _copyImages() {
 
             return gulp.src(config.appImagesPattern)
-                .pipe(plugins.plumber())
+                .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsImagesPath))
                 .pipe(plugins.rev.manifest('rev-manifest-images.json', {merge: true}))
@@ -87,7 +91,7 @@ module.exports = function buildAppFactory(args) {
         var _copyAngularTemplates = function _copyAngularTemplates() {
 
             return gulp.src(config.appAngularTemplatesPattern)
-                .pipe(plugins.plumber())
+                .pipe(plugins.if(plumber, plugins.if(plumber, plugins.plumber())))
                 .pipe(_revReplaceImages())
                 .pipe(plugins.rev())
                 .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
@@ -106,28 +110,28 @@ module.exports = function buildAppFactory(args) {
         var _usemin = function _usemin() {
 
             return gulp.src(config.appDjangoTemplatesPattern)
-                .pipe(plugins.plumber())
+                .pipe(plugins.if(plumber, plugins.plumber()))
                 .pipe(plugins.htmlGlobExpansion({root: config.appPath}))
                 /* @hack: https://github.com/zont/gulp-usemin/issues/91. */
                 .pipe(plugins.foreach(function (stream, file) {
                     return stream
-                        .pipe(plugins.plumber())
+                        .pipe(plugins.if(plumber, plugins.plumber()))
                         .pipe(plugins.usemin({
                             css: [
-                                plugins.plumber(),
+                                plugins.if(plumber, plugins.plumber()),
                                 plugins.less(),
                                 plugins.minifyCss(),
                                 plugins.rev()
                             ],
                             html: [
-                                plugins.plumber(),
+                                plugins.if(plumber, plugins.plumber()),
                                 plugins.minifyHtml({empty: true}),
                                 /* @hack: That way we can control templates target directory without moving generated
                                  * assets. */
                                 plugins.rename({dirname: config.djangoTemplatesDirectory})
                             ],
                             jsApp: [
-                                plugins.plumber(),
+                                plugins.if(plumber, plugins.plumber()),
                                 /* Replace references to angular templates and images. */
                                 _revReplaceAngularTemplates(),
                                 _revReplaceImages(),
@@ -136,7 +140,7 @@ module.exports = function buildAppFactory(args) {
                                 plugins.rev()
                             ],
                             jsComponents: [
-                                plugins.plumber(),
+                                plugins.if(plumber, plugins.plumber()),
                                 plugins.if(uglify, plugins.ngAnnotate()),
                                 plugins.if(uglify, plugins.uglify()),
                                 plugins.rev()
@@ -154,6 +158,7 @@ module.exports = function buildAppFactory(args) {
             _clean,
             _copyImages,
             _copyAngularTemplates,
+            bower ? ['bower'] : [],
             _usemin
         )(done);
 
