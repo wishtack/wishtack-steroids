@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import mimetypes
 import mongoengine
 import os
 
@@ -105,3 +106,6 @@ TEMPLATE_DIRS = (
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 mongoengine.connect(APPLICATION_NAME, host=MONGODB_URL, tz_aware=USE_TZ)
+
+# Forcing cache.manifest's content-type.
+mimetypes.add_type('text/cache-manifest', '.manifest', True)

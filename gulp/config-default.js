@@ -19,6 +19,7 @@ module.exports = function configDefault() {
     config.bowerJsonPath = 'bower.json';
     config.distPath = 'dist';
     config.distAssetsPath = config.distPath + '/assets';
+    config.distAssetsPattern = config.distAssetsPath + '/**';
     config.distAssetsAngularTemplatesPath = config.distAssetsPath + '/angular';
     config.distAssetsImagesPath = config.distAssetsPath + '/images';
     config.djangoTemplatesDirectory = 'templates';

@@ -159,7 +159,8 @@ module.exports = function buildAppFactory(args) {
             _copyImages,
             _copyAngularTemplates,
             bower ? ['bower'] : [],
-            _usemin
+            _usemin,
+            'cache-manifest'
         )(done);
 
     };
