@@ -34,6 +34,7 @@ module.exports = {
                 defaultTimeoutInterval: 600000,
                 isVerbose: true
             },
+            onPrepare: __dirname + '/config-protractor-on-prepare.js',
             specs: testProtractorPattern
         };
 
