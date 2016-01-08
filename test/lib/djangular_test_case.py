@@ -6,7 +6,7 @@
 #
 
 from django.db import connections
-from tastypie.test import TestApiClient, ResourceTestCase
+from tastypie.test import ResourceTestCase, TestApiClient
 
 from app.lib.resources.camel_case_json_serializer import CamelCaseJSONSerializer
 
@@ -23,6 +23,17 @@ class DjangularTestCase(ResourceTestCase):
 
         self._api_client = TestApiClient()
 
+        # Show complete difference on assertEqual failure.
+        self.maxDiff = None
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
     def api_client(self):
         return self._api_client
 
@@ -33,3 +44,5 @@ class DjangularTestCase(ResourceTestCase):
     # @hack: overrides cuz we're using mongo.
     def _fixture_teardown(self):
         pass
+
+
