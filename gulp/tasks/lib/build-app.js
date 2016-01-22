@@ -30,6 +30,28 @@ module.exports = function buildAppFactory(args) {
         var plugins = require('../../plugins');
         var loadenv = require('./loadenv');
 
+        var _angular = function _angular() {
+
+            var tsProject = plugins.typescript.createProject('tsconfig.json', {
+                typescript: require('typescript')
+            });
+
+            var result = gulp.src(config.appAngularPath + '/init.ts')
+                .pipe(plugins.insert.prepend('declare var System;'))
+                .pipe(plugins.if(plumber, plugins.plumber()))
+                .pipe(plugins.sourcemaps.init())
+                .pipe(plugins.typescript(tsProject));
+
+            return result.js
+                .pipe(plugins.if(uglify, plugins.uglify()))
+                .pipe(plugins.sourcemaps.write())
+                .pipe(plugins.rev())
+                .pipe(gulp.dest(config.distAssetsScriptsPath))
+                .pipe(plugins.rev.manifest('rev-manifest-typescript.json', {merge: true}))
+                .pipe(gulp.dest(config.distPath));
+
+        };
+
         var _clean = function _clean(done) {
 
             try {
@@ -94,7 +116,7 @@ module.exports = function buildAppFactory(args) {
                 .pipe(plugins.if(plumber, plugins.plumber()))
                 .pipe(_revReplaceImages())
                 .pipe(plugins.rev())
-                .pipe(gulp.dest(config.distAssetsAngularTemplatesPath))
+                .pipe(gulp.dest(config.distAssetsAngularPath))
                 .pipe(plugins.rev.manifest('rev-manifest-angular-templates.json'))
                 .pipe(gulp.dest(config.distPath));
 
@@ -141,10 +163,24 @@ module.exports = function buildAppFactory(args) {
                             ],
                             jsComponents: [
                                 plugins.if(plumber, plugins.plumber()),
-                                plugins.if(uglify, plugins.ngAnnotate()),
-                                plugins.if(uglify, plugins.uglify()),
                                 plugins.rev()
                             ]
+                            //ts: [
+                            //    plugins.if(plumber, plugins.plumber()),
+                            //    plugins.insert.prepend('declare var System;'),
+                            //    plugins.if(!uglify, plugins.sourcemaps.init()),
+                            //    plugins.typescript({
+                            //        experimentalDecorators: true,
+                            //        module: 'commonjs',
+                            //        moduleResolution: 'node'
+                            //        //"target": "es5",
+                            //        //"removeComments": true
+                            //        //"emitDecoratorMetadata": true,
+                            //    }),
+                            //    plugins.if(uglify, plugins.uglify()),
+                            //    plugins.if(!uglify, plugins.sourcemaps.write()),
+                            //    plugins.rev()
+                            //]
                         }))
                         .pipe(gulp.dest(config.distPath));
                 }));
@@ -159,6 +195,44 @@ module.exports = function buildAppFactory(args) {
             _copyImages,
             _copyAngularTemplates,
             bower ? ['bower'] : [],
+            //function _browserify() {
+            //    var bundler = require('browserify')({
+            //        basedir: 'app/angular/',
+            //        bundleExternal: false
+            //    })
+            //        .add('init.ts')
+            //        .plugin(require('tsify'), {
+            //            experimentalDecorators: true
+            //        });
+            //
+            //    return bundler.bundle()
+            //        .pipe(require('vinyl-source-stream')('app.js'))
+            //        .pipe(gulp.dest('dist/assets/scripts/'));
+            //},
+            function _typescript() {
+                return gulp.src('app/angular/**/*.ts')
+                    .pipe(plugins.tsc({
+                        experimentalDecorators: true,
+                        module: 'commonjs',
+                        moduleResolution: 'node',
+                        target: 'ES5',
+                        // Don't use the version of typescript that gulp-typescript depends on
+                        // see https://github.com/ivogabe/gulp-typescript#typescript-version
+                        typescript: require('typescript')
+                    }))
+                    .pipe(gulp.dest('dist/assets/scripts/app'));
+            },
+            function _systemjs() {
+
+                var Builder = require('systemjs-builder');
+
+                var builder = new Builder({
+                    baseURL: 'dist/assets/scripts'
+                });
+
+                return builder.bundle('[**/*.js]', 'dist/assets/scripts/app.js');
+
+            },
             _usemin,
             'cache-manifest'
         )(done);

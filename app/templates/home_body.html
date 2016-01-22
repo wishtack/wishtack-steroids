@@ -1,8 +1,19 @@
 <body>
 
-<h1>Welcome to Djangular!</h1>
+<my-app></my-app>
 
-<h2>Enjoy the power of the M.A.D. stack starring MongoDB / AngularJS / Django.</h2>
+<script>
+    System.config({
+        packages: {
+            'app': {
+                format: 'register',
+                defaultExtension: 'js'
+            }
+        }
+    });
+    System.import('app/init')
+            .then(null, console.error.bind(console));
+</script>
 
 </body>
 
