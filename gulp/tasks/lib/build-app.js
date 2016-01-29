@@ -165,22 +165,6 @@ module.exports = function buildAppFactory(args) {
                                 plugins.if(plumber, plugins.plumber()),
                                 plugins.rev()
                             ]
-                            //ts: [
-                            //    plugins.if(plumber, plugins.plumber()),
-                            //    plugins.insert.prepend('declare var System;'),
-                            //    plugins.if(!uglify, plugins.sourcemaps.init()),
-                            //    plugins.typescript({
-                            //        experimentalDecorators: true,
-                            //        module: 'commonjs',
-                            //        moduleResolution: 'node'
-                            //        //"target": "es5",
-                            //        //"removeComments": true
-                            //        //"emitDecoratorMetadata": true,
-                            //    }),
-                            //    plugins.if(uglify, plugins.uglify()),
-                            //    plugins.if(!uglify, plugins.sourcemaps.write()),
-                            //    plugins.rev()
-                            //]
                         }))
                         .pipe(gulp.dest(config.distPath));
                 }));
@@ -195,43 +179,28 @@ module.exports = function buildAppFactory(args) {
             _copyImages,
             _copyAngularTemplates,
             bower ? ['bower'] : [],
-            //function _browserify() {
-            //    var bundler = require('browserify')({
-            //        basedir: 'app/angular/',
-            //        bundleExternal: false
-            //    })
-            //        .add('init.ts')
-            //        .plugin(require('tsify'), {
-            //            experimentalDecorators: true
-            //        });
-            //
-            //    return bundler.bundle()
-            //        .pipe(require('vinyl-source-stream')('app.js'))
-            //        .pipe(gulp.dest('dist/assets/scripts/'));
-            //},
             function _typescript() {
-                return gulp.src('app/angular/**/*.ts')
-                    .pipe(plugins.tsc({
-                        experimentalDecorators: true,
-                        module: 'commonjs',
-                        moduleResolution: 'node',
-                        target: 'ES5',
-                        // Don't use the version of typescript that gulp-typescript depends on
-                        // see https://github.com/ivogabe/gulp-typescript#typescript-version
-                        typescript: require('typescript')
+                return gulp.src('app/angular/bootstrap.ts')
+                    .pipe(plugins.webpack({
+                        devtool: 'source-map',
+                        entry: 'app/angular/bootstrap.ts',
+                        module: {
+                            loaders: [
+                                {test: /\.ts$/, loader: 'ts'}
+                            ]
+                        },
+                        output: {
+                            filename: 'app.js'
+                        },
+                        resolve: {
+                            root: __dirname,
+                            extensions: ['.ts'],
+                            alias: {
+                                app: 'app/angular'
+                            }
+                        }
                     }))
-                    .pipe(gulp.dest('dist/assets/scripts/app'));
-            },
-            function _systemjs() {
-
-                var Builder = require('systemjs-builder');
-
-                var builder = new Builder({
-                    baseURL: 'dist/assets/scripts'
-                });
-
-                return builder.bundle('[**/*.js]', 'dist/assets/scripts/app.js');
-
+                    .pipe(gulp.dest('dist/assets/scripts'));
             },
             _usemin,
             'cache-manifest'
