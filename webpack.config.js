@@ -1,15 +1,19 @@
 
-var fs = require('fs');
+var _ = require('lodash');
+var walkSync = require('walk-sync');
 var webpack = require('webpack');
 
 module.exports = {
     entry: {
         app: './app/angular/bootstrap.ts'
     },
-    externals: [
-        'angular2/core',
-        'angular2/platform/browser'
-    ],
+    externals: _.map(walkSync('node_modules', {
+        globs: [
+            '**/*.d.ts'
+        ]
+    }), function removeTypeScriptExtension(fileName) {
+        return fileName.replace(/\.d\.ts$/, '');
+    }),
     output: {
         filename: 'dist/assets/scripts/app.js',
         libraryTarget: 'umd'
