@@ -12,4 +12,5 @@ dist
 node_modules
 src
 temp
+typings
 venv
