@@ -4,6 +4,7 @@ var walkSync = require('walk-sync');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var SplitByPathPlugin = require('webpack-split-by-path');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
 var webpackHelper = require('./webpack-helper');
@@ -28,19 +29,26 @@ module.exports = {
     entry: {
         app: appAngularPath + 'bootstrap.ts'
     },
-    externals: _.map(walkSync('node_modules', {
-        globs: [
-            '**/*.d.ts'
-        ]
-    }), function removeTypeScriptExtension(fileName) {
-        return fileName.replace(/\.d\.ts$/, '');
-    }),
+    externals: {
+        'angular': 'angular'
+    },
+    //externals: {
+    //    'angular2/core': 'ng.core',
+    //    'angular2/platform/browser': 'ng.platform.browser'
+    //},
+    //externals: _.map(walkSync('node_modules', {
+    //    globs: [
+    //        '**/*.d.ts'
+    //    ]
+    //}), function removeTypeScriptExtension(fileName) {
+    //    return fileName.replace(/\.d\.ts$/, '');
+    //}),
     output: {
-        chunkFilename: assetsScriptsPath + '[id].chunk.js',
-        filename: assetsScriptsPath + '[name].bundle.js',
+        chunkFilename: assetsScriptsPath + '[id].[chunkhash].chunk.js',
+        filename: assetsScriptsPath + '[name].[chunkhash].bundle.js',
         path: distPath,
         publicPath: '/',
-        sourceMapFilename: assetsScriptsPath + '[name].map'
+        sourceMapFilename: assetsScriptsPath + '[name].[chunkhash].map'
     },
     resolve: {
         extensions: webpackHelper.prepend(['.ts', '.js', '.json', '.css', '.html'], '.async')
@@ -52,7 +60,7 @@ module.exports = {
         loaders: [
 
             /* Support for .js files. */
-            {test: /\.js$/, exclude: [/app\/angular/, /node_modules/], loader: 'ng-annotate!babel'},
+            {test: /\.js$/, loaders: ['ng-annotate', 'babel'], exclude: [/node_modules/]},
 
             /* Support Angular 2 async routes via .async.ts. */
             {test: /\.async\.ts$/, loaders: ['es6-promise-loader', 'ts-loader'], exclude: [/\.(spec|e2e)\.ts$/]},
@@ -73,6 +81,13 @@ module.exports = {
     },
 
     plugins: [
+        //new webpack.IgnorePlugin(/^angular2\//),
+        new SplitByPathPlugin([
+            {
+                name: 'vendor',
+                path: path.join(__dirname, 'node_modules')
+            }
+        ]),
         new webpack.optimize.OccurenceOrderPlugin(true),
         //new webpack.optimize.CommonsChunkPlugin({
         //    name: 'polyfills',
@@ -80,15 +95,16 @@ module.exports = {
         //    minChunks: Infinity
         //}),
         // static assets
-        //new CopyWebpackPlugin([{
-        //    from: 'app/templates/**/*.html',
-        //    to: 'templates'
-        //}]),
+        new CopyWebpackPlugin([{
+            from: 'app/templates',
+            to: 'templates'
+        }]),
         // generating html
         new HtmlWebpackPlugin({
             filename: 'templates/home_body.html',
             template: 'app/templates/home_body.html'
         }),
+        //new webpack.optimize.UglifyJsPlugin()
         // replace
         // new webpack.DefinePlugin({
         //     'process.env': {

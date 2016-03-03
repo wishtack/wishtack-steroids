@@ -5,10 +5,13 @@
  * $Id: $
  */
 
-(function () {
 
-    angular.module('app').run(function () {
+import User from './user';
 
-    });
+let angular = require('angular');
 
-})();
+angular.module('app').run(function () {
+
+    new User().name();
+
+});

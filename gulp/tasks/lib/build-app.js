@@ -30,28 +30,6 @@ module.exports = function buildAppFactory(args) {
         var plugins = require('../../plugins');
         var loadenv = require('./loadenv');
 
-        var _angular = function _angular() {
-
-            var tsProject = plugins.typescript.createProject('tsconfig.json', {
-                typescript: require('typescript')
-            });
-
-            var result = gulp.src(config.appAngularPath + '/init.ts')
-                .pipe(plugins.insert.prepend('declare var System;'))
-                .pipe(plugins.if(plumber, plugins.plumber()))
-                .pipe(plugins.sourcemaps.init())
-                .pipe(plugins.typescript(tsProject));
-
-            return result.js
-                .pipe(plugins.if(uglify, plugins.uglify()))
-                .pipe(plugins.sourcemaps.write())
-                .pipe(plugins.rev())
-                .pipe(gulp.dest(config.distAssetsScriptsPath))
-                .pipe(plugins.rev.manifest('rev-manifest-typescript.json', {merge: true}))
-                .pipe(gulp.dest(config.distPath));
-
-        };
-
         var _clean = function _clean(done) {
 
             try {
@@ -129,80 +107,14 @@ module.exports = function buildAppFactory(args) {
             return _revReplace({manifestFilePath: config.distPath + '/rev-manifest-angular-templates.json'});
         };
 
-        var _usemin = function _usemin() {
-
-            return gulp.src(config.appDjangoTemplatesPattern)
-                .pipe(plugins.if(plumber, plugins.plumber()))
-                .pipe(plugins.htmlGlobExpansion({root: config.appPath}))
-                /* @hack: https://github.com/zont/gulp-usemin/issues/91. */
-                .pipe(plugins.foreach(function (stream, file) {
-                    return stream
-                        .pipe(plugins.if(plumber, plugins.plumber()))
-                        .pipe(plugins.usemin({
-                            css: [
-                                plugins.if(plumber, plugins.plumber()),
-                                plugins.less(),
-                                plugins.minifyCss(),
-                                plugins.rev()
-                            ],
-                            html: [
-                                plugins.if(plumber, plugins.plumber()),
-                                plugins.minifyHtml({empty: true}),
-                                /* @hack: That way we can control templates target directory without moving generated
-                                 * assets. */
-                                plugins.rename({dirname: config.djangoTemplatesDirectory})
-                            ],
-                            jsApp: [
-                                plugins.if(plumber, plugins.plumber()),
-                                /* Replace references to angular templates and images. */
-                                _revReplaceAngularTemplates(),
-                                _revReplaceImages(),
-                                plugins.if(uglify, plugins.ngAnnotate()),
-                                plugins.if(uglify, plugins.uglify()),
-                                plugins.rev()
-                            ],
-                            jsComponents: [
-                                plugins.if(plumber, plugins.plumber()),
-                                plugins.rev()
-                            ]
-                        }))
-                        .pipe(gulp.dest(config.distPath));
-                }));
-
-        };
-
         return gulp.series(
             /* Load environment before building as we might cross-env build the project.
              * I.e.: Build the production project on local machine using 'gulp build --env=prod'. */
             loadenv(),
             _clean,
             _copyImages,
-            _copyAngularTemplates,
             bower ? ['bower'] : [],
-            function _typescript() {
-                return gulp.src('app/angular/bootstrap.ts')
-                    .pipe(plugins.webpack({
-                        devtool: 'source-map',
-                        entry: 'app/angular/bootstrap.ts',
-                        module: {
-                            loaders: [
-                                {test: /\.ts$/, loader: 'ts'}
-                            ]
-                        },
-                        output: {
-                            filename: 'app.js'
-                        },
-                        resolve: {
-                            root: __dirname,
-                            extensions: ['.ts'],
-                            alias: {
-                                app: 'app/angular'
-                            }
-                        }
-                    }))
-                    .pipe(gulp.dest('dist/assets/scripts'));
-            },
-            _usemin,
+            'webpack',
             'cache-manifest'
         )(done);
 

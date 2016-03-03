@@ -1,19 +1,11 @@
-<body>
+<body ng-app="app">
 
 <my-app></my-app>
 
-<script>
-    System.config({
-        packages: {
-            'app': {
-                format: 'register',
-                defaultExtension: 'js'
-            }
-        }
-    });
-    System.import('app/init')
-            .then(null, console.error.bind(console));
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.7/Rx.umd.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.7/angular2-polyfills.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.7/angular2-all.umd.js"></script>#}
 
 </body>
-
