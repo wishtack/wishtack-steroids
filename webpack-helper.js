@@ -1,8 +1,6 @@
 var path = require('path');
 
-var WebpackHelper = function () {
-
-};
+var WebpackHelper = function () {};
 
 WebpackHelper.prototype = {
 

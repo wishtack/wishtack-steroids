@@ -7,37 +7,23 @@
 
 module.exports = function(config) {
 
-    var appPath = 'app/';
-    var appAngularPath = appPath + 'angular/';
-    var appAngularPattern = appAngularPath + '**/*.js';
-    var appBowerComponentsPath = appPath + '/bower_components/';
+    var webpackTestConfig = require('../../webpack.test.config');
+
     var testPath = 'test/karma/';
+    var specBundleFileName = 'spec-bundle.js';
+    var specBundlePath = testPath + specBundleFileName;
 
     var preprocessors = {};
 
-    /* Enable karma coverage on app's angular code. */
-    preprocessors[appAngularPattern] = ['coverage'];
+    preprocessors[specBundlePath] = ['webpack', 'sourcemap'];
 
     config.set({
         basePath: '../..',
         browsers: ['PhantomJS'],
-        files: [
-
-            /* Bower components. */
-            appBowerComponentsPath + 'angular/angular.js',
-
-            /* Angular mocks. */
-            appBowerComponentsPath + 'angular-mocks/angular-mocks.js',
-
-            /* App. */
-            appPath + 'angular/**/ng-module-*.js',
-            appPath + 'angular/**/ng-{config,controller,directive,filter,model,run,service}-*.js',
-
-            /* Tests. */
-            testPath + '**/test-*.js'
-        ],
+        files: [{pattern: specBundlePath, watched: false}],
         frameworks: ['jasmine'],
-        preprocessors: preprocessors
+        preprocessors: preprocessors,
+        webpack: webpackTestConfig
     });
 
 };

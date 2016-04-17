@@ -8,6 +8,7 @@
 .sass-cache
 .tmp
 app/bower_components
+coverage
 dist
 node_modules
 src

@@ -1,139 +1,54 @@
 var _ = require('lodash');
 var path = require('path');
-var walkSync = require('walk-sync');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var SplitByPathPlugin = require('webpack-split-by-path');
-var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
-var webpackHelper = require('./webpack-helper');
+/* No need to clone the common config as webpack will run with webpack.config.js or webpack.config.test.js etc...
+ * in a dedicated process. We will never load different configs in the same process. AFAIT ;). */
+var webpackCommonConfig = require('./webpack.common.config');
 
-var appPath = webpackHelper.root('app/');
-var appAngularPath = appPath + 'angular/';
-var distPath = webpackHelper.root('dist/');
-var assetsScriptsPath = 'assets/scripts/';
-var metadata = {
-    host: 'localhost',
-    port: 3000
-};
+webpackCommonConfig.debug = true;
+
+/* Support for .ts files. */
+webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e|async)\.ts$/]});
+
+webpackCommonConfig.plugins = [
+    //new webpack.IgnorePlugin(/^angular2\//),
+    new SplitByPathPlugin([
+        {
+            name: 'vendor',
+            path: path.join(__dirname, 'node_modules')
+        }
+    ]),
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    //new webpack.optimize.CommonsChunkPlugin({
+    //    name: 'polyfills',
+    //    filename: assetsScriptsPath + 'polyfills.bundle.js',
+    //    minChunks: Infinity
+    //}),
+    // static assets
+    new CopyWebpackPlugin([{
+        from: 'app/templates',
+        to: 'templates'
+    }]),
+    // generating html
+    new HtmlWebpackPlugin({
+        filename: 'templates/home_body.html',
+        template: 'app/templates/home_body.html'
+    })
+    //new webpack.optimize.UglifyJsPlugin()
+    // replace
+    // new webpack.DefinePlugin({
+    //     'process.env': {
+    //         'ENV': JSON.stringify(metadata.ENV),
+    //         'NODE_ENV': JSON.stringify(metadata.ENV)
+    //     }
+    // })
+];
 
 /*
  * Config
  */
-module.exports = {
-    /* Use 'eval' for faster builds. */
-    devtool: 'source-map',
-    debug: true,
-    /* Angular app. */
-    entry: {
-        app: appAngularPath + 'bootstrap.ts'
-    },
-    externals: {
-        'angular': 'angular'
-    },
-    //externals: {
-    //    'angular2/core': 'ng.core',
-    //    'angular2/platform/browser': 'ng.platform.browser'
-    //},
-    //externals: _.map(walkSync('node_modules', {
-    //    globs: [
-    //        '**/*.d.ts'
-    //    ]
-    //}), function removeTypeScriptExtension(fileName) {
-    //    return fileName.replace(/\.d\.ts$/, '');
-    //}),
-    output: {
-        chunkFilename: assetsScriptsPath + '[id].[chunkhash].chunk.js',
-        filename: assetsScriptsPath + '[name].[chunkhash].bundle.js',
-        path: distPath,
-        publicPath: '/',
-        sourceMapFilename: assetsScriptsPath + '[name].[chunkhash].map'
-    },
-    resolve: {
-        extensions: webpackHelper.prepend(['.ts', '.js', '.json', '.css', '.html'], '.async')
-    },
-    module: {
-        preLoaders: [
-            {test: /\.js$/, loader: "source-map-loader", exclude: [webpackHelper.root('node_modules/rxjs')]}
-        ],
-        loaders: [
-
-            /* Support for .js files. */
-            {test: /\.js$/, loaders: ['ng-annotate', 'babel'], exclude: [/node_modules/]},
-
-            /* Support Angular 2 async routes via .async.ts. */
-            {test: /\.async\.ts$/, loaders: ['es6-promise-loader', 'ts-loader'], exclude: [/\.(spec|e2e)\.ts$/]},
-
-            /* Support for .ts files. */
-            {test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e|async)\.ts$/]},
-
-            /* Support for *.json files. */
-            {test: /\.json$/, loader: 'json-loader'},
-
-            /* Support for CSS as raw text. */
-            {test: /\.css$/, loader: 'raw-loader'},
-
-            /* support for .html as raw text. */
-            {test: /\.html$/, loader: 'raw-loader', exclude: [webpackHelper.root('app/templates/home.html')]}
-
-        ]
-    },
-
-    plugins: [
-        //new webpack.IgnorePlugin(/^angular2\//),
-        new SplitByPathPlugin([
-            {
-                name: 'vendor',
-                path: path.join(__dirname, 'node_modules')
-            }
-        ]),
-        new webpack.optimize.OccurenceOrderPlugin(true),
-        //new webpack.optimize.CommonsChunkPlugin({
-        //    name: 'polyfills',
-        //    filename: assetsScriptsPath + 'polyfills.bundle.js',
-        //    minChunks: Infinity
-        //}),
-        // static assets
-        new CopyWebpackPlugin([{
-            from: 'app/templates',
-            to: 'templates'
-        }]),
-        // generating html
-        new HtmlWebpackPlugin({
-            filename: 'templates/home_body.html',
-            template: 'app/templates/home_body.html'
-        }),
-        //new webpack.optimize.UglifyJsPlugin()
-        // replace
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         'ENV': JSON.stringify(metadata.ENV),
-        //         'NODE_ENV': JSON.stringify(metadata.ENV)
-        //     }
-        // })
-    ],
-
-    // Other module loader config
-    tslint: {
-        emitErrors: false,
-        failOnHint: false,
-        resourcePath: 'app'
-    },
-    // our Webpack Development Server config
-    devServer: {
-        port: metadata.port,
-        host: metadata.host,
-        historyApiFallback: true,
-        watchOptions: {aggregateTimeout: 300, poll: 1000}
-    },
-    // we need this due to problems with es6-shim
-    node: {
-        global: 'window',
-        progress: false,
-        crypto: 'empty',
-        module: false,
-        clearImmediate: false,
-        setImmediate: false
-    }
-};
+module.exports = webpackCommonConfig;
