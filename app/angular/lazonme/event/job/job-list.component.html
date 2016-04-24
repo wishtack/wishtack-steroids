@@ -1,0 +1,23 @@
+<form
+    (ngSubmit)="onJobAdd()">
+
+    <input
+            [(ngModel)]="job.name"
+            placeholder="Poste"
+            type="text">
+
+    <input
+            [(ngModel)]="job.startTime"
+            placeholder="Heure début"
+            type="text">
+
+    <input
+            [(ngModel)]="job.endTime"
+            placeholder="Heure fin"
+            type="text">
+
+    <button type="submit">Ajouter</button>
+
+</form>
+
+<div *ngFor="#job of jobList">{{ job.name }}</div>
