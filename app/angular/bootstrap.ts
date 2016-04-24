@@ -1,9 +1,9 @@
 
-require('es7-reflect-metadata/src/global/browser');
-require('./ng-module-app');
-require('./ng-run-app');
+import 'es7-reflect-metadata/src/global/browser';
+import 'zone.js/dist/zone-microtask';
+import 'angular2/bundles/angular2-polyfills';
 
 import {bootstrap}    from 'angular2/platform/browser';
-import {AppComponent} from './app.component';
+import {App} from './lazonme/app.component.ts';
 
-bootstrap(AppComponent);
+bootstrap(App);
