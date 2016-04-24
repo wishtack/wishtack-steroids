@@ -14,7 +14,7 @@ webpackCommonConfig.debug = true;
 /* Support for .ts files. */
 webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e|async)\.ts$/]});
 
-webpackCommonConfig.plugins = [
+webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     //new webpack.IgnorePlugin(/^angular2\//),
     new SplitByPathPlugin([
         {
@@ -46,7 +46,7 @@ webpackCommonConfig.plugins = [
     //         'NODE_ENV': JSON.stringify(metadata.ENV)
     //     }
     // })
-];
+]);
 
 /*
  * Config

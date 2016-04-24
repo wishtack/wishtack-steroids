@@ -48,7 +48,7 @@ webpackCommonConfig.module.postLoaders.push({
 webpackCommonConfig.module.noParse.push(webpackHelper.root('zone.js/dist'));
 webpackCommonConfig.module.noParse.push(webpackHelper.root('angular2/bundles'));
 
-webpackCommonConfig.plugins = [
+webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     new DefinePlugin({
         // Environment helpers
         'process.env': {
@@ -65,7 +65,7 @@ webpackCommonConfig.plugins = [
         '__param': 'ts-helper/param',
         'Reflect': 'es7-reflect-metadata/src/global/browser'
     })
-];
+]);
 
 webpackCommonConfig.stats = {colors: true, reasons: true};
 

@@ -1,12 +1,15 @@
 var _ = require('lodash');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
 var webpackHelper = require('./webpack-helper');
 
+var rootPath = webpackHelper.root('.');
 var appPath = webpackHelper.root('app/');
 var appAngularPath = appPath + 'angular/';
-var distPath = webpackHelper.root('dist/');
+var distDirectoryName = 'dist';
+var distPath = webpackHelper.root(distDirectoryName + '/');
 var assetsScriptsPath = 'assets/scripts/';
 
 /*
@@ -66,7 +69,13 @@ module.exports = {
         postLoaders: []
     },
 
-    plugins: [],
+    plugins: [
+        new CleanWebpackPlugin([distDirectoryName], {
+            root: rootPath,
+            verbose: true,
+            dry: false
+        })
+    ],
 
     tslint: {
         emitErrors: false,
