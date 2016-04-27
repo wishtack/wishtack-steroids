@@ -1,6 +1,7 @@
 
 export class Job {
-    public name: string;
-    public startTime;
-    public endTime;
+    name: string;
+    startDate;
+    startTime;
+    duration: number;
 }

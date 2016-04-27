@@ -7,17 +7,35 @@
             type="text">
 
     <input
+            [(ngModel)]="job.startDate"
+            placeholder="Jour"
+            type="date">
+
+    <input
             [(ngModel)]="job.startTime"
-            placeholder="Heure début"
+            placeholder="Heure de début"
+            type="time">
+
+    <input
+            [(ngModel)]="job.duration"
+            placeholder="Nombre d'heures"
             type="text">
 
     <input
-            [(ngModel)]="job.endTime"
-            placeholder="Heure fin"
+            placeholder="Nombre de personnes"
             type="text">
 
     <button type="submit">Ajouter</button>
 
 </form>
 
-<div *ngFor="#job of jobList">{{ job.name }}</div>
+<lz-greetings (lz-name)="job.name"></lz-greetings>
+
+<div *ngFor="#job of jobList">
+    <span>{{ job.name }}</span>
+    <span>{{ job.startDate }}</span>
+    <span>{{ job.startTime }}</span>
+    <span>{{ job.duration }}</span>
+    <button>Cool !</button>
+    <button>Ah non, finalement, j'ai piscine</button>
+</div>
