@@ -2,10 +2,10 @@
     "name": "lazonme-admin",
     "version": "0.0.0",
     "dependencies": {
-        "@angular2-material/button": "2.0.0-alpha.3",
-        "@angular2-material/core": "2.0.0-alpha.3",
-        "@angular2-material/input": "2.0.0-alpha.3",
         "angular": "1.5.5",
+        "angular-animate": "1.5.5",
+        "angular-aria": "1.5.5",
+        "angular-material": "1.0.7",
         "angular2": "2.0.0-beta.15",
         "babel-core": "6.7.7",
         "babel-loader": "6.2.4",
@@ -61,20 +61,22 @@
         "zone.js": "0.5.11"
     },
     "devDependencies": {
+        "babel-polyfill": "6.7.4",
         "gulp-bump": "2.1.0",
         "jasmine-core": "2.4.1",
         "karma": "0.13.22",
+        "karma-chrome-launcher": "0.2.3",
         "karma-coverage": "0.5.5",
         "karma-jasmine": "0.3.8",
         "karma-phantomjs-launcher": "1.0.0",
         "karma-sourcemap-loader": "0.3.7",
         "karma-webpack": "1.7.0",
-        "phantomjs": "2.1.7",
         "phantomjs-polyfill": "0.0.2",
+        "phantomjs-prebuilt": "2.1.7",
         "wt-protractor-runner": "0.4.0",
         "wt-protractor-utils": "1.0.0"
     },
     "engines": {
-        "node": "0.12.2"
+        "node": "5.10.1"
     }
 }

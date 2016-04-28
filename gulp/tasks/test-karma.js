@@ -7,15 +7,17 @@
 
 module.exports = function testKarma(done) {
 
-    var minimist = require('minimist');
+    const karma = require('karma');
+    const minimist = require('minimist');
 
-    var options = minimist(process.argv.slice(2), {
+    const options = minimist(process.argv.slice(2), {
         boolean: ['watch']
     });
 
-    require('karma').server.start({
+    new karma.Server({
         configFile: __dirname + '/../../test/karma/karma.conf.js',
         singleRun: !options.watch
-    }, done);
+    }, done)
+        .start();
 
 };

@@ -7,4 +7,6 @@
 
 var angular = require('angular');
 
-module.exports = angular.module('lazonme', []);
+module.exports = angular.module('lazonme', [
+    'ngMaterial'
+]);

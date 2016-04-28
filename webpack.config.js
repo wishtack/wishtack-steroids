@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
 var SplitByPathPlugin = require('webpack-split-by-path');
 
 /* No need to clone the common config as webpack will run with webpack.config.js or webpack.config.test.js etc...
@@ -15,7 +16,6 @@ webpackCommonConfig.debug = true;
 webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e|async)\.ts$/]});
 
 webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
-    //new webpack.IgnorePlugin(/^angular2\//),
     new SplitByPathPlugin([
         {
             name: 'vendor',
@@ -28,17 +28,19 @@ webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     //    filename: assetsScriptsPath + 'polyfills.bundle.js',
     //    minChunks: Infinity
     //}),
-    // static assets
+    /* Static assets. */
     new CopyWebpackPlugin([{
         from: 'app/templates',
         to: 'templates'
     }]),
-    // generating html
+    /* Injecting tags in html. */
     new HtmlWebpackPlugin({
         filename: 'templates/home_body.html',
         template: 'app/templates/home_body.html'
+    }),
+    new LiveReloadPlugin({
+        port: 8729
     })
-    //new webpack.optimize.UglifyJsPlugin()
 ]);
 
 /*

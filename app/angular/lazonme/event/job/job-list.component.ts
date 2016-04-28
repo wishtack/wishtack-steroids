@@ -12,9 +12,10 @@ angular.module('lazonme')
         bindings: {
             name: '='
         },
-        template: '<div>Hello ! </div><input ng-model="$ctrl.name">'
+        template: '<div>Hello ! </div>' +
+        '<md-button ng-click="$ctrl.name = null">test</md-button>' +
+        '<input ng-model="$ctrl.name">'
     });
-
 
 @Component({
     directives: [FORM_DIRECTIVES, upgradeAdapter.upgradeNg1Component('lzGreetings')],

@@ -2,9 +2,12 @@
 import 'es7-reflect-metadata/src/global/browser';
 import 'zone.js/dist/zone-microtask';
 import 'angular2/bundles/angular2-polyfills';
+import 'angular-material';
+import '!!css!angular-material/angular-material.css';
 
 import {bootstrap}    from 'angular2/platform/browser';
 import {upgradeAdapter} from './upgrade-adapter';
+
 
 /* Bootstrapping AngularJS. */
 const lazonme = require('./lazonme/ng-module-lazonme');
