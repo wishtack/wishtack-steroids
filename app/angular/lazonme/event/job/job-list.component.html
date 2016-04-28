@@ -29,7 +29,7 @@
 
 </form>
 
-<lz-greetings (lz-name)="job.name"></lz-greetings>
+<lz-greetings [(name)]="job.name"></lz-greetings>
 
 <div *ngFor="#job of jobList">
     <span>{{ job.name }}</span>

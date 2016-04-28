@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -74,6 +75,9 @@ module.exports = {
             root: rootPath,
             verbose: true,
             dry: false
+        }),
+        new LiveReloadPlugin({
+            port: 8729
         })
     ],
 

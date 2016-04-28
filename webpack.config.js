@@ -39,13 +39,6 @@ webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
         template: 'app/templates/home_body.html'
     })
     //new webpack.optimize.UglifyJsPlugin()
-    // replace
-    // new webpack.DefinePlugin({
-    //     'process.env': {
-    //         'ENV': JSON.stringify(metadata.ENV),
-    //         'NODE_ENV': JSON.stringify(metadata.ENV)
-    //     }
-    // })
 ]);
 
 /*

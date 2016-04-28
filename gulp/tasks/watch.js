@@ -9,18 +9,12 @@ module.exports = function watch(done) {
 
     var args = {
         bower: false,
-        plumber: true,
-        uglify: false
+        uglify: false,
+        watch: true
     };
 
-    var gulp = require('gulp');
-
     var build = require('./lib/build');
-    var watch = require('./lib/watch');
 
-    return gulp.series(
-        build(args),
-        watch(args)
-    )(done);
+    return build(args)(done);
 
 };
