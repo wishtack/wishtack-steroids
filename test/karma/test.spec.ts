@@ -6,15 +6,17 @@ import {
     TestComponentBuilder
 } from 'angular2/testing';
 
-//import {LzJobList} from "../../app/angular/lazonme/event/job/job-list.component";
+import {LzJobList} from '../../app/angular/lazonme/event/job/job-list.component';
+import {ComponentFixture} from 'angular2/testing';
+import {upgradeAdapter} from "../../app/angular/upgrade-adapter";
 
 describe('123', () => {
 
     it('123', inject([], () => {
 
         class Test {
-            double(x: number) {
-                return 2*x;
+            double(x:number) {
+                return 2 * x;
             }
         }
 
@@ -22,13 +24,19 @@ describe('123', () => {
 
     }));
 
-    //it('should render list', injectAsync([TestComponentBuilder], (tcb) => {
-    //    return tcb.createAsync(LzJobList).then((componentFixture) => {
-    //        const element = componentFixture.nativeElement;
-    //        componentFixture.detectChanges();
-    //        console.log(element.html());
-    //    });
-    //}));
+    it('should render list', injectAsync([TestComponentBuilder], (tcb) => {
+
+        console.log(document.body);
+
+        upgradeAdapter.bootstrap(document.body, ['lazonme']);
+
+        return tcb.createAsync(LzJobList)
+            .then((componentFixture:ComponentFixture) => {
+                const element = componentFixture.nativeElement;
+                componentFixture.detectChanges();
+                console.log(element);
+            });
+    }));
 
 });
 

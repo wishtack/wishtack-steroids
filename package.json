@@ -58,7 +58,7 @@
         "webpack": "1.13.0",
         "webpack-livereload-plugin": "0.8.1",
         "webpack-split-by-path": "0.0.8",
-        "zone.js": "0.5.11"
+        "zone.js": "0.5.15"
     },
     "devDependencies": {
         "babel-polyfill": "6.7.4",

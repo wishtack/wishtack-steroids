@@ -9,6 +9,7 @@ module.exports = function(config) {
 
     var webpackTestConfig = require('../../webpack.test.config');
 
+    var nodeModulesPath = 'node_modules/';
     var testPath = 'test/karma/';
     var specBundleFileName = 'spec-bundle.js';
     var specBundlePath = testPath + specBundleFileName;
@@ -19,8 +20,14 @@ module.exports = function(config) {
 
     config.set({
         basePath: '../..',
-        browsers: ['PhantomJS'],
-        files: [{pattern: specBundlePath, watched: false}],
+        browsers: ['Chrome'],
+        files: [
+            nodeModulesPath + 'angular/angular.js',
+            {
+                pattern: specBundlePath,
+                watched: false
+            }
+        ],
         frameworks: ['jasmine'],
         preprocessors: preprocessors,
         webpack: webpackTestConfig

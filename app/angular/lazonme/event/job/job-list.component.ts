@@ -7,7 +7,7 @@ var moment = require('moment');
 
 import {Job} from "./job";
 
-angular.module('lazonme')
+require('../../ng-module-lazonme')
     .component('lzGreetings', {
         bindings: {
             name: '='
