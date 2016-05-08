@@ -12,7 +12,7 @@ require('../../ng-module-lazonme')
         bindings: {
             name: '='
         },
-        template: '<div>Hello ! </div>' +
+        template: '<div><span>Hello </span><span ng-bind="$ctrl.name"></span><span>!</span></div>' +
         '<md-button ng-click="$ctrl.name = null">test</md-button>' +
         '<input ng-model="$ctrl.name">'
     });
@@ -46,6 +46,7 @@ export class LzJobList {
         this.job.startDate = now.format('YYYY-MM-DD');
         this.job.startTime = now.format('HH:00');
         this.job.duration = 4;
+        this.job.name = 'TEST';
 
     }
 

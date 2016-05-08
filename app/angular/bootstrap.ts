@@ -17,3 +17,4 @@ upgradeAdapter.bootstrap(document.body, ['lazonme']);
 /*
  * @todo: Call `bootstrap(LzApp)` once we get rid of AngularJS 1.
  */
+

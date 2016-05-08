@@ -32,10 +32,10 @@
 <lz-greetings [(name)]="job.name"></lz-greetings>
 
 <div *ngFor="#job of jobList">
-    <span>{{ job.name }}</span>
-    <span>{{ job.startDate }}</span>
-    <span>{{ job.startTime }}</span>
-    <span>{{ job.duration }}</span>
+    <span [innerText]="job.name"></span>
+    <span [innerText]="job.startDate"></span>
+    <span [innerText]="job.startTime"></span>
+    <span [innerText]="job.duration"></span>
     <button>Cool !</button>
     <button>Ah non, finalement, j'ai piscine</button>
 </div>
