@@ -2,9 +2,9 @@
 import {Component} from '@angular/core';
 
 @Component({
-    selector: 'lz-app',
+    selector: 'wt-app',
     template: require('./app.component.html')
 })
-export class LzApp {
+export class WtApp {
 
 }

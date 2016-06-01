@@ -11,10 +11,10 @@ import '@angular/http';
 import {upgradeAdapter} from './upgrade-adapter';
 
 /* Bootstrapping AngularJS. */
-import {LzApp} from './app/app.component';
+import {WtApp} from './app/app.component';
 
-const lazonme = require('./app/ng-module-app');
-lazonme.directive('lzApp', upgradeAdapter.downgradeNg2Component(LzApp));
+const ngApp = require('./app/ng-module-app');
+ngApp.directive('wtApp', upgradeAdapter.downgradeNg2Component(WtApp));
 
 upgradeAdapter.bootstrap(document.body, ['app']);
 
