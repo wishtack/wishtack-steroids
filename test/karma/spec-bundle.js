@@ -15,25 +15,25 @@
  * all here! Crazy huh. So we need to do some setup
  */
 Error.stackTraceLimit = Infinity;
-require('es7-reflect-metadata/dist/browser');
-//require('babel-polyfill');
-require('phantomjs-polyfill');
-require('es6-promise');
-require('es6-shim');
 
-require('zone.js/dist/zone-microtask.js');
-require('zone.js/dist/long-stack-trace-zone.js');
-require('zone.js/dist/jasmine-patch.js');
-require('angular2/bundles/angular2-polyfills.js');
 
-require('angular-material');
+import 'core-js/es6';
+import 'core-js/es7/reflect';
+import 'zone.js/dist/zone';
+import '@angular/platform-browser-dynamic';
+import '@angular/core';
+import '@angular/common';
+import '@angular/http';
+import 'rxjs/add/operator/map';
 
-var testing = require('angular2/testing');
-var browser = require('angular2/platform/testing/browser');
+import 'phantomjs-polyfill';
+
+import testing from '@angular/core/testing';
+import browser from '@angular/platform-browser-dynamic/testing';
 
 testing.setBaseTestProviders(
-    browser.TEST_BROWSER_PLATFORM_PROVIDERS,
-    browser.TEST_BROWSER_APPLICATION_PROVIDERS
+    browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
+    browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
 );
 
 /*

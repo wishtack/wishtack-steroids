@@ -1,9 +1,7 @@
 import {
     it,
-    inject,
-    injectAsync,
-    TestComponentBuilder
-} from 'angular2/testing';
+    inject
+} from '@angular/core/testing';
 
 
 describe('123', () => {
