@@ -4,6 +4,14 @@ var WebpackHelper = function () {};
 
 WebpackHelper.prototype = {
 
+    appAngularPath: function appAngularPath() {
+        return this.rootPath() + 'app/angular/';
+    },
+    
+    distDirectoryName: function distDirectoryName() {
+        return 'dist';
+    },
+
     prepend: function prepend(extensions, args) {
         args = args || [];
         if (!Array.isArray(args)) {
@@ -21,9 +29,8 @@ WebpackHelper.prototype = {
         return path.join.apply(path, [__dirname].concat(args));
     },
 
-    rootNode: function rootNode(args) {
-        args = Array.prototype.slice.call(arguments, 0);
-        return root.apply(path, ['node_modules'].concat(args));
+    rootPath: function rootPath() {
+        return this.root('./');
     }
 
 };

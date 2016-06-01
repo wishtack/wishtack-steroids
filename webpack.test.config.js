@@ -23,13 +23,13 @@ webpackCommonConfig.resolve.cache = false;
 
 webpackCommonConfig.devtool = 'eval';
 
-//webpackCommon.module.preLoaders.push({
+// webpackCommon.module.preLoaders.push({
 //    test: /\.ts$/,
 //    loader: 'tslint-loader',
 //    exclude: [
 //        webpackHelper.root('node_modules')
 //    ]
-//});
+// });
 
 /* Support for .ts files. */
 webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.e2e\.ts$/]});
@@ -37,12 +37,8 @@ webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exc
 /* Coverage with instanbul. */
 webpackCommonConfig.module.postLoaders.push({
     test: /\.(js|ts)$/,
-    include: webpackHelper.root('src'),
-    loader: 'istanbul-instrumenter-loader',
-    exclude: [
-        /\.(e2e|spec)\.ts$/,
-        /node_modules/
-    ]
+    include: webpackHelper.appAngularPath(),
+    loader: 'istanbul-instrumenter-loader'
 });
 
 webpackCommonConfig.module.noParse.push(webpackHelper.root('zone.js/dist'));
@@ -62,8 +58,7 @@ webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
         '__decorate': 'ts-helper/decorate',
         '__awaiter': 'ts-helper/awaiter',
         '__extends': 'ts-helper/extends',
-        '__param': 'ts-helper/param',
-        'Reflect': 'es7-reflect-metadata/src/global/browser'
+        '__param': 'ts-helper/param'
     })
 ]);
 

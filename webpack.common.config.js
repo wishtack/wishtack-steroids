@@ -1,15 +1,14 @@
 var _ = require('lodash');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
 var webpackHelper = require('./webpack-helper');
 
-var rootPath = webpackHelper.root('.');
-var appPath = webpackHelper.root('app/');
+var rootPath = webpackHelper.rootPath();
+var appPath = rootPath + 'app/';
 var appAngularPath = appPath + 'angular/';
-var distDirectoryName = 'dist';
-var distPath = webpackHelper.root(distDirectoryName + '/');
+var distDirectoryName = webpackHelper.distDirectoryName();
+var distPath = rootPath + distDirectoryName + '/';
 var assetsScriptsPath = 'assets/scripts/';
 
 /*
@@ -25,10 +24,6 @@ module.exports = {
     /* Angular app. */
     entry: {
         app: appAngularPath + 'bootstrap.ts'
-    },
-
-    externals: {
-        'angular': 'angular'
     },
 
     output: {
@@ -69,13 +64,7 @@ module.exports = {
         postLoaders: []
     },
 
-    plugins: [
-        new CleanWebpackPlugin([distDirectoryName], {
-            root: rootPath,
-            verbose: true,
-            dry: false
-        })
-    ],
+    plugins: [],
 
     tslint: {
         emitErrors: false,

@@ -1,18 +1,22 @@
 
-import 'es7-reflect-metadata/src/global/browser';
-import 'zone.js/dist/zone-microtask';
-import 'angular2/bundles/angular2-polyfills';
-import 'angular-material';
+import 'core-js/es6';
+import 'core-js/es7/reflect';
+import 'zone.js/dist/zone';
+import '@angular/platform-browser';
+import '@angular/platform-browser-dynamic';
+import '@angular/core';
+import '@angular/common';
+import '@angular/http';
 
 import {upgradeAdapter} from './upgrade-adapter';
 
 /* Bootstrapping AngularJS. */
-import {LzApp} from './lazonme/app.component';
+import {LzApp} from './app/app.component';
 
-const lazonme = require('./lazonme/ng-module-lazonme');
+const lazonme = require('./app/ng-module-app');
 lazonme.directive('lzApp', upgradeAdapter.downgradeNg2Component(LzApp));
 
-upgradeAdapter.bootstrap(document.body, ['lazonme']);
+upgradeAdapter.bootstrap(document.body, ['app']);
 
 /*
  * @todo: Call `bootstrap(LzApp)` once we get rid of AngularJS 1.
