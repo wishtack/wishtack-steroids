@@ -24,7 +24,6 @@ module.exports = function buildAppFactory(args) {
         var gulp = require('gulp');
 
         var config = require('../../config')();
-        var plugins = require('../../plugins');
         var loadenv = require('./loadenv');
         var webpack = require('./webpack');
 
@@ -33,6 +32,7 @@ module.exports = function buildAppFactory(args) {
              * I.e.: Build the production project on local machine using 'gulp build --env=prod'. */
             loadenv(),
             bower ? ['bower'] : [],
+            'typings-install',
             webpack({
                 uglify: uglify,
                 watch: watch

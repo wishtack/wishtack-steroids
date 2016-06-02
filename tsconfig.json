@@ -7,14 +7,12 @@
         "sourceMap": true
     },
     "exclude": [
+        ".bower-cache",
+        ".bower-tmp",
+        "app/bower_components",
         "node_modules",
-        "typings/main.d.ts",
-        "typings/main"
-    ],
-    "filesGlob": [
-        "./app/angular/**/*.ts",
-        "./test/**/*.ts",
-        "!./node_modules/**/*.ts"
+        "typings/main",
+        "typings/main.d.ts"
     ],
     "compileOnSave": false,
     "buildOnSave": false,
