@@ -8,7 +8,10 @@ import '@angular/core';
 import '@angular/common';
 import '@angular/http';
 
+import './legacy-app';
+
 import {upgradeAdapter} from './upgrade-adapter';
+
 
 /* Bootstrapping AngularJS. */
 import {WtApp} from './app/app.component';
@@ -16,9 +19,8 @@ import {WtApp} from './app/app.component';
 const ngApp = require('./app/ng-module-app');
 ngApp.directive('wtApp', upgradeAdapter.downgradeNg2Component(WtApp));
 
-upgradeAdapter.bootstrap(document.body, ['app']);
+upgradeAdapter.bootstrap(document.body.parentElement, ['app']);
 
 /*
  * @todo: Call `bootstrap(LzApp)` once we get rid of AngularJS 1.
  */
-
