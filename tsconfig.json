@@ -7,9 +7,6 @@
         "sourceMap": true
     },
     "exclude": [
-        ".bower-cache",
-        ".bower-tmp",
-        "app/bower_components",
         "node_modules",
         "typings/main",
         "typings/main.d.ts"
