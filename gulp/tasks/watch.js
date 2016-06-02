@@ -8,7 +8,6 @@
 module.exports = function watch(done) {
 
     var args = {
-        bower: false,
         uglify: false,
         watch: true
     };

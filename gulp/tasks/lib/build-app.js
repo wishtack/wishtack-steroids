@@ -10,12 +10,10 @@ module.exports = function buildAppFactory(args) {
     var NamedParameters = require('named-parameters').NamedParameters;
 
     args = new NamedParameters(args)
-        .default('bower', true)
         .default('uglify', true)
         .default('watch', false)
         .values();
 
-    var bower = args.bower;
     var uglify = args.uglify;
     var watch = args.watch;
 
@@ -31,7 +29,6 @@ module.exports = function buildAppFactory(args) {
             /* Load environment before building as we might cross-env build the project.
              * I.e.: Build the production project on local machine using 'gulp build --env=prod'. */
             loadenv(),
-            bower ? ['bower'] : [],
             'typings-install',
             webpack({
                 uglify: uglify,
