@@ -18,7 +18,11 @@ var rootPath = webpackHelper.rootPath();
 webpackCommonConfig.debug = true;
 
 /* Support for .ts files. */
-webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e|async)\.ts$/]});
+webpackCommonConfig.module.loaders.push({
+    test: /\.ts$/,
+    loader: 'awesome-typescript-loader',
+    exclude: [/\.(spec|e2e|async)\.ts$/]
+});
 
 webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     new CleanWebpackPlugin([distDirectoryName], {
