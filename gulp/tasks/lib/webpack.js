@@ -40,7 +40,10 @@ module.exports = (args) => {
             gutil.log("[webpack]", stats.toString({
                 chunks: false
             }));
-            done();
+            
+            if (!watch) {
+                done();
+            }
         });
 
     };
