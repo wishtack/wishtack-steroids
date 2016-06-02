@@ -7,9 +7,11 @@ var webpackHelper = require('./webpack-helper');
 var rootPath = webpackHelper.rootPath();
 var appPath = rootPath + 'app/';
 var appAngularPath = appPath + 'angular/';
+var appTemplatesPath = appPath + 'templates/';
 var distDirectoryName = webpackHelper.distDirectoryName();
 var distPath = rootPath + distDirectoryName + '/';
-var assetsScriptsPath = 'assets/scripts/';
+var assetsPath = 'assets/';
+var assetsScriptsPath = assetsPath + 'scripts/';
 
 /*
  * Config
@@ -57,8 +59,18 @@ module.exports = {
             /* Support for CSS as raw text. */
             {test: /\.css$/, loader: 'raw-loader'},
 
-            /* support for .html as raw text. */
-            {test: /\.html$/, loader: 'raw-loader', exclude: [webpackHelper.root('app/templates/home.html')]}
+            /* Support for assets as revved files. */
+            {
+                include: [appAngularPath],
+                test: /\.(html|gif|ico|jpg|png)$/,
+                loader: 'file-loader?name=' + assetsPath + '[path][name].[hash].[ext]'
+            },
+
+            {
+                include: [appTemplatesPath],
+                test: /\.html/,
+                loader: 'raw-loader'
+            }
 
         ],
         postLoaders: []

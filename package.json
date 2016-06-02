@@ -28,6 +28,7 @@
         "es6-promise-loader": "1.0.1",
         "es6-shim": "0.35.0",
         "es7-reflect-metadata": "1.5.5",
+        "file-loader": "0.8.5",
         "gulp": "git://github.com/gulpjs/gulp.git#4.0",
         "gulp-bower": "0.0.10",
         "gulp-debug": "2.1.2",
