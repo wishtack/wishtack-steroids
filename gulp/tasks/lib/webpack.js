@@ -30,6 +30,11 @@ module.exports = (args) => {
         if (uglify) {
             webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
         }
+        
+        /* Speed up build when in dev mode. */
+        if (watch) {
+            webpackConfig.devtool = 'eval'
+        }
 
         webpackConfig.watch = watch;
 
