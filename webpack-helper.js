@@ -1,18 +1,27 @@
+'use strict';
+
 var path = require('path');
 
-var WebpackHelper = function () {};
-
-WebpackHelper.prototype = {
-
-    appAngularPath: function appAngularPath() {
-        return this.rootPath() + 'app/angular/';
-    },
+class WebpackHelper {
     
-    distDirectoryName: function distDirectoryName() {
-        return 'dist';
-    },
+    constructor() {
 
-    prepend: function prepend(extensions, args) {
+        this.rootPath = __dirname;
+        
+        this.distDirectoryName = 'dist';
+        this.templatesDirectoryName = 'templates';
+
+        this.assetsRelativePath = 'assets';
+        this.assetsScriptsRelativePath = path.join(this.assetsRelativePath, 'scripts');
+        
+        this.appPath = path.join(this.rootPath, 'app');
+        this.appAngularPath = path.join(this.appPath, 'angular');
+        this.appTemplatesPath = path.join(this.appPath, this.templatesDirectoryName);
+        this.distPath = path.join(this.rootPath, this.distDirectoryName);
+        
+    }
+
+    prepend(extensions, args) {
         args = args || [];
         if (!Array.isArray(args)) {
             args = [args]
@@ -22,17 +31,8 @@ WebpackHelper.prototype = {
                 return prefix + val
             }));
         }, ['']);
-    },
-
-    root: function root(args) {
-        args = Array.prototype.slice.call(arguments, 0);
-        return path.join.apply(path, [__dirname].concat(args));
-    },
-
-    rootPath: function rootPath() {
-        return this.root('./');
     }
-
-};
+    
+}
 
 module.exports = new WebpackHelper();

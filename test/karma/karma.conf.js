@@ -5,11 +5,10 @@
  * $Id: $
  */
 
-module.exports = function(config) {
+module.exports = function (config) {
 
     var webpackTestConfig = require('../../webpack.test.config');
 
-    var nodeModulesPath = 'node_modules/';
     var testPath = 'test/karma/';
     var specBundleFileName = 'spec-bundle.js';
     var specBundlePath = testPath + specBundleFileName;
@@ -21,8 +20,15 @@ module.exports = function(config) {
     config.set({
         basePath: '../..',
         browsers: ['Chrome'],
+        coverageReporter: {
+            dir: 'coverage/',
+            reporters: [
+                {type: 'text-summary'},
+                {type: 'json'},
+                {type: 'html'}
+            ]
+        },
         files: [
-            nodeModulesPath + 'angular/angular.js',
             {
                 pattern: specBundlePath,
                 watched: false
@@ -30,6 +36,7 @@ module.exports = function(config) {
         ],
         frameworks: ['jasmine'],
         preprocessors: preprocessors,
+        reporters: ['progress', 'coverage'],
         webpack: webpackTestConfig
     });
 

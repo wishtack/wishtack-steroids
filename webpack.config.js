@@ -12,8 +12,6 @@ var SplitByPathPlugin = require('webpack-split-by-path');
 var webpackCommonConfig = require('./webpack.common.config');
 var webpackHelper = require('./webpack-helper');
 
-var distDirectoryName = webpackHelper.distDirectoryName();
-var rootPath = webpackHelper.rootPath();
 
 webpackCommonConfig.debug = true;
 
@@ -25,15 +23,15 @@ webpackCommonConfig.module.loaders.push({
 });
 
 webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
-    new CleanWebpackPlugin([distDirectoryName], {
-        root: rootPath,
+    new CleanWebpackPlugin([webpackHelper.distDirectoryName], {
+        root: webpackHelper.rootPath,
         verbose: true,
         dry: false
     }),
     new SplitByPathPlugin([
         {
             name: 'vendor',
-            path: path.join(__dirname, 'node_modules')
+            path: path.join(webpackHelper.rootPath, 'node_modules')
         }
     ]),
     new webpack.optimize.OccurenceOrderPlugin(true),
@@ -43,14 +41,16 @@ webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     //    minChunks: Infinity
     //}),
     /* Static assets. */
-    new CopyWebpackPlugin([{
-        from: 'app/templates',
-        to: 'templates'
-    }]),
+    new CopyWebpackPlugin([
+        {
+            from: webpackHelper.appTemplatesPath,
+            to: webpackHelper.templatesDirectoryName
+        }
+    ]),
     /* Injecting tags in html. */
     new HtmlWebpackPlugin({
-        filename: 'templates/home_body.html',
-        template: 'app/templates/home_body.html'
+        filename: path.join(webpackHelper.templatesDirectoryName, 'home_body.html'),
+        template: path.join(webpackHelper.appTemplatesPath, 'home_body.html')
     }),
     new LiveReloadPlugin({
         port: 8729

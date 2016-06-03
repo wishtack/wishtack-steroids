@@ -5,11 +5,7 @@
  * $Id: $
  */
 
-/*
- * Helper: root(), and rootDir() are defined at the bottom
- */
 var path = require('path');
-// Webpack Plugins
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin  = require('webpack/lib/DefinePlugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'test';
@@ -32,17 +28,20 @@ webpackCommonConfig.devtool = 'eval';
 // });
 
 /* Support for .ts files. */
-webpackCommonConfig.module.loaders.push({test: /\.ts$/, loader: 'ts-loader', exclude: [/\.e2e\.ts$/]});
+webpackCommonConfig.module.loaders.push({
+    test: /\.ts$/,
+    loader: 'awesome-typescript-loader',
+    exclude: [/\.e2e\.ts$/]
+});
 
 /* Coverage with instanbul. */
 webpackCommonConfig.module.postLoaders.push({
     test: /\.(js|ts)$/,
-    include: webpackHelper.appAngularPath(),
+    include: webpackHelper.appAngularPath,
     loader: 'istanbul-instrumenter-loader'
 });
 
-webpackCommonConfig.module.noParse.push(webpackHelper.root('zone.js/dist'));
-webpackCommonConfig.module.noParse.push(webpackHelper.root('angular2/bundles'));
+webpackCommonConfig.module.noParse.push(path.join(webpackHelper.rootPath, 'zone.js/dist'));
 
 webpackCommonConfig.plugins = webpackCommonConfig.plugins.concat([
     new DefinePlugin({

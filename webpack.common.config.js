@@ -1,17 +1,7 @@
-var _ = require('lodash');
 var path = require('path');
 var webpack = require('webpack');
 
 var webpackHelper = require('./webpack-helper');
-
-var rootPath = webpackHelper.rootPath();
-var appPath = rootPath + 'app/';
-var appAngularPath = appPath + 'angular/';
-var appTemplatesPath = appPath + 'templates/';
-var distDirectoryName = webpackHelper.distDirectoryName();
-var distPath = rootPath + distDirectoryName + '/';
-var assetsPath = 'assets/';
-var assetsScriptsPath = assetsPath + 'scripts/';
 
 /*
  * Config
@@ -25,15 +15,15 @@ module.exports = {
 
     /* Angular app. */
     entry: {
-        app: appAngularPath + 'bootstrap.ts'
+        app: path.join(webpackHelper.appAngularPath, 'bootstrap.ts')
     },
 
     output: {
-        chunkFilename: assetsScriptsPath + '[id].[chunkhash].chunk.js',
-        filename: assetsScriptsPath + '[name].[chunkhash].bundle.js',
-        path: distPath,
+        chunkFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[id].[chunkhash].chunk.js'),
+        filename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].bundle.js'),
+        path: webpackHelper.distPath,
         publicPath: '/',
-        sourceMapFilename: assetsScriptsPath + '[name].[chunkhash].map'
+        sourceMapFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].map')
     },
 
     resolve: {
@@ -43,7 +33,7 @@ module.exports = {
     module: {
         noParse: [],
         preLoaders: [
-            {test: /\.js$/, loader: "source-map-loader", exclude: [webpackHelper.root('node_modules/rxjs')]}
+            {test: /\.js$/, loader: "source-map-loader", exclude: [path.join(webpackHelper.rootPath, 'node_modules/rxjs')]}
         ],
         loaders: [
 
@@ -61,13 +51,13 @@ module.exports = {
 
             /* Support for assets as revved files. */
             {
-                include: [appAngularPath],
+                include: [webpackHelper.appAngularPath],
                 test: /\.(html|gif|ico|jpg|png)$/,
-                loader: 'file-loader?name=' + assetsPath + '[path][name].[hash].[ext]'
+                loader: 'file-loader?name=' + path.join(webpackHelper.assetsRelativePath, '[path][name].[hash].[ext]')
             },
 
             {
-                include: [appTemplatesPath],
+                include: [webpackHelper.appTemplatesPath],
                 test: /\.html/,
                 loader: 'raw-loader'
             }
@@ -81,7 +71,7 @@ module.exports = {
     tslint: {
         emitErrors: false,
         failOnHint: false,
-        resourcePath: 'app'
+        resourcePath: webpackHelper.appAngularPath
     },
 
     /* We need this due to problems with es6-shim. */
