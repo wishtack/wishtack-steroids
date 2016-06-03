@@ -31,7 +31,7 @@ gulp test-py # Run all python tests.
 gulp test-py-integration # Run python integration tests.
 gulp test-py-unit # Run python unit tests.
 gulp test-unit # Run karma and python unit tests.
-gulp watch # Builds the project and watches for changes but disables uglification.
+gulp watch [--debug] # Builds the project and watches for changes but disables uglification. Debug options enables source-map.
 ```
 
 # Tricks.

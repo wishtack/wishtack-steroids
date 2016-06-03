@@ -1,3 +1,10 @@
+/**
+ *
+ * (c) 2013-2016 Wishtack
+ *
+ * $Id: $
+ */
+
 var path = require('path');
 var webpack = require('webpack');
 
@@ -7,9 +14,6 @@ var webpackHelper = require('./webpack-helper');
  * Config
  */
 module.exports = {
-
-    /* Use 'eval' for faster builds. */
-    devtool: 'source-map',
 
     debug: false,
 

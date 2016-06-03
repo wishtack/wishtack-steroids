@@ -70,6 +70,7 @@
         "walk-sync": "0.2.6",
         "webpack": "1.13.0",
         "webpack-livereload-plugin": "0.8.1",
+        "webpack-merge": "0.13.0",
         "webpack-split-by-path": "0.0.8",
         "zone.js": "0.6.12"
     },

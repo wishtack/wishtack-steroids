@@ -7,16 +7,6 @@
 
 module.exports = function buildAppFactory(args) {
 
-    var NamedParameters = require('named-parameters').NamedParameters;
-
-    args = new NamedParameters(args)
-        .default('uglify', true)
-        .default('watch', false)
-        .values();
-
-    var uglify = args.uglify;
-    var watch = args.watch;
-
     return function buildApp(done) {
 
         var gulp = require('gulp');
@@ -30,10 +20,7 @@ module.exports = function buildAppFactory(args) {
              * I.e.: Build the production project on local machine using 'gulp build --env=prod'. */
             loadenv(),
             'typings-install',
-            webpack({
-                uglify: uglify,
-                watch: watch
-            }),
+            webpack(args),
             'cache-manifest'
         )(done);
 

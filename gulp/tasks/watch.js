@@ -7,8 +7,14 @@
 
 module.exports = function watch(done) {
 
+    var minimist = require('minimist');
+    var options = minimist(process.argv.slice(2), {
+        boolean: ['debug']
+    });
+    
     var args = {
-        uglify: false,
+        debug: options.debug,
+        dev: true,
         watch: true
     };
 

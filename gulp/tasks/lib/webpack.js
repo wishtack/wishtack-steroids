@@ -10,11 +10,13 @@ module.exports = (args) => {
     var NamedParameters = require('named-parameters').NamedParameters;
 
     args = new NamedParameters(args)
-        .require('uglify')
-        .require('watch')
+        .default('debug', false)
+        .default('dev', false)
+        .default('watch', false)
         .values();
 
-    var uglify = args.uglify;
+    var debug = args.debug;
+    var dev = args.dev;
     var watch = args.watch;
 
     return function webpack(done) {
@@ -23,19 +25,23 @@ module.exports = (args) => {
         var gulp = require('gulp');
         var gutil = require('gulp-util');
         var webpack = require('webpack');
-        var webpackConfig = require('../../../webpack.config.js');
+        var webpackConfig;
 
-        webpackConfig = _.extend({}, webpackConfig);
-
-        if (uglify) {
-            webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+        if (dev) {
+            if (debug) {
+                webpackConfig = require('../../../webpack.build-dev-debug.config');
+            }
+            else {
+                webpackConfig = require('../../../webpack.build-dev.config');
+            }
+        }
+        else {
+            webpackConfig = require('../../../webpack.build-prod.config');
         }
         
-        /* Speed up build when in dev mode. */
-        if (watch) {
-            webpackConfig.devtool = 'eval'
-        }
-
+        /* Clone. */
+        webpackConfig = _.extend({}, webpackConfig);
+        
         webpackConfig.watch = watch;
 
         webpack(webpackConfig, function(err, stats) {
