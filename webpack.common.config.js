@@ -52,6 +52,9 @@ module.exports = {
 
             /* Support for CSS as raw text. */
             {test: /\.css$/, loader: 'raw-loader'},
+            
+            /* Support for LESS. */
+            {test: /\.less/, loader: 'less-loader'},
 
             /* Support for assets as revved files. */
             {

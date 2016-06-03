@@ -50,6 +50,7 @@
         "gulp-uglify": "1.5.3",
         "gulp-usemin": "0.3.22",
         "html-webpack-plugin": "2.16.0",
+        "less-loader": "2.2.3",
         "lodash": "4.11.1",
         "minimist": "1.2.0",
         "moment": "2.13.0",
