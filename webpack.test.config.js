@@ -34,12 +34,6 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
         ],
         
         preLoaders: [
-            /* Coverage with istanbul. */
-            {
-                test: /\.(js|ts)$/,
-                include: webpackHelper.appAngularPath,
-                loader: 'istanbul-instrumenter-loader'
-            }
             // {
             //     test: /\.ts$/,
             //     loader: 'tslint-loader',
@@ -48,6 +42,15 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             //     ]
             // }
         ],
+
+        postLoaders: [
+            /* Coverage with istanbul. */
+            {
+                test: /\.(js|ts)$/,
+                include: webpackHelper.appAngularPath,
+                loader: 'istanbul-instrumenter-loader'
+            }
+        ]
     },
     
     plugins: [

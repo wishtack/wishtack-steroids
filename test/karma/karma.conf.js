@@ -15,11 +15,11 @@ module.exports = function (config) {
 
     var preprocessors = {};
 
-    preprocessors[specBundlePath] = ['webpack', 'sourcemap'];
+    preprocessors[specBundlePath] = ['coverage', 'webpack', 'sourcemap'];
 
     config.set({
         basePath: '../..',
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         coverageReporter: {
             dir: 'coverage/',
             reporters: [
