@@ -93,6 +93,6 @@
         "wt-protractor-utils": "1.0.0"
     },
     "engines": {
-        "node": "5.10.1"
+        "node": "6.2.1"
     }
 }
