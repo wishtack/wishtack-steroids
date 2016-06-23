@@ -17,9 +17,13 @@ var webpackHelper = require('./webpack-helper');
  * Config
  */
 module.exports = webpackMerge.smart(require('./webpack.common.config'), {
-    
+
+    debug: true,
+
+    devtool: 'inline-source-map',
+
     module: {
-        
+
         loaders: [
             /* Support for .ts files. */
             {
