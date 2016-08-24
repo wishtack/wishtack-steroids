@@ -56,8 +56,8 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
         ]),
         /* Injecting tags in html. */
         new HtmlWebpackPlugin({
-            filename: path.join(webpackHelper.templatesDirectoryName, 'home_body.html'),
-            template: path.join(webpackHelper.appTemplatesPath, 'home_body.html')
+            filename: path.join(webpackHelper.templatesDirectoryName, 'home.html'),
+            template: path.join(webpackHelper.appTemplatesPath, 'home.html')
         })
     ]
 });
