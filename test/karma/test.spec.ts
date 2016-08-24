@@ -1,12 +1,7 @@
-import {
-    it,
-    inject
-} from '@angular/core/testing';
-
 
 describe('123', () => {
 
-    it('123', inject([], () => {
+    it('123', () => {
 
         class Test {
             double(x:number) {
@@ -16,7 +11,7 @@ describe('123', () => {
 
         expect(new Test().double(2)).toEqual(4);
 
-    }));
+    });
 
 });
 
