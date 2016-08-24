@@ -9,7 +9,7 @@ let context;
 
 /* Loading dependencies. */
 // import _ from 'lodash';
-import angular from 'angular';
+import * as angular from 'angular';
 // import 'angular-animate/angular-animate';
 // import 'angular-aria/angular-aria';
 // import 'angular-material/angular-material';
@@ -20,12 +20,4 @@ require('!!style!css!angular-material/angular-material.css');
 /* Loading some plain es5 libraries. */
 // import {NamedParameters} from './lib/named-parameters';
  
-// window._ = _;
 window.angular = angular;
-
-/* Loading angular 1 modules. */
-context = require.context('.', true, /ng-module-.*\.js$/);
-context.keys().forEach(context);
-/* Loading angular 1 stuff. */
-context = require.context('.', true, /ng-(config|controller|directive|filter|model|run|service)-.*\.js$/);
-context.keys().forEach(context);

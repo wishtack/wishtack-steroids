@@ -1,26 +1,12 @@
 
 import 'core-js/es6';
 import 'core-js/es7/reflect';
-import 'zone.js/dist/zone';
-import '@angular/platform-browser';
-import '@angular/platform-browser-dynamic';
-import '@angular/core';
-import '@angular/common';
-import '@angular/http';
 
 import './legacy-app';
 
-import {upgradeAdapter} from './upgrade-adapter';
+import * as angular from 'angular';
+import * as app from './app/app.module';
 
-
-/* Bootstrapping AngularJS. */
-import {WtApp} from './app/app.component';
-
-const ngApp = require('./app/ng-module-app');
-ngApp.directive('wtApp', upgradeAdapter.downgradeNg2Component(WtApp));
-
-upgradeAdapter.bootstrap(document.body.parentElement, ['app']);
-
-/*
- * @todo: Call `bootstrap(LzApp)` once we get rid of AngularJS 1.
- */
+angular.element(document).ready(function() {
+    angular.bootstrap(document, [app.name]);
+});
