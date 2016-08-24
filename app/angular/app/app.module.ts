@@ -7,9 +7,9 @@
 
 
 import * as angular from 'angular';
-import {AppComponent} from './app.component';
+import {UserStore} from './common/user/user-store';
+import {userListModule} from './user-list/user-list.module';
 
-export const name = 'app';
-export const app = angular.module(name, []);
-
-app.component(AppComponent.name, AppComponent);
+export const appModule = angular.module('app', [
+    userListModule.name
+]);

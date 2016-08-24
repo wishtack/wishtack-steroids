@@ -1,0 +1,15 @@
+<div>
+
+    <wt-user-form
+        wt-on-user-add="$ctrl.addUser(user)"></wt-user-form>
+
+    <div
+            ng-repeat="user in $ctrl.userList">
+        <wt-user-preview
+                wt-user="user"
+                wt-on-user-remove="$ctrl.removeUser(user)">
+            <button ng-click="$ctrl.removeUser(user)">REMOVE</button>
+        </wt-user-preview>
+    </div>
+
+</div>

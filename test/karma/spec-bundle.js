@@ -17,29 +17,11 @@
 Error.stackTraceLimit = Infinity;
 
 
-require('core-js/es6');
-require('core-js/es7/reflect');
-require('zone.js/dist/zone');
-require('zone.js/dist/async-test');
-require('zone.js/dist/fake-async-test');
-require('zone.js/dist/sync-test');
-require('@angular/platform-browser-dynamic');
-require('@angular/core');
-require('@angular/common');
-require('@angular/http');
-require('rxjs/add/operator/map');
-
+require('../../app/angular/common');
+require('angular');
+require('angular-mocks');
+require('jquery');
 require('phantomjs-polyfill');
-
-var testing = require('@angular/core/testing');
-var browser = require('@angular/platform-browser-dynamic/testing');
-
-testing.setBaseTestProviders(
-    browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-    browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
-);
-
-Object.assign(global, testing);
 
 /*
  Ok, this is kinda crazy. We can use the the context method on

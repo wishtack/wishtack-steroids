@@ -24,7 +24,7 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             /* Support for .ts files. */
             {
                 test: /\.ts$/,
-                loader: 'awesome-typescript-loader',
+                loaders: ['ng-annotate', 'awesome-typescript-loader'],
                 exclude: [/\.(spec|e2e|async)\.ts$/]
             }
         ]
@@ -56,8 +56,8 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
         ]),
         /* Injecting tags in html. */
         new HtmlWebpackPlugin({
-            filename: path.join(webpackHelper.templatesDirectoryName, 'home.html'),
-            template: path.join(webpackHelper.appTemplatesPath, 'home.html')
+            filename: 'index.html',
+            template: path.join(webpackHelper.appTemplatesPath, 'index.html')
         })
     ]
 });
