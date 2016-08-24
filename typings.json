@@ -2,7 +2,7 @@
     "dependencies": {
     },
     "devDependencies": {},
-    "ambientDependencies": {
+    "globalDependencies": {
         "core-js": "registry:dt/core-js#0.0.0+20160317120654",
         "hammerjs": "github:DefinitelyTyped/DefinitelyTyped/hammerjs/hammerjs.d.ts#74a4dfc1bc2dfadec47b8aae953b28546cb9c6b7",
         "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#4b36b94d5910aa8a4d20bdcd5bd1f9ae6ad18d3c",
