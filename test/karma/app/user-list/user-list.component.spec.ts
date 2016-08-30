@@ -13,6 +13,7 @@ import {userListModule} from '../../../../app/angular/app/user-list/user-list.mo
 describe('UserListComponent', () => {
 
     beforeEach(angular.mock.module(userListModule.name));
+    beforeEach(angular.mock.module('wishtack.templates'));
 
     beforeEach(inject(($compile,
                        $http,
@@ -29,25 +30,6 @@ describe('UserListComponent', () => {
         this.userStore = userStore;
 
     }));
-
-    beforeEach(() => {
-
-        this.$templateCache.put(
-            require('../../../../app/angular/app/user-list/user-list.component.html'),
-            require('!!raw-loader!../../../../app/angular/app/user-list/user-list.component.html')
-        );
-
-        this.$templateCache.put(
-            require('../../../../app/angular/app/user-list/user-form/user-form.component.html'),
-            require('!!raw-loader!../../../../app/angular/app/user-list/user-form/user-form.component.html')
-        );
-
-        this.$templateCache.put(
-            require('../../../../app/angular/app/user-list/user-preview/user-preview.component.html'),
-            require('!!raw-loader!../../../../app/angular/app/user-list/user-preview/user-preview.component.html')
-        );
-
-    });
 
     it('should display user list', () => {
 
