@@ -42,22 +42,10 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             }
         ]),
         new webpack.optimize.OccurenceOrderPlugin(true),
-        //new webpack.optimize.CommonsChunkPlugin({
-        //    name: 'polyfills',
-        //    filename: assetsScriptsPath + 'polyfills.bundle.js',
-        //    minChunks: Infinity
-        //}),
-        /* Static assets. */
-        new CopyWebpackPlugin([
-            {
-                from: webpackHelper.appTemplatesPath,
-                to: webpackHelper.templatesDirectoryName
-            }
-        ]),
         /* Injecting tags in html. */
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: path.join(webpackHelper.appTemplatesPath, 'index.html')
+            filename: webpackHelper.distIndexHtmlRelativePath,
+            template: webpackHelper.appIndexHtmlPath
         })
     ]
 });

@@ -6,7 +6,7 @@ class WebpackHelper {
     
     constructor() {
 
-        this.rootPath = __dirname;
+        this.rootPath = path.join(__dirname, '..');
         
         this.distDirectoryName = 'dist';
 
@@ -15,9 +15,12 @@ class WebpackHelper {
         
         this.appPath = path.join(this.rootPath, 'app');
         this.appAngularPath = path.join(this.appPath, 'angular');
-        this.appTemplatesPath = this.appPath;
+        this.appIndexHtmlPath = path.join(this.appPath, 'index.html');
         this.distPath = path.join(this.rootPath, this.distDirectoryName);
-        
+        this.distIndexHtmlRelativePath = path.join('index.html');
+
+        this.publicPath = './';
+
     }
 
     prepend(extensions, args) {

@@ -29,14 +29,14 @@ module.exports = (args) => {
 
         if (dev) {
             if (debug) {
-                webpackConfig = require('../../../webpack.build-dev-debug.config');
+                webpackConfig = require('../../../webpack/webpack.build-dev-debug.config');
             }
             else {
-                webpackConfig = require('../../../webpack.build-dev.config');
+                webpackConfig = require('../../../webpack/webpack.build-dev.config');
             }
         }
         else {
-            webpackConfig = require('../../../webpack.build-prod.config');
+            webpackConfig = require('../../../webpack/webpack.build-prod.config');
         }
         
         /* Clone. */

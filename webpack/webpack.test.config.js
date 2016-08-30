@@ -36,16 +36,6 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
         noParse: [
             path.join(webpackHelper.rootPath, 'zone.js/dist')
         ],
-        
-        preLoaders: [
-            // {
-            //     test: /\.ts$/,
-            //     loader: 'tslint-loader',
-            //     exclude: [
-            //         webpackHelper.root('node_modules')
-            //     ]
-            // }
-        ],
 
         postLoaders: [
             /* Coverage with istanbul. */

@@ -26,7 +26,7 @@ module.exports = {
         chunkFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[id].[chunkhash].chunk.js'),
         filename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].bundle.js'),
         path: webpackHelper.distPath,
-        publicPath: '/',
+        publicPath: webpackHelper.publicPath,
         sourceMapFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].map')
     },
 
@@ -61,12 +61,6 @@ module.exports = {
                 include: [webpackHelper.appAngularPath],
                 test: /\.(html|gif|ico|jpg|png)$/,
                 loader: 'file-loader?name=' + path.join(webpackHelper.assetsRelativePath, '[path][name].[hash].[ext]')
-            },
-
-            {
-                include: [webpackHelper.appTemplatesPath],
-                test: /\.html/,
-                loader: 'raw-loader'
             }
 
         ],
