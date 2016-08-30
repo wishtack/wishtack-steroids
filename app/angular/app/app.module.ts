@@ -7,8 +7,8 @@
 
 
 import * as angular from 'angular';
-import {AppComponent} from './app.component';
+import {userListModule} from './user-list/user-list.module';
 
-export const appModule = angular.module('app', []);
-
-appModule.component(AppComponent.name, AppComponent);
+export const appModule = angular.module('app', [
+    userListModule.name
+]);
