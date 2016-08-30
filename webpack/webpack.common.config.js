@@ -26,7 +26,7 @@ module.exports = {
         chunkFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[id].[chunkhash].chunk.js'),
         filename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].bundle.js'),
         path: webpackHelper.distPath,
-        publicPath: '/',
+        publicPath: webpackHelper.publicPath,
         sourceMapFilename: path.join(webpackHelper.assetsScriptsRelativePath, '[name].[chunkhash].map')
     },
 

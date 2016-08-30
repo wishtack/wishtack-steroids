@@ -42,17 +42,10 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             }
         ]),
         new webpack.optimize.OccurenceOrderPlugin(true),
-        /* Static assets. */
-        new CopyWebpackPlugin([
-            {
-                from: webpackHelper.appTemplatesPath,
-                to: webpackHelper.templatesDirectoryName
-            }
-        ]),
         /* Injecting tags in html. */
         new HtmlWebpackPlugin({
-            filename: path.join(webpackHelper.templatesDirectoryName, 'home.html'),
-            template: path.join(webpackHelper.appTemplatesPath, 'home.html')
+            filename: webpackHelper.distIndexHtmlRelativePath,
+            template: webpackHelper.appIndexHtmlPath
         })
     ]
 });
