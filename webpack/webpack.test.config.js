@@ -30,6 +30,12 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
                 test: /\.ts$/,
                 loader: 'awesome-typescript-loader',
                 exclude: [/\.e2e\.ts$/]
+            },
+            /* Override static file loader by removing hash. */
+            {
+                include: [webpackHelper.appAngularPath],
+                test: /\.(html|gif|ico|jpg|png)$/,
+                loader: 'file-loader?name=' + path.join(webpackHelper.assetsRelativePath, '[path][name].[ext]')
             }
         ],
         

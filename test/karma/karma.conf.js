@@ -16,6 +16,7 @@ module.exports = function (config) {
     var preprocessors = {};
 
     preprocessors[specBundlePath] = ['coverage', 'webpack', 'sourcemap'];
+    preprocessors['app/angular/**/*.html'] = ['ng-html2js'];
 
     config.set({
         basePath: '../..',
@@ -32,9 +33,17 @@ module.exports = function (config) {
             {
                 pattern: specBundlePath,
                 watched: false
+            },
+            {
+                pattern: 'app/**/*.html'
             }
         ],
         frameworks: ['jasmine'],
+        ngHtml2JsPreprocessor: {
+            stripPrefix: '',
+            prependPrefix: '/_karma_webpack_//assets/',
+            moduleName: 'wishtack.templates'
+        },
         preprocessors: preprocessors,
         reporters: ['progress', 'coverage'],
         webpack: webpackTestConfig
