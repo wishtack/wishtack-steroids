@@ -13,49 +13,36 @@ describe('UserStore', () => {
 
     beforeEach(angular.mock.module(appModule.name));
 
-    beforeEach(angular.mock.module((userStoreProvider) => {}));
-
-    beforeEach(inject(($httpBackend,
-                       $rootScope,
+    beforeEach(inject(($rootScope,
                        userStore) => {
-        this.$httpBackend = $httpBackend;
         this.$rootScope = $rootScope;
-        this.userStore= userStore;
+        this.userStore = userStore;
     }));
 
-    xit('should load user list', () => {
+    it('should add users', () => {
 
-        let userList;
-        let userStore = this.userStore;
+        let userList: User[];
+        let userStore: UserStore = this.userStore;
 
         let user1 = new User({firstName: 'Foo', lastName: 'BAR'});
         let user2 = new User({firstName: 'John', lastName: 'BAR'});
         let user3 = new User({firstName: 'Foo', lastName: 'BAR'});
 
-        this.$httpBackend.expectGET('/api/v1/users/').respond({
-            meta: {
-                count: 2
-            },
-            objects: [
-                {
-                    firstName: 'Foo'
-                },
-                {
-                    firstName: 'John',
-                    lastName: 'BAR',
-                }
-            ]
-        });
+        userStore.addUser(user1);
+        userStore.addUser(user2);
+        userStore.addUser(user3);
 
         userStore.userList().then(_userList_ => userList = _userList_);
 
-        this.$httpBackend.flush();
+        this.$rootScope.$apply();
 
-        expect(userList.length).toEqual(2);
+        expect(userList.length).toEqual(3);
         expect(userList[0].firstName).toEqual('Foo');
-        expect(userList[0].lastName).toEqual(undefined);
+        expect(userList[0].lastName).toEqual('BAR');
         expect(userList[1].firstName).toEqual('John');
         expect(userList[1].lastName).toEqual('BAR');
+        expect(userList[2].firstName).toEqual('Foo');
+        expect(userList[2].lastName).toEqual('BAR');
 
     });
 
