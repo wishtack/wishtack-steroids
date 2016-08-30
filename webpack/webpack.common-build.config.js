@@ -24,7 +24,7 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             /* Support for .ts files. */
             {
                 test: /\.ts$/,
-                loader: 'awesome-typescript-loader',
+                loaders: ['ng-annotate', 'awesome-typescript-loader'],
                 exclude: [/\.(spec|e2e|async)\.ts$/]
             }
         ]
@@ -42,11 +42,6 @@ module.exports = webpackMerge.smart(require('./webpack.common.config'), {
             }
         ]),
         new webpack.optimize.OccurenceOrderPlugin(true),
-        //new webpack.optimize.CommonsChunkPlugin({
-        //    name: 'polyfills',
-        //    filename: assetsScriptsPath + 'polyfills.bundle.js',
-        //    minChunks: Infinity
-        //}),
         /* Static assets. */
         new CopyWebpackPlugin([
             {

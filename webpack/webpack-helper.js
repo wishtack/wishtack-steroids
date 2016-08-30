@@ -6,7 +6,7 @@ class WebpackHelper {
     
     constructor() {
 
-        this.rootPath = __dirname;
+        this.rootPath = path.join(__dirname, '..');
         
         this.distDirectoryName = 'dist';
         this.templatesDirectoryName = 'templates';

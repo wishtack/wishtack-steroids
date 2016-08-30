@@ -61,12 +61,6 @@ module.exports = {
                 include: [webpackHelper.appAngularPath],
                 test: /\.(html|gif|ico|jpg|png)$/,
                 loader: 'file-loader?name=' + path.join(webpackHelper.assetsRelativePath, '[path][name].[hash].[ext]')
-            },
-
-            {
-                include: [webpackHelper.appTemplatesPath],
-                test: /\.html/,
-                loader: 'raw-loader'
             }
 
         ],

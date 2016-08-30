@@ -7,7 +7,7 @@
 
 module.exports = function (config) {
 
-    var webpackTestConfig = require('../../webpack.test.config');
+    var webpackTestConfig = require('../../webpack/webpack.test.config');
 
     var testPath = 'test/karma/';
     var specBundleFileName = 'spec-bundle.js';
