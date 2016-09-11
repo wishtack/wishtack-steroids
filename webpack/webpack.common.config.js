@@ -51,7 +51,13 @@ module.exports = {
             {test: /\.json$/, loader: 'json-loader'},
 
             /* Support for CSS as raw text. */
-            {test: /\.css$/, loader: 'raw-loader'},
+            {test: /\.css$/, loaders: ['css-loader', 'raw-loader']},
+
+            /* Support for LESS. */
+            {test: /\.less/, loaders: ['css-loader', 'less-loader']},
+
+            /* Support for SASS. */
+            {test: /\.scss/, loaders: ['css-loader', 'sass-loader']},
             
             /* Support for LESS. */
             {test: /\.less/, loader: 'less-loader'},
