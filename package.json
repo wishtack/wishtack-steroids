@@ -1,5 +1,5 @@
 {
-    "name": "wt-djangular2",
+    "name": "wt-angularjs-boilerplate",
     "version": "0.0.0",
     "dependencies": {
         "angular": "1.5.5",
