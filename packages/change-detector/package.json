@@ -4,8 +4,7 @@
     "author": "Wishtack",
     "license": "MIT",
     "main": "bundles/change-detector.umd.js",
-    "module": "index.js",
-    "typings": "index.d.ts",
+    "module": "change-detector.module.js",
     "scripts": {
         "build": "../../node_modules/.bin/webpack",
         "test": "../../node_modules/.bin/karma start test/karma.conf.js",
