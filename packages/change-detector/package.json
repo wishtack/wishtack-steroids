@@ -1,9 +1,9 @@
 {
-    "name": "@ng-steroids/on-push",
+    "name": "@ng-steroids/change-detector",
     "description": "",
     "author": "Wishtack",
     "license": "MIT",
-    "main": "bundles/on-push.umd.js",
+    "main": "bundles/change-detector.umd.js",
     "module": "index.js",
     "typings": "index.d.ts",
     "scripts": {

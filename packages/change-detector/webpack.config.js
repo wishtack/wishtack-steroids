@@ -11,7 +11,7 @@ const WebpackConfigFactory = require('../../config/webpack-config-factory').Webp
 
 module.exports = new WebpackConfigFactory().buildConfig({
     entry: path.join(__dirname, 'src/index.ts'),
-    libraryName: 'on-push',
+    libraryName: 'change-detector',
     outputPath: path.join(__dirname, 'dist'),
     srcRootPath: path.join(__dirname, 'src')
 });
