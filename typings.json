@@ -2,9 +2,9 @@
     "dependencies": {},
     "devDependencies": {},
     "globalDependencies": {
-        "angular": "registry:dt/angular#1.5.0+20160819155010",
+        "angular": "registry:dt/angular#1.5.0+20160909133806",
         "angular-mocks": "registry:dt/angular-mocks#1.5.0+20160608104721",
-        "core-js": "registry:dt/core-js#0.0.0+20160317120654",
+        "core-js": "registry:dt/core-js#0.0.0+20160914114559",
         "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#4b36b94d5910aa8a4d20bdcd5bd1f9ae6ad18d3c",
         "jquery": "registry:dt/jquery#1.10.0+20160908203239",
         "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#8cf8164641be73e8f1e652c2a5b967c7210b6729",
