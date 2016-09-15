@@ -11,6 +11,7 @@ const KarmaConfigFactory = require('../../../config/karma-config-factory').Karma
 
 module.exports = (config) => {
     config.set(new KarmaConfigFactory().config({
-        specBundleRelativeFilePath: path.join(__dirname, 'spec-bundle.js')
+        specBundleRelativeFilePath: path.join(__dirname, 'spec-bundle.js'),
+        srcRootPath: path.join(__dirname, '..', 'src')
     }));
 };

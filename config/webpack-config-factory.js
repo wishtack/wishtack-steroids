@@ -45,26 +45,26 @@ class WebpackConfigFactory {
         };
     }
 
-    testConfig({entry, libraryName, outputPath, rootPath}) {
+    testConfig({srcRootPath}) {
 
         return {
-            devtool: 'source-map',
+            devtool: 'inline-source-map',
             module: {
                 loaders: [
                     {
-                        test: /\.tsx?$/,
+                        test: /\.ts$/,
                         loader: 'babel!ts',
                         exclude: /node_modules/
                     },
                     {
-                        test: /\.jsx?$/,
+                        test: /\.js$/,
                         loader: 'babel',
                         exclude: /node_modules/
                     }
                 ]
             },
             resolve: {
-                root: rootPath,
+                root: srcRootPath,
                 extensions: ['', '.js', '.ts']
             }
         };

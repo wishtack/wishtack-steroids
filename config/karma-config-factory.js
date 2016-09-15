@@ -7,12 +7,12 @@
 
 const path = require('path');
 
-import {WebpackConfigFactory} from './webpack-config-factory';
+const WebpackConfigFactory = require('./webpack-config-factory').WebpackConfigFactory;
 
 
 class KarmaConfigFactory {
 
-    config({specBundleRelativeFilePath}) {
+    config({specBundleRelativeFilePath, srcRootPath}) {
 
         return {
 
@@ -21,46 +21,19 @@ class KarmaConfigFactory {
             reporters: ['progress'],
 
             files: [
-                'spec-bundle.js'
+                specBundleRelativeFilePath
             ],
 
             preprocessors: {
-                'spec-bundle.js': ['webpack', 'sourcemap']
+                [specBundleRelativeFilePath]: ['webpack', 'sourcemap']
             },
 
-            webpack: {
-                devtool: 'inline-source-map',
-                module: {
-                    loaders: [
-                        {test: /\.ts$/, loader: 'babel!ts'}
-                    ]
-                }
-            }
+            webpack: new WebpackConfigFactory().testConfig({
+                srcRootPath: srcRootPath
+            })
         };
 
     }
-
-}
-
-module.exports = function (config) {
-
-    config.set({
-
-        browsers: ['PhantomJS'],
-        frameworks: ['jasmine'],
-        reporters: ['progress'],
-
-        files: [
-            'spec-bundle.js'
-        ],
-
-        preprocessors: {
-            'spec-bundle.js': ['webpack', 'sourcemap']
-        },
-
-        webpack: new WebpackConfigFactory().testConfig()
-
-    });
 
 }
 
