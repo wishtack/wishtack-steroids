@@ -8,6 +8,8 @@
         "postinstall": "typings install"
     },
     "devDependencies": {
+        "angular": "1.5.8",
+        "angular-mocks": "1.5.8",
         "awesome-typescript-loader": "2.2.4",
         "babel": "6.5.2",
         "babel-core": "6.14.0",
