@@ -5,7 +5,10 @@
  * $Id: $
  */
 
-const path = require('path')
+const path = require('path');
+
+import {WebpackConfigFactory} from './webpack-config-factory';
+
 
 class KarmaConfigFactory {
 
@@ -55,14 +58,8 @@ module.exports = function (config) {
             'spec-bundle.js': ['webpack', 'sourcemap']
         },
 
-        webpack: {
-            devtool: 'inline-source-map',
-            module: {
-                loaders: [
-                    {test: /\.ts$/, loader: 'babel!ts-loader'}
-                ]
-            }
-        }
+        webpack: new WebpackConfigFactory().testConfig()
+
     });
 
 }

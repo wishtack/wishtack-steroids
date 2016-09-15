@@ -1,7 +1,11 @@
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      expect([1, 2, 3].indexOf(6)).toEqual(-1);
+import {index} from '../src/index';
+
+describe('index', function () {
+
+    it('should load', function () {
+
+        expect(index).toEqual(1);
+
     });
-  });
+
 });

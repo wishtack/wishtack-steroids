@@ -7,9 +7,9 @@
     "module": "index.js",
     "typings": "index.d.ts",
     "scripts": {
-        "build": "webpack",
-        "test": "karma start test/karma.conf.js",
-        "test-single-run": "karma start test/karma.conf.js --single-run"
+        "build": "../../node_modules/.bin/webpack",
+        "test": "../../node_modules/.bin/karma start test/karma.conf.js",
+        "test-single-run": "../../node_modules/.bin/karma start test/karma.conf.js --single-run"
     },
     "repository": {
         "type": "git",

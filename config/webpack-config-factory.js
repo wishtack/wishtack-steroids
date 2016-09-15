@@ -48,15 +48,7 @@ class WebpackConfigFactory {
     testConfig({entry, libraryName, outputPath, rootPath}) {
 
         return {
-            entry: entry,
             devtool: 'source-map',
-            output: {
-                path: outputPath,
-                filename: `${libraryName}.min.js`,
-                library: libraryName,
-                libraryTarget: 'umd',
-                umdNamedDefine: true
-            },
             module: {
                 loaders: [
                     {
@@ -73,11 +65,8 @@ class WebpackConfigFactory {
             },
             resolve: {
                 root: rootPath,
-                extensions: ['', '.js']
-            },
-            plugins: [
-                new webpack.optimize.UglifyJsPlugin({ minimize: true })
-            ]
+                extensions: ['', '.js', '.ts']
+            }
         };
 
     }
