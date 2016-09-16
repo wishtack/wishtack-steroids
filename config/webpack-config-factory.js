@@ -51,7 +51,7 @@ class WebpackConfigFactory {
                 loaders: [
                     {
                         test: /\.ts$/,
-                        loader: 'babel!ts',
+                        loader: 'babel!awesome-typescript',
                         exclude: /node_modules/
                     },
                     {
