@@ -1,6 +1,7 @@
 {
     "name": "@ng-steroids/change-detector",
     "description": "",
+    "version": "0.0.0",
     "author": "Wishtack",
     "license": "MIT",
     "main": "bundles/change-detector.umd.js",
