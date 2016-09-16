@@ -1,11 +1,10 @@
 {
-    "name": "@ng-steroids/change-detector",
+    "name": "ng-steroids-change-detector",
     "description": "",
     "version": "0.0.0",
     "author": "Wishtack",
     "license": "MIT",
-    "main": "bundles/change-detector.umd.js",
-    "module": "change-detector.module.js",
+    "main": "dist/change-detector.min.js",
     "scripts": {
         "build": "../../node_modules/.bin/webpack",
         "test": "../../node_modules/.bin/karma start test/karma.conf.js",
