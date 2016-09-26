@@ -7,6 +7,7 @@
 
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
+var webpackNodeExternals = require('webpack-node-externals');
 var path = require('path');
 
 class WebpackConfigFactory {
@@ -18,6 +19,7 @@ class WebpackConfigFactory {
             {
                 entry: entry,
                 devtool: 'source-map',
+                externals: [webpackNodeExternals()],
                 output: {
                     path: outputPath,
                     filename: `${libraryName}.min.js`,
