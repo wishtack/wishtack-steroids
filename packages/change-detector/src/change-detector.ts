@@ -5,8 +5,6 @@
  * $Id: $
  */
 
-import 'core-js';
-
 export class ChangeDetector {
 
     private _scope: angular.IScope;

@@ -1,7 +1,7 @@
 {
   "name": "ng-steroids-change-detector",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Wishtack",
   "license": "MIT",
   "main": "dist/change-detector.min.js",
@@ -15,6 +15,7 @@
     "url": "https://github.com/wishtack/ng-steroids.git"
   },
   "peerDependencies": {
-    "angular": "1.5.5"
+    "angular": "1.5.8",
+    "core-js": "2.4.1"
   }
 }
