@@ -61,7 +61,7 @@ angular.module('...', [
 
 3 - Inject the `ChangeDetector` in your component.
 
-```
+```TypeScript
 class UserPreviewComponent {
     
     config = {
