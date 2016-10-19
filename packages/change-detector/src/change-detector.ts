@@ -64,7 +64,10 @@ export class ChangeDetector {
         }
 
         ctrl = this._scope['$ctrl'];
-        onChanges = ctrl.$onChanges.bind(ctrl);
+
+        if (ctrl.$onChanges != null) {
+            onChanges = ctrl.$onChanges.bind(ctrl);
+        }
 
         ctrl.$onChanges = (...args) => {
 
