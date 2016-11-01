@@ -36,6 +36,16 @@ describe('ChangeDetector', function () {
             'wishtack.steroids.changeDetector'
         ]);
 
+        class InnerComponent {
+
+            static config = {
+                template: `
+<span>{{ 'TEXT' }}</span>
+`
+            }
+
+        }
+
         class UserComponent {
 
             private _changeDetector: ChangeDetector;
@@ -50,14 +60,18 @@ describe('ChangeDetector', function () {
                 },
                 controller: UserComponent,
                 template: `
-<span>{{ $ctrl.user.firstName }}</span>
-<span>{{ $ctrl.user.lastName }}</span>
+<div class="wt-user-name">
+    <span>{{ $ctrl.user.firstName }}</span>
+    <span>{{ $ctrl.user.lastName }}</span>
+</div>
+<wt-inner></wt-inner>
 `
             }
 
         }
 
         module.component('wtUser', UserComponent.config);
+        module.component('wtInner', InnerComponent.config);
 
     });
 
@@ -85,7 +99,7 @@ describe('ChangeDetector', function () {
         /* There's only one watcher for the wtUser input. */
         expect(_watchersCount({scope})).toEqual(1);
 
-        expect(element.innerText).toMatch(/Younes\s+JAAIDI/);
+        expect(element.querySelector('.wt-user-name').innerText).toMatch(/Younes\s+JAAIDI/);
 
         scope.user.firstName = 'Lionel';
 
@@ -95,7 +109,7 @@ describe('ChangeDetector', function () {
         expect(_watchersCount({scope})).toEqual(1);
 
         /* `scope.user` didn't change. Thus, the view should not be updated. */
-        expect(element.innerText).toMatch(/Younes\s+JAAIDI/);
+        expect(element.querySelector('.wt-user-name').innerText).toMatch(/Younes\s+JAAIDI/);
 
         scope.user = {
             firstName: 'Lionel',
@@ -108,7 +122,7 @@ describe('ChangeDetector', function () {
         expect(_watchersCount({scope})).toEqual(1);
 
         /* `scope.user` has changed. Thus, the view should be updated. */
-        expect(element.innerText).toMatch(/Lionel\s+LAFFARGUE/);
+        expect(element.querySelector('.wt-user-name').innerText).toMatch(/Lionel\s+LAFFARGUE/);
 
     });
 
@@ -136,7 +150,7 @@ describe('ChangeDetector', function () {
         expect(_watchersCount({scope})).toEqual(1);
 
         /* `scope.user` has changed. Thus, the view should be updated. */
-        expect(element.innerText).toMatch(/Lionel\s+JAAIDI/);
+        expect(element.querySelector('.wt-user-name').innerText).toMatch(/Lionel\s+JAAIDI/);
 
     });
 

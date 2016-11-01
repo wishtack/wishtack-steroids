@@ -64,7 +64,10 @@ export class ChangeDetector {
         }
 
         ctrl = this._scope['$ctrl'];
-        onChanges = ctrl.$onChanges;
+
+        if (ctrl.$onChanges != null) {
+            onChanges = ctrl.$onChanges.bind(ctrl);
+        }
 
         ctrl.$onChanges = (...args) => {
 
@@ -80,16 +83,21 @@ export class ChangeDetector {
 
     _restoreWatchers({scope}) {
 
-        let watchers = this._watchersMap[scope.$id] || [];
-        
-        /* Merge current scope watchers with the saved ones. */
-        scope['$$watchers'] = Array.from(new Set([...watchers, ...scope['$$watchers']]));
-        
-        /* Update watchers count. */
-        scope['$$watchersCount'] = scope['$$watchers'].length;
-        
-        /* Reser watchers backup. */
-        this._watchersMap[scope.$id] = [];
+        let watchers = this._watchersMap[scope.$id];
+
+        /* Nothing to restore. */
+        if (watchers != null) {
+
+            /* Merge current scope watchers with the saved ones. */
+            scope.$$watchers = Array.from(new Set([...scope.$$watchers, ...watchers]));
+
+            /* Update watchers count. */
+            scope.$$watchersCount = scope.$$watchers.length;
+
+            /* Reset watchers backup. */
+            this._watchersMap[scope.$id] = null;
+
+        }
 
         this._applyToChildren({
             action: (scope) => this._restoreWatchers({scope: scope}),
@@ -100,9 +108,16 @@ export class ChangeDetector {
 
     _saveWatchers({scope}) {
 
-        this._watchersMap[scope.$id] = scope.$$watchers;
-        scope.$$watchers = [];
-        scope.$$watchersCount = 0;
+        /* For some reason `scope.$$watchers` might be null. */
+        if (scope.$$watchers != null) {
+
+            this._watchersMap[scope.$id] = [...scope.$$watchers];
+
+            scope.$$watchers = [];
+
+            scope.$$watchersCount = scope.$$watchers.length;
+
+        }
 
         this._applyToChildren({
             action: (scope) => this._saveWatchers({scope: scope}),
