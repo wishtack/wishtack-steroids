@@ -8,7 +8,7 @@
 import * as angular from 'angular';
 import 'core-js';
 
-import {ChangeDetectorProvider} from './change-detector-provider';
+import { ChangeDetectorProvider } from './change-detector-provider';
 
 const module = angular.module('wishtack.steroids.changeDetector', []);
 
