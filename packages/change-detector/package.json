@@ -15,7 +15,7 @@
     "url": "https://github.com/wishtack/ng-steroids.git"
   },
   "peerDependencies": {
-    "angular": "1.5.8",
+    "angular": "1.6.1",
     "core-js": "2.4.1"
   }
 }
