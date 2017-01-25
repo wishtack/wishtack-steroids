@@ -1,0 +1,19 @@
+{
+  "name": "rest-cache",
+  "description": "",
+  "version": "0.0.0",
+  "author": "Wishtack",
+  "license": "MIT",
+  "main": "dist/rest-cache.min.js",
+  "scripts": {
+    "build": "../../node_modules/.bin/webpack",
+    "test": "../../node_modules/.bin/karma start test/karma.conf.js",
+    "test-single-run": "../../node_modules/.bin/karma start test/karma.conf.js --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wishtack/ng-steroids.git"
+  },
+  "peerDependencies": {
+  }
+}

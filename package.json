@@ -5,7 +5,9 @@
     "node": ">=6"
   },
   "scripts": {
-    "postinstall": "typings install"
+    "build": "lerna run build",
+    "postinstall": "typings install",
+    "test": "lerna run test-single-run"
   },
   "devDependencies": {
     "angular": "1.6.1",
@@ -25,7 +27,7 @@
     "karma-phantomjs-launcher": "1.0.2",
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.1",
-    "lerna": "2.0.0-beta.27",
+    "lerna": "2.0.0-beta.32",
     "phantomjs-prebuilt": "2.1.14",
     "ts-loader": "2.0.0",
     "tslint": "4.3.1",
