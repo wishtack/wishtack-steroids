@@ -50,22 +50,30 @@ class WebpackConfigFactory {
 
         return {
             module: {
-                loaders: [
+                rules: [
                     {
                         test: /\.ts$/,
-                        loader: 'babel!awesome-typescript',
+                        use: [
+                            'babel-loader',
+                            'awesome-typescript-loader'
+                        ],
                         exclude: /node_modules/
                     },
                     {
                         test: /\.js$/,
-                        loader: 'babel',
+                        use: [
+                            'babel-loader'
+                        ],
                         exclude: /node_modules/
                     }
                 ]
             },
             resolve: {
-                root: srcRootPath,
-                extensions: ['', '.js', '.ts']
+                modules: [
+                    srcRootPath,
+                    'node_modules'
+                ],
+                extensions: ['.js', '.ts']
             }
         }
 
