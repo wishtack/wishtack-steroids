@@ -1,38 +1,39 @@
 {
-    "name": "ng-steroids",
-    "version": "0.0.0",
-    "engines": {
-        "node": ">=6"
-    },
-    "scripts": {
-        "postinstall": "typings install"
-    },
-    "devDependencies": {
-        "angular": "1.6.1",
-        "angular-mocks": "1.6.1",
-        "awesome-typescript-loader": "3.0.0-beta.18",
-        "babel": "6.5.2",
-        "babel-core": "6.22.1",
-        "babel-loader": "6.2.10",
-        "babel-preset-es2015": "6.22.0",
-        "core-js": "2.4.1",
-        "jasmine": "2.5.3",
-        "karma": "1.4.0",
-        "karma-chrome-launcher": "2.0.0",
-        "karma-jasmine": "1.1.0",
-        "karma-mocha": "1.3.0",
-        "karma-mocha-reporter": "2.2.2",
-        "karma-phantomjs-launcher": "1.0.2",
-        "karma-sourcemap-loader": "0.3.7",
-        "karma-webpack": "2.0.1",
-        "phantomjs-prebuilt": "2.1.14",
-        "ts-loader": "2.0.0",
-        "tslint": "4.3.1",
-        "tslint-loader": "3.3.0",
-        "typescript": "2.1.5",
-        "typings": "2.1.0",
-        "webpack": "2.2.0",
-        "webpack-merge": "2.4.0",
-        "webpack-node-externals": "1.5.4"
-    }
+  "name": "ng-steroids",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "postinstall": "typings install"
+  },
+  "devDependencies": {
+    "angular": "1.6.1",
+    "angular-mocks": "1.6.1",
+    "awesome-typescript-loader": "3.0.0-beta.18",
+    "babel": "6.5.2",
+    "babel-core": "6.22.1",
+    "babel-loader": "6.2.10",
+    "babel-preset-es2015": "6.22.0",
+    "core-js": "2.4.1",
+    "jasmine": "2.5.3",
+    "karma": "1.4.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-jasmine": "1.1.0",
+    "karma-mocha": "1.3.0",
+    "karma-mocha-reporter": "2.2.2",
+    "karma-phantomjs-launcher": "1.0.2",
+    "karma-sourcemap-loader": "0.3.7",
+    "karma-webpack": "2.0.1",
+    "lerna": "2.0.0-beta.27",
+    "phantomjs-prebuilt": "2.1.14",
+    "ts-loader": "2.0.0",
+    "tslint": "4.3.1",
+    "tslint-loader": "3.3.0",
+    "typescript": "2.1.5",
+    "typings": "2.1.0",
+    "webpack": "2.2.0",
+    "webpack-merge": "2.4.0",
+    "webpack-node-externals": "1.5.4"
+  }
 }
