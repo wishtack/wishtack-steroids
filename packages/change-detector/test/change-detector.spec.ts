@@ -5,8 +5,10 @@
  * $Id: $
  */
 
+import * as angular from 'angular';
+
 import '../src/change-detector.module';
-import {ChangeDetector} from '../src/change-detector';
+import { ChangeDetector } from '../src/change-detector';
 
 describe('ChangeDetector', function () {
 

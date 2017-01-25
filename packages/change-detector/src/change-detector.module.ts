@@ -5,6 +5,7 @@
  * $Id: $
  */
 
+import * as angular from 'angular';
 import 'core-js';
 
 import {ChangeDetectorProvider} from './change-detector-provider';

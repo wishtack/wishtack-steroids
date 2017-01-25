@@ -5,12 +5,22 @@
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "angular",
+            "angular-mocks",
+            "core-js",
+            "jasmine",
+            "jquery",
+            "node",
+            "webpack"
+        ]
     },
     "exclude": [
-        "node_modules",
-        "typings/main",
-        "typings/main.d.ts"
+        "node_modules"
     ],
     "compileOnSave": false,
     "buildOnSave": false,

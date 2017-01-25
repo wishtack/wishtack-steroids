@@ -10,6 +10,13 @@
     "test": "lerna run test-single-run"
   },
   "devDependencies": {
+    "@types/angular": "1.6.2",
+    "@types/angular-mocks": "1.5.8",
+    "@types/core-js": "0.9.35",
+    "@types/jasmine": "2.5.41",
+    "@types/jquery": "2.0.39",
+    "@types/node": "7.0.4",
+    "@types/webpack": "2.2.4",
     "angular": "1.6.1",
     "angular-mocks": "1.6.1",
     "awesome-typescript-loader": "3.0.0-beta.18",
