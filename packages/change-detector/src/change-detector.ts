@@ -42,8 +42,8 @@ export class ChangeDetector {
 
         while (scope != null) {
 
-            /* Only save/restore scopes without controllers as they are not components but just some directive
-             * scopes like ngRepeats' scopes. */
+            /* Only save/restore scopes without controllers as they are not components
+             * but just some directive scopes like ngRepeats' scopes. */
             if (!scope.hasOwnProperty('$ctrl')) {
                 action(scope);
             }
@@ -81,7 +81,7 @@ export class ChangeDetector {
 
     }
 
-    _restoreWatchers({scope}) {
+    private _restoreWatchers({scope}) {
 
         let watchers = this._watchersMap[scope.$id];
 
@@ -100,13 +100,13 @@ export class ChangeDetector {
         }
 
         this._applyToChildren({
-            action: (scope) => this._restoreWatchers({scope: scope}),
+            action: (_scope) => this._restoreWatchers({scope: _scope}),
             scope: scope
         });
 
     }
 
-    _saveWatchers({scope}) {
+    private _saveWatchers({scope}) {
 
         /* For some reason `scope.$$watchers` might be null. */
         if (scope.$$watchers != null) {
@@ -120,7 +120,7 @@ export class ChangeDetector {
         }
 
         this._applyToChildren({
-            action: (scope) => this._saveWatchers({scope: scope}),
+            action: (_scope) => this._saveWatchers({scope: _scope}),
             scope: scope
         });
 

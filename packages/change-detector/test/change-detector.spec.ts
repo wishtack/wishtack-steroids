@@ -10,7 +10,7 @@ import * as angular from 'angular';
 import '../src/change-detector.module';
 import { ChangeDetector } from '../src/change-detector';
 
-describe('ChangeDetector', function () {
+describe('ChangeDetector', () => {
 
     let $compile;
     let scope;
@@ -44,20 +44,14 @@ describe('ChangeDetector', function () {
                 template: `
 <span>{{ 'TEXT' }}</span>
 `
-            }
+            };
 
         }
 
-        class UserComponent {
-
-            private _changeDetector: ChangeDetector;
-
-            constructor($scope, ChangeDetector) {
-                this._changeDetector = new ChangeDetector({scope: $scope});
-            }
+        class UserComponent { // tslint:disable-line
 
             static config = {
-                bindings: <any>{
+                bindings: <any> {
                     user: '<wtUser'
                 },
                 controller: UserComponent,
@@ -68,6 +62,12 @@ describe('ChangeDetector', function () {
 </div>
 <wt-inner></wt-inner>
 `
+            };
+
+            private _changeDetector: ChangeDetector;
+
+            constructor($scope, ChangeDetector) {
+                this._changeDetector = new ChangeDetector({scope: $scope});
             }
 
         }
@@ -79,7 +79,7 @@ describe('ChangeDetector', function () {
 
     beforeEach(angular.mock.module('wishtack.steroids.testing'));
 
-    beforeEach(angular.mock.inject((_$compile_,
+    beforeEach(angular.mock.inject((_$compile_, // tslint:disable-line
                                     $rootScope) => {
         $compile = _$compile_;
         scope = $rootScope.$new();

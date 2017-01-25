@@ -5,10 +5,10 @@
  * $Id: $
  */
 
-var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
-var webpackNodeExternals = require('webpack-node-externals');
-var path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const webpackNodeExternals = require('webpack-node-externals');
+const path = require('path');
 
 class WebpackConfigFactory {
 
@@ -52,6 +52,14 @@ class WebpackConfigFactory {
             module: {
                 rules: [
                     {
+                        enforce: 'pre',
+                        test: /\.ts$/,
+                        use: [
+                            'tslint-loader'
+                        ],
+                        exclude: /node_modules/
+                    },
+                    {
                         test: /\.ts$/,
                         use: [
                             'babel-loader',
@@ -68,6 +76,17 @@ class WebpackConfigFactory {
                     }
                 ]
             },
+            plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        tslint: {
+                            emitErrors: false,
+                            failOnHint: false,
+                            resourcePath: srcRootPath
+                        }
+                    }
+                })
+            ],
             resolve: {
                 modules: [
                     srcRootPath,
