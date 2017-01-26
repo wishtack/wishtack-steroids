@@ -1,17 +1,26 @@
 /**
  *
- * (c) 2013-2016 Wishtack
+ * (c) 2013-2017 Wishtack
  *
  * $Id: $
  */
 
+import { Client } from '../src/client/client';
 import { RestCache } from '../src/rest-cache';
 
-describe('RestCache', function () {
+describe('RestCache', () => {
 
-    it('should proxy client', () => {
+    let client: Client;
 
-        expect(new RestCache()).not.toBeUndefined();
+    beforeEach(() => {
+
+        client = jasmine.createSpyObj('client', [
+            'delete',
+            'get',
+            'getList',
+            'patch',
+            'post'
+        ]);
 
     });
 
