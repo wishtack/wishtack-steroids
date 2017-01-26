@@ -5,10 +5,11 @@
  * $Id: $
  */
 
+import { Observable } from 'rxjs';
+
 export interface Cache {
 
-    get(args: {key: string}): Promise<string>;
-    set(args: {key: string, value: string}): Promise<void>;
-
+    get(args: {key: string}): Observable<string>;
+    set(args: {key: string, value: string}): Observable<void>;
 
 }
