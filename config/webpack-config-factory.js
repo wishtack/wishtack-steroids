@@ -28,7 +28,10 @@ class WebpackConfigFactory {
                     umdNamedDefine: true
                 },
                 plugins: [
-                    new webpack.optimize.UglifyJsPlugin({minimize: true})
+                    new webpack.optimize.UglifyJsPlugin({
+                        minimize: true,
+                        sourceMap: true
+                    })
                 ]
             }
         );
@@ -40,7 +43,21 @@ class WebpackConfigFactory {
         return webpackMerge(
             this._commonConfig({srcRootPath}),
             {
-                devtool: 'inline-source-map'
+                devtool: 'inline-source-map',
+                module: {
+                    rules: [
+                        {
+                            enforce: 'post',
+                            test: /\.(js|ts)$/,
+                            loader: 'istanbul-instrumenter-loader',
+                            include: srcRootPath,
+                            exclude: [
+                                /\.(e2e|spec)\.ts$/,
+                                /node_modules/
+                            ]
+                        }
+                    ]
+                }
             }
         );
 
@@ -62,7 +79,6 @@ class WebpackConfigFactory {
                     {
                         test: /\.ts$/,
                         use: [
-                            'babel-loader',
                             'awesome-typescript-loader'
                         ],
                         exclude: /node_modules/

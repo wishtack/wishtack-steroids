@@ -18,14 +18,24 @@ class KarmaConfigFactory {
 
             browsers: ['PhantomJS'],
             frameworks: ['jasmine'],
-            reporters: ['progress'],
+            reporters: ['mocha', 'coverage', 'remap-coverage'],
 
             files: [
                 specBundleRelativeFilePath
             ],
 
             preprocessors: {
-                [specBundleRelativeFilePath]: ['webpack', 'sourcemap']
+                [specBundleRelativeFilePath]: ['coverage', 'webpack', 'sourcemap']
+            },
+
+            coverageReporter: {
+                type: 'in-memory'
+            },
+
+            remapCoverageReporter: {
+                'text-summary': null,
+                json: './coverage/coverage.json',
+                html: './coverage/html'
             },
 
             webpack: new WebpackConfigFactory().testConfig({

@@ -5,6 +5,7 @@
 .idea
 
 # Generated.
+coverage
 dist
 node_modules
 
