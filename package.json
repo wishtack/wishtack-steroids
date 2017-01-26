@@ -12,7 +12,7 @@
   "scripts": {
     "build": "lerna run build",
     "postinstall": "lerna bootstrap",
-    "test": "lerna run test-single-run"
+    "test": "lerna run test"
   },
   "devDependencies": {
     "@angular/compiler": "2.4.4",
