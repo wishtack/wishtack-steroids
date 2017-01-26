@@ -34,9 +34,10 @@
       "timeEnd",
       "trace"
     ],
+    "max-classes-per-file": false,
     "max-line-length": [
       true,
-      100
+      120
     ],
     "member-access": false,
     "no-trailing-whitespace": false,
