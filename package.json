@@ -15,8 +15,8 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "@angular/compiler": "2.4.4",
-    "@angular/core": "2.4.4",
+    "@angular/compiler": "2.4.5",
+    "@angular/core": "2.4.5",
     "@types/angular": "1.6.2",
     "@types/angular-mocks": "1.5.8",
     "@types/core-js": "0.9.35",
@@ -41,16 +41,16 @@
     "karma-phantomjs-launcher": "1.0.2",
     "karma-remap-coverage": "0.1.4",
     "karma-sourcemap-loader": "0.3.7",
-    "karma-webpack": "2.0.1",
-    "lerna": "2.0.0-beta.33",
+    "karma-webpack": "2.0.2",
+    "lerna": "2.0.0-beta.34",
     "phantomjs-prebuilt": "2.1.14",
     "rxjs": "5.0.3",
     "ts-loader": "2.0.0",
-    "tslint": "4.3.1",
+    "tslint": "4.4.2",
     "tslint-loader": "3.3.0",
     "typescript": "2.1.5",
     "webpack": "2.2.0",
-    "webpack-merge": "2.4.0",
+    "webpack-merge": "2.5.0",
     "webpack-node-externals": "1.5.4",
     "zone.js": "0.7.6"
   }
