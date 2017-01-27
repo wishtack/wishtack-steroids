@@ -1,5 +1,7 @@
 # Boost your AngularJS app with ngSteroids
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/ng-steroids.svg)](https://greenkeeper.io/)
+
 ## Angular 2 Change Detector for AngularJS 1.5.x
 
 The idea here is to benefit from the [Angular 2 `OnPush` mode](http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html) in AngularJS. 
