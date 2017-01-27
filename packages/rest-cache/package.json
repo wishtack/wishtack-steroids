@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/wishtack/ng-steroids.git"
   },
-  "dependencies": {
+  "peerDependencies": {
     "rxjs": "5.0.3"
   }
 }
