@@ -1,5 +1,7 @@
 # Boost your AngularJS app with ngSteroids
 
+[![Build Status](https://travis-ci.org/wishtack/ng-steroids.svg?branch=develop)](https://travis-ci.org/wishtack/ng-steroids)
+
 ## Angular 2 Change Detector for AngularJS 1.5.x
 
 The idea here is to benefit from the [Angular 2 `OnPush` mode](http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html) in AngularJS. 
