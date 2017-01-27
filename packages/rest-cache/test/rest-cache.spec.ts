@@ -212,6 +212,30 @@ describe('RestCache', () => {
 
     });
 
+    xit('should not get resource from client on cache hit if refresh is false', () => {
+
+    });
+
+    xit('should not get resource list from client on cache hit if refresh is false', () => {
+
+    });
+
+    xit('should get resource from client on cache hit if refresh is true', () => {
+
+    });
+
+    xit('should get resource list from client on cache hit if refresh is true', () => {
+
+    });
+
+    xit('should get resource from cached list', () => {
+
+    });
+
+    xit('should get resource from parent embedded list', () => {
+
+    });
+
     xit('should forbid missing params', () => {
 
     });
