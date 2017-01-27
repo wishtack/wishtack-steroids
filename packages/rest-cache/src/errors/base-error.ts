@@ -11,7 +11,7 @@ const FixErrorPrototype = () => {
     return (klass) => {
 
         /* Override constructor. */
-        const newKlass: any = function (...argList) {
+        const newKlass: any = function (...argList) { /* tslint:disable-line */
 
             /* Call original constructor. */
             klass.apply(this, argList);
@@ -32,7 +32,7 @@ const FixErrorPrototype = () => {
 @FixErrorPrototype()
 export class BaseError extends Error {
 
-    _nativeError: Error;
+    private _nativeError: Error;
 
     constructor(message: string) {
         /* Cf. https://github.com/angular/angular => angular/modules/@angular/facade/src/errors.ts
