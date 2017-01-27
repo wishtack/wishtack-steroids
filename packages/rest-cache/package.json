@@ -7,12 +7,15 @@
   "main": "dist/rest-cache.min.js",
   "scripts": {
     "build": "../../node_modules/.bin/webpack",
-    "test": "karma start test/karma.conf.js --single-run",
+    "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
     "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/wishtack/ng-steroids.git"
+  },
+  "devDependencies": {
+    "rxjs": "5.0.3"
   },
   "peerDependencies": {
     "rxjs": "5.0.3"
