@@ -7,18 +7,23 @@
 
 import { Observable } from 'rxjs';
 
+import { Cache } from './cache/cache';
 import { Client } from './client/client';
 import { Data } from './client/data';
 import { Params } from './client/params';
 import { Query } from './client/query';
 import { Resource } from './cache/resource';
 import { ResourceListContainer } from './cache/resource-list-container';
+import { CacheMissError } from './cache/cache-miss-error';
 
 export class RestCache {
 
+    private _cache: Cache;
     private _client: Client;
+    private _id: string = '';
 
-    constructor({client}: { client: Client }) {
+    constructor({client, cache}: { client: Client, cache?: Cache }) {
+        this._cache = cache;
         this._client = client;
     }
 
@@ -34,16 +39,59 @@ export class RestCache {
 
     get({path, params, query}: { path: string, params?: Params, query?: Query }): Observable<Resource> {
 
-        return this._client
-            .get({
-                path: path,
-                params: params,
-                query: query
+        let resourceKey = this._resourceKey({
+            path: path,
+            params: params,
+            query: query
+        });
+
+        return this._cache
+            .get({key: resourceKey})
+
+            /* Parse data from cache. */
+            .map((dataString) => {
+
+                let data = JSON.parse(dataString);
+
+                return new Resource({
+                    data: data,
+                    isFromCache: true
+                });
+
             })
-            .map((data) => new Resource({
-                data: data,
-                isFromCache: false
-            }));
+
+            /* Handle cache MISS. */
+            .catch((error) => {
+
+                /* Let other errors pass through. */
+                if (!(error instanceof CacheMissError)) {
+                    throw error;
+                }
+
+                /* Get data using client. */
+                return this._client
+                    .get({
+                        path: path,
+                        params: params,
+                        query: query
+                    })
+
+                    /* Store data in cache, wait for it's success and return data. */
+                    .flatMap((data) => this._cache
+                        .set({
+                            key: resourceKey,
+                            value: JSON.stringify(data)
+                        })
+                        .map(() => data)
+                    )
+
+                    /* Map data to `Resource`. */
+                    .map((data) => new Resource({
+                        data: data,
+                        isFromCache: false
+                    }));
+
+            });
 
     }
 
@@ -107,6 +155,10 @@ export class RestCache {
                 isFromCache: false
             }));
 
+    }
+
+    private _resourceKey(args: { path: string, params?: Params, query?: Query }) {
+        return JSON.stringify(args);
     }
 
 }
