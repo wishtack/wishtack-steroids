@@ -40,6 +40,7 @@
       120
     ],
     "member-access": false,
+    "no-consecutive-blank-lines": false,
     "no-trailing-whitespace": false,
     "no-shadowed-variable": false,
     "no-string-literal": false,

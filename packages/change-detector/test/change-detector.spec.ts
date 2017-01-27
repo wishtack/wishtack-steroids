@@ -48,7 +48,7 @@ describe('ChangeDetector', () => {
 
         }
 
-        class UserComponent { // tslint:disable-line
+        class UserComponent { /* tslint:disable-line */
 
             static config = {
                 bindings: <any> {
@@ -79,7 +79,7 @@ describe('ChangeDetector', () => {
 
     beforeEach(angular.mock.module('wishtack.steroids.testing'));
 
-    beforeEach(angular.mock.inject((_$compile_, // tslint:disable-line
+    beforeEach(angular.mock.inject((_$compile_, /* tslint:disable-line */
                                     $rootScope) => {
         $compile = _$compile_;
         scope = $rootScope.$new();

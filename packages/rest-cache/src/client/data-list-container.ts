@@ -6,7 +6,7 @@
  */
 
 export class Meta {
-    [key: string]: string;
+    [key: string]: any;
 }
 
 export class DataListContainer {

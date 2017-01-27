@@ -6,5 +6,5 @@
  */
 
 export interface Query {
-    [key: string]: string;
+    [key: string]: any;
 }
