@@ -45,20 +45,13 @@ export class RestCache {
             query: query
         });
 
-        return this._cache
-            .get({key: resourceKey})
+        return this._cacheGet({key: resourceKey})
 
             /* Parse data from cache. */
-            .map((dataString) => {
-
-                let data = JSON.parse(dataString);
-
-                return new Resource({
-                    data: data,
-                    isFromCache: true
-                });
-
-            })
+            .map((data) => new Resource({
+                data: data,
+                isFromCache: true
+            }))
 
             /* Handle cache MISS. */
             .catch((error) => {
@@ -76,14 +69,8 @@ export class RestCache {
                         query: query
                     })
 
-                    /* Store data in cache, wait for it's success and return data. */
-                    .flatMap((data) => this._cache
-                        .set({
-                            key: resourceKey,
-                            value: JSON.stringify(data)
-                        })
-                        .map(() => data)
-                    )
+                    /* Store data in cache. */
+                    .flatMap((data) => this._cacheSet({key: resourceKey, data: data}))
 
                     /* Map data to `Resource`. */
                     .map((data) => new Resource({
@@ -101,17 +88,48 @@ export class RestCache {
         query?: Query
     }): Observable<ResourceListContainer> {
 
-        return this._client
-            .getList({
-                path: path,
-                params: params,
-                query: query
-            })
+        let resourceKey = this._resourceKey({
+            path: path,
+            params: params,
+            query: query
+        });
+
+        return this._cacheGet({key: resourceKey})
+
+        /* Parse data from cache. */
             .map((dataListContainer) => new ResourceListContainer({
                 data: dataListContainer.data,
                 meta: dataListContainer.meta,
-                isFromCache: false
-            }));
+                isFromCache: true
+            }))
+
+            /* Handle cache MISS. */
+            .catch((error) => {
+
+                /* Let other errors pass through. */
+                if (!(error instanceof CacheMissError)) {
+                    throw error;
+                }
+
+                /* Get data using client. */
+                return this._client
+                    .getList({
+                        path: path,
+                        params: params,
+                        query: query
+                    })
+
+                    /* Store data in cache. */
+                    .flatMap((dataListContainer) => this._cacheSet({key: resourceKey, data: dataListContainer}))
+
+                    /* Map data to `Resource`. */
+                    .map((dataListContainer) => new ResourceListContainer({
+                        data: dataListContainer.data,
+                        meta: dataListContainer.meta,
+                        isFromCache: false
+                    }));
+
+            });
 
     }
 
@@ -155,6 +173,27 @@ export class RestCache {
                 isFromCache: false
             }));
 
+    }
+
+    private _cacheGet({key}: { key: string }): any {
+        return this._cache
+            .get({key: key})
+            .map((dataString) => this._deserialize({dataString: dataString}));
+    }
+
+    private _cacheSet({key, data}: { key: string, data: any }): Observable<any> {
+        return this._cache
+            .set({key: key, value: this._serialize({data: data})})
+            /* For practicality concerns, we return an observable that emits the stored data. */
+            .map(() => data);
+    }
+
+    private _deserialize({dataString}: { dataString: string }): any {
+        return JSON.parse(dataString);
+    }
+
+    private _serialize({data}: { data: any }): string {
+        return JSON.stringify(data);
     }
 
     private _resourceKey(args: { path: string, params?: Params, query?: Query }) {

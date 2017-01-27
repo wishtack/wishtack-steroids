@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { Cache } from '../src/cache/cache';
 import { CacheMissError } from '../src/cache/cache-miss-error';
 import { Resource } from '../src/cache/resource';
+import { ResourceListContainer } from '../src/cache/resource-list-container';
 import { Client } from '../src/client/client';
 import { DataListContainer } from '../src/client/data-list-container';
 import { RestCache } from '../src/rest-cache';
@@ -55,7 +56,7 @@ describe('RestCache', () => {
         let error;
         let isComplete;
         let resultList = [];
-        let restCache;
+        let restCache: RestCache;
 
         restCache = new RestCache({
             cache: cache,
@@ -80,10 +81,6 @@ describe('RestCache', () => {
             path: '/blogs/:blogId',
             params: {
                 blogId: 'BLOG_ID_1'
-            },
-            query: {
-                offset: 0,
-                limit: 10
             }
         })
             .subscribe(
@@ -108,10 +105,6 @@ describe('RestCache', () => {
                 path: '/blogs/:blogId',
                 params: {
                     blogId: 'BLOG_ID_1'
-                },
-                query: {
-                    offset: 0,
-                    limit: 10
                 }
             })
         });
@@ -123,10 +116,6 @@ describe('RestCache', () => {
                 path: '/blogs/:blogId',
                 params: {
                     blogId: 'BLOG_ID_1'
-                },
-                query: {
-                    offset: 0,
-                    limit: 10
                 }
             }),
             value: JSON.stringify(data)
@@ -134,9 +123,18 @@ describe('RestCache', () => {
 
     });
 
-    xit('should get resource list from client on cache miss', () => {
+    it('should get resource list from client on cache miss', () => {
 
         let dataListContainer;
+        let error;
+        let isComplete;
+        let resultList = [];
+        let restCache: RestCache;
+
+        restCache = new RestCache({
+            cache: cache,
+            client: client
+        });
 
         dataListContainer = new DataListContainer({
             data: [
@@ -153,6 +151,63 @@ describe('RestCache', () => {
                 offset: 0,
                 limit: 10
             }
+        });
+
+        /* Mocking `client.getList`. */
+        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainer]));
+
+        /* Mocking `cache.get` MISS. */
+        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.throw(new CacheMissError()));
+
+        /* Mocking `cache.set`. */
+        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+
+        restCache.getList({
+            path: '/blogs',
+            query: {
+                offset: 0,
+                limit: 10
+            }
+        })
+            .subscribe(
+                (resourceListContainer) => resultList.push(resourceListContainer),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new ResourceListContainer({
+                isFromCache: false,
+                data: dataListContainer.data,
+                meta: dataListContainer.meta
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cache.get).toHaveBeenCalledTimes(1);
+        expect(cache.get).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs',
+                query: {
+                    offset: 0,
+                    limit: 10
+                }
+            })
+        });
+
+        /* Check that data has been saved in cache. */
+        expect(cache.set).toHaveBeenCalledTimes(1);
+        expect(cache.set).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs',
+                query: {
+                    offset: 0,
+                    limit: 10
+                }
+            }),
+            value: JSON.stringify(dataListContainer)
         });
 
     });
