@@ -63,15 +63,24 @@ export class RestCache {
             }))
 
             /* Refresh data using client. */
-            .flatMap((data) => Observable.concat(
-                Observable.from([data]),
-                this._getFromClient({
-                    resourceDescription: resourceDescription,
-                    params: params,
-                    query: query
-                })
-            ))
+            .flatMap((resource) => {
 
+                let observableList = [
+                    Observable.from([resource])
+                ];
+
+                /* Refresh data using client if asked for. */
+                if (refresh === true) {
+                    observableList.push(this._getFromClient({
+                        resourceDescription: resourceDescription,
+                        params: params,
+                        query: query
+                    }));
+                }
+
+                return Observable.concat(...observableList);
+
+            })
             /* Handle cache MISS. */
             .catch((error) => {
 
@@ -91,15 +100,16 @@ export class RestCache {
 
     }
 
-    getList({resourceDescription, params, query}: {
+    getList({resourceDescription, params, query, refresh = true}: {
         resourceDescription: ResourceDescription,
         params?: Params,
-        query?: Query
+        query?: Query,
+        refresh?: boolean
     }): Observable<ResourceListContainer> {
 
 
-        return this
-            ._cache.getList({
+        return this._cache
+            .getList({
                 resourceDescription: resourceDescription,
                 params: params,
                 query: query
@@ -113,14 +123,24 @@ export class RestCache {
             }))
 
             /* Refresh data using client. */
-            .flatMap((dataListContainer) => Observable.concat(
-                Observable.from([dataListContainer]),
-                this._getListFromClient({
-                    resourceDescription: resourceDescription,
-                    params: params,
-                    query: query
-                })
-            ))
+            .flatMap((resourceListContainer) => {
+
+                let observableList = [
+                    Observable.from([resourceListContainer])
+                ];
+
+                /* Refresh data using client if asked for. */
+                if (refresh === true) {
+                    observableList.push(this._getListFromClient({
+                        resourceDescription: resourceDescription,
+                        params: params,
+                        query: query
+                    }));
+                }
+
+                return Observable.concat(...observableList);
+
+            })
 
             /* Handle cache MISS. */
             .catch((error) => {
