@@ -5,39 +5,42 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs';
 import { ResourceDescription } from '../resource/resource-description';
-import { DataListContainer } from '../client/data-list-container';
 import { Data } from '../client/data';
+import { DataListContainer } from '../client/data-list-container';
 import { Params } from '../client/params';
 import { Query } from '../client/query';
 
-export interface Cache {
+export interface CacheSerializer {
 
-    get(args: {
+    getResourceKey(args: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query
-    }): Observable<Data>;
+    }): string;
 
-    getList(args: {
+    getResourceListKey(args: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query
-    }): Observable<DataListContainer>;
+    }): string;
 
-    set(args: {
+    serializeData(args: {
         resourceDescription: ResourceDescription,
         data: Data,
         params?: Params,
         query?: Query
-    }): Observable<Data>;
+    }): string;
 
-    setList(args: {
+    serializeDataList(args: {
         resourceDescription: ResourceDescription,
         dataListContainer: DataListContainer,
         params?: Params,
         query?: Query
-    }): Observable<DataListContainer>;
+    }): string;
+
+    deserializeData(args: { value: string }): Data;
+
+    deserializeDataList(args: { value: string }): DataListContainer;
 
 }

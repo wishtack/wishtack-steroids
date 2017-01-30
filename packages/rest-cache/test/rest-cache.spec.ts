@@ -7,23 +7,24 @@
 
 import { Observable } from 'rxjs';
 
-import { Cache } from '../src/cache/cache';
-import { CacheMissError } from '../src/cache/cache-miss-error';
-import { Resource } from '../src/cache/resource';
-import { ResourceListContainer } from '../src/cache/resource-list-container';
+import { CacheBridge } from '../src/cache-bridge/cache-bridge';
+import { CacheDefault } from '../src/cache/cache-default';
+import { CacheMissError } from '../src/cache-bridge/cache-miss-error';
+import { Resource } from '../src/resource/resource';
+import { ResourceListContainer } from '../src/resource/resource-list-container';
 import { Client } from '../src/client/client';
 import { DataListContainer } from '../src/client/data-list-container';
-import { ResourceDescription } from '../src/resource-description';
+import { ResourceDescription } from '../src/resource/resource-description';
 import { RestCache } from '../src/rest-cache';
 
 describe('RestCache', () => {
 
-    let cache: Cache;
+    let cacheBridge: CacheBridge;
     let client: Client;
 
     beforeEach(() => {
 
-        cache = jasmine.createSpyObj('cache', [
+        cacheBridge = jasmine.createSpyObj('cache', [
             'get',
             'set'
         ]);
@@ -66,7 +67,9 @@ describe('RestCache', () => {
         resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
 
         restCache = new RestCache({
-            cache: cache,
+            cache: new CacheDefault({
+                cacheBridge: cacheBridge
+            }),
             client: client
         });
 
@@ -79,10 +82,10 @@ describe('RestCache', () => {
         ( <jasmine.Spy> client.get ).and.returnValue(Observable.from([data]));
 
         /* Mocking `cache.get` MISS. */
-        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.throw(new CacheMissError()));
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.throw(new CacheMissError()));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
 
         restCache.get({
             resourceDescription: resourceDescription,
@@ -106,8 +109,8 @@ describe('RestCache', () => {
         ]);
 
         /* Check that cache has been used. */
-        expect(cache.get).toHaveBeenCalledTimes(1);
-        expect(cache.get).toHaveBeenCalledWith({
+        expect(cacheBridge.get).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.get).toHaveBeenCalledWith({
             key: JSON.stringify({
                 path: '/blogs/:blogId',
                 params: {
@@ -117,8 +120,8 @@ describe('RestCache', () => {
         });
 
         /* Check that data has been saved in cache. */
-        expect(cache.set).toHaveBeenCalledTimes(1);
-        expect(cache.set).toHaveBeenCalledWith({
+        expect(cacheBridge.set).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.set).toHaveBeenCalledWith({
             key: JSON.stringify({
                 path: '/blogs/:blogId',
                 params: {
@@ -142,7 +145,9 @@ describe('RestCache', () => {
         resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
 
         restCache = new RestCache({
-            cache: cache,
+            cache: new CacheDefault({
+                cacheBridge: cacheBridge
+            }),
             client: client
         });
 
@@ -167,10 +172,10 @@ describe('RestCache', () => {
         ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainer]));
 
         /* Mocking `cache.get` MISS. */
-        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.throw(new CacheMissError()));
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.throw(new CacheMissError()));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
 
         restCache.getList({
             resourceDescription: resourceDescription,
@@ -196,8 +201,8 @@ describe('RestCache', () => {
         ]);
 
         /* Check that cache has been used. */
-        expect(cache.get).toHaveBeenCalledTimes(1);
-        expect(cache.get).toHaveBeenCalledWith({
+        expect(cacheBridge.get).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.get).toHaveBeenCalledWith({
             key: JSON.stringify({
                 path: '/blogs',
                 query: {
@@ -208,8 +213,8 @@ describe('RestCache', () => {
         });
 
         /* Check that data has been saved in cache. */
-        expect(cache.set).toHaveBeenCalledTimes(1);
-        expect(cache.set).toHaveBeenCalledWith({
+        expect(cacheBridge.set).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.set).toHaveBeenCalledWith({
             key: JSON.stringify({
                 path: '/blogs',
                 query: {

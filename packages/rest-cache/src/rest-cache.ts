@@ -7,15 +7,15 @@
 
 import { Observable } from 'rxjs';
 
+import { CacheMissError } from './cache-bridge/cache-miss-error';
 import { Cache } from './cache/cache';
 import { Client } from './client/client';
 import { Data } from './client/data';
 import { Params } from './client/params';
 import { Query } from './client/query';
-import { Resource } from './cache/resource';
-import { ResourceDescription } from './resource-description';
-import { ResourceListContainer } from './cache/resource-list-container';
-import { CacheMissError } from './cache/cache-miss-error';
+import { Resource } from './resource/resource';
+import { ResourceDescription } from './resource/resource-description';
+import { ResourceListContainer } from './resource/resource-list-container';
 
 export class RestCache {
 
@@ -48,13 +48,12 @@ export class RestCache {
         query?: Query
     }): Observable<Resource> {
 
-        let resourceKey = this._resourceKey({
-            path: resourceDescription.getDetailPath(),
-            params: params,
-            query: query
-        });
-
-        return this._cacheGet({key: resourceKey})
+        return this._cache
+            .get({
+                resourceDescription: resourceDescription,
+                params: params,
+                query: query
+            })
 
             /* Parse data from cache. */
             .map((data) => new Resource({
@@ -79,7 +78,12 @@ export class RestCache {
                     })
 
                     /* Store data in cache. */
-                    .flatMap((data) => this._cacheSet({key: resourceKey, data: data}))
+                    .flatMap((data) => this._cache.set({
+                        resourceDescription: resourceDescription,
+                        data: data,
+                        params: params,
+                        query: query
+                    }))
 
                     /* Map data to `Resource`. */
                     .map((data) => new Resource({
@@ -97,15 +101,15 @@ export class RestCache {
         query?: Query
     }): Observable<ResourceListContainer> {
 
-        let resourceKey = this._resourceKey({
-            path: resourceDescription.getListPath(),
-            params: params,
-            query: query
-        });
 
-        return this._cacheGet({key: resourceKey})
+        return this
+            ._cache.getList({
+                resourceDescription: resourceDescription,
+                params: params,
+                query: query
+            })
 
-        /* Parse data from cache. */
+            /* Parse data from cache. */
             .map((dataListContainer) => new ResourceListContainer({
                 data: dataListContainer.data,
                 meta: dataListContainer.meta,
@@ -129,7 +133,12 @@ export class RestCache {
                     })
 
                     /* Store data in cache. */
-                    .flatMap((dataListContainer) => this._cacheSet({key: resourceKey, data: dataListContainer}))
+                    .flatMap((dataListContainer) => this._cache.setList({
+                        resourceDescription: resourceDescription,
+                        dataListContainer: dataListContainer,
+                        params: params,
+                        query: query
+                    }))
 
                     /* Map data to `Resource`. */
                     .map((dataListContainer) => new ResourceListContainer({
@@ -182,31 +191,6 @@ export class RestCache {
                 isFromCache: false
             }));
 
-    }
-
-    private _cacheGet({key}: { key: string }): any {
-        return this._cache
-            .get({key: key})
-            .map((dataString) => this._deserialize({dataString: dataString}));
-    }
-
-    private _cacheSet({key, data}: { key: string, data: any }): Observable<any> {
-        return this._cache
-            .set({key: key, value: this._serialize({data: data})})
-            /* For practicality concerns, we return an observable that emits the stored data. */
-            .map(() => data);
-    }
-
-    private _deserialize({dataString}: { dataString: string }): any {
-        return JSON.parse(dataString);
-    }
-
-    private _serialize({data}: { data: any }): string {
-        return JSON.stringify(data);
-    }
-
-    private _resourceKey(args: { path: string, params?: Params, query?: Query }) {
-        return JSON.stringify(args);
     }
 
 }
