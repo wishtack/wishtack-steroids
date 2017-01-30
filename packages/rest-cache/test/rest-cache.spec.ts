@@ -580,20 +580,4 @@ describe('RestCache', () => {
 
     });
 
-    xit('should get resource from cached list', () => {
-        throw new Error('Not implemented error!');
-    });
-
-    xit('should get resource from parent embedded list', () => {
-        throw new Error('Not implemented error!');
-    });
-
-    xit('should forbid missing params', () => {
-        throw new Error('Not implemented error!');
-    });
-
-    xit('should forbid superfluous params', () => {
-        throw new Error('Not implemented error!');
-    });
-
 });

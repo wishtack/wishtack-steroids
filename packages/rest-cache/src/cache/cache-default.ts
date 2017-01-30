@@ -79,7 +79,7 @@ export class CacheDefault implements Cache {
         query?: Query
     }): Observable<void> {
 
-        let {resourceDescription, dataListContainer} = args;
+        let {resourceDescription, dataListContainer, params} = args;
 
         /* Set all the resources "simultaneously" in the cache... */
         return Observable
@@ -87,6 +87,7 @@ export class CacheDefault implements Cache {
                 resourceDescription,
                 data: data,
                 params: {
+                    ...params,
                     [resourceDescription.getParamKey()]: data.id
                 }
                 /* @todo: Put some "partial" indicator in the `query` here.

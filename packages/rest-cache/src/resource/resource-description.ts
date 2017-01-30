@@ -26,10 +26,12 @@ export class ResourceDescription {
 
     private static _PATH_PARAM_REGEX = /\/:([^/]+)$/;
 
+    private _parent: ResourceDescription;
     private _path: string;
     private _resourcePath: ResourcePath;
 
-    constructor({path}: { path: string }) {
+    constructor({path, parent = null}: { path: string, parent?: ResourceDescription }) {
+        this._parent = parent;
         this._path = path;
     }
 
@@ -49,12 +51,14 @@ export class ResourceDescription {
 
         let paramKey = this.getParamKey();
 
-        return this.getDetailPath().replace(`:${paramKey}`, params[paramKey]);
+        let interpolatedRelativeDetailPath = this.getDetailPath().replace(`:${paramKey}`, params[paramKey]);
+
+        return `${this._pathPrefix({params: params})}${interpolatedRelativeDetailPath}`;
 
     }
 
     interpolateListPath({params}: { params: Params }) {
-        return this.getListPath();
+        return `${this._pathPrefix({params: params})}${this.getListPath()}`;
     }
 
     private _getResourcePath(): ResourcePath {
@@ -80,4 +84,14 @@ export class ResourceDescription {
         return this._resourcePath = resourcePath;
 
     }
+
+    private _pathPrefix({params}: { params: Params }) {
+        let pathPrefix = '';
+
+        if (this._parent != null) {
+            pathPrefix = this._parent.interpolateDetailPath({params: params});
+        }
+        return pathPrefix;
+    }
+
 }
