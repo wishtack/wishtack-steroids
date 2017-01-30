@@ -13,6 +13,7 @@ import { Data } from './client/data';
 import { Params } from './client/params';
 import { Query } from './client/query';
 import { Resource } from './cache/resource';
+import { ResourceDescription } from './resource-description';
 import { ResourceListContainer } from './cache/resource-list-container';
 import { CacheMissError } from './cache/cache-miss-error';
 
@@ -27,20 +28,28 @@ export class RestCache {
         this._client = client;
     }
 
-    delete({path, params, query}: { path: string, params?: Params, query?: Query }): Observable<void> {
+    delete({resourceDescription, params, query}: {
+        resourceDescription: ResourceDescription,
+        params?: Params,
+        query?: Query
+    }): Observable<void> {
 
         return this._client.delete({
-            path: path,
+            path: resourceDescription.getDetailPath(),
             params: params,
             query: query
         });
 
     }
 
-    get({path, params, query}: { path: string, params?: Params, query?: Query }): Observable<Resource> {
+    get({resourceDescription, params, query}: {
+        resourceDescription: ResourceDescription,
+        params?: Params,
+        query?: Query
+    }): Observable<Resource> {
 
         let resourceKey = this._resourceKey({
-            path: path,
+            path: resourceDescription.getDetailPath(),
             params: params,
             query: query
         });
@@ -64,7 +73,7 @@ export class RestCache {
                 /* Get data using client. */
                 return this._client
                     .get({
-                        path: path,
+                        path: resourceDescription.getDetailPath(),
                         params: params,
                         query: query
                     })
@@ -82,14 +91,14 @@ export class RestCache {
 
     }
 
-    getList({path, params, query}: {
-        path: string,
+    getList({resourceDescription, params, query}: {
+        resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query
     }): Observable<ResourceListContainer> {
 
         let resourceKey = this._resourceKey({
-            path: path,
+            path: resourceDescription.getListPath(),
             params: params,
             query: query
         });
@@ -114,7 +123,7 @@ export class RestCache {
                 /* Get data using client. */
                 return this._client
                     .getList({
-                        path: path,
+                        path: resourceDescription.getListPath(),
                         params: params,
                         query: query
                     })
@@ -133,8 +142,8 @@ export class RestCache {
 
     }
 
-    patch({path, data, params, query}: {
-        path: string,
+    patch({resourceDescription, data, params, query}: {
+        resourceDescription: ResourceDescription,
         data: Data,
         params?: Params,
         query?: Query
@@ -142,7 +151,7 @@ export class RestCache {
 
         return this._client
             .patch({
-                path: path,
+                path: resourceDescription.getDetailPath(),
                 data: data,
                 params: params,
                 query: query
@@ -154,8 +163,8 @@ export class RestCache {
 
     }
 
-    post({path, data, params, query}: {
-        path: string,
+    post({resourceDescription, data, params, query}: {
+        resourceDescription: ResourceDescription,
         data: Data,
         params?: Params,
         query?: Query
@@ -163,7 +172,7 @@ export class RestCache {
 
         return this._client
             .post({
-                path: path,
+                path: resourceDescription.getDetailPath(),
                 data: data,
                 params: params,
                 query: query

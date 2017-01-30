@@ -13,6 +13,7 @@ import { Resource } from '../src/cache/resource';
 import { ResourceListContainer } from '../src/cache/resource-list-container';
 import { Client } from '../src/client/client';
 import { DataListContainer } from '../src/client/data-list-container';
+import { ResourceDescription } from '../src/resource-description';
 import { RestCache } from '../src/rest-cache';
 
 describe('RestCache', () => {
@@ -40,13 +41,16 @@ describe('RestCache', () => {
     it('should proxy call to client', () => {
 
         let observable = Observable.from([]);
+        let resourceDescription: ResourceDescription;
         let restCache = new RestCache({
             client: client
         });
 
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
         ( <jasmine.Spy> client.delete ).and.returnValue(observable);
 
-        expect(restCache.delete({path: '/'})).toBe(observable);
+        expect(restCache.delete({resourceDescription: resourceDescription})).toBe(observable);
 
     });
 
@@ -55,8 +59,11 @@ describe('RestCache', () => {
         let data;
         let error;
         let isComplete;
+        let resourceDescription: ResourceDescription;
         let resultList = [];
         let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
 
         restCache = new RestCache({
             cache: cache,
@@ -78,7 +85,7 @@ describe('RestCache', () => {
         ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
 
         restCache.get({
-            path: '/blogs/:blogId',
+            resourceDescription: resourceDescription,
             params: {
                 blogId: 'BLOG_ID_1'
             }
@@ -128,8 +135,11 @@ describe('RestCache', () => {
         let dataListContainer;
         let error;
         let isComplete;
+        let resourceDescription: ResourceDescription;
         let resultList = [];
         let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
 
         restCache = new RestCache({
             cache: cache,
@@ -163,7 +173,7 @@ describe('RestCache', () => {
         ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
 
         restCache.getList({
-            path: '/blogs',
+            resourceDescription: resourceDescription,
             query: {
                 offset: 0,
                 limit: 10
