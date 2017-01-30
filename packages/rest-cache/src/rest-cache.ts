@@ -217,17 +217,23 @@ export class RestCache {
             })
 
             /* Store data in cache. */
-            .flatMap((data) => this._cache.set({
-                resourceDescription: resourceDescription,
-                data: data,
-                params: params,
-                query: query
-            }))
+            .flatMap((data) => {
 
-            .map((data) => new Resource({
-                data: data,
-                isFromCache: false
-            }));
+                return this._cache
+                    .set({
+                        resourceDescription: resourceDescription,
+                        data: data,
+                        params: params,
+                        query: query
+                    })
+
+                    /* Map `Data` to `Resource`. */
+                    .map(() => new Resource({
+                        data: data,
+                        isFromCache: false
+                    }));
+
+            });
 
     }
 
@@ -245,19 +251,24 @@ export class RestCache {
             })
 
             /* Store data in cache. */
-            .flatMap((dataListContainer) => this._cache.setList({
-                resourceDescription: resourceDescription,
-                dataListContainer: dataListContainer,
-                params: params,
-                query: query
-            }))
+            .flatMap((dataListContainer) => {
 
-            /* Map data to `Resource`. */
-            .map((dataListContainer) => new ResourceListContainer({
-                data: dataListContainer.data,
-                meta: dataListContainer.meta,
-                isFromCache: false
-            }));
+                return this._cache
+                    .setList({
+                        resourceDescription: resourceDescription,
+                        dataListContainer: dataListContainer,
+                        params: params,
+                        query: query
+                    })
+
+                    /* Map `DataListContainer` to `ResourceListContainer`. */
+                    .map(() => new ResourceListContainer({
+                        data: dataListContainer.data,
+                        meta: dataListContainer.meta,
+                        isFromCache: false
+                    }));
+
+            });
 
     }
 

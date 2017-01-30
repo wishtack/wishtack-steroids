@@ -62,14 +62,13 @@ export class CacheDefault implements Cache {
         data: Data,
         params?: Params,
         query?: Query
-    }): Observable<Data> {
+    }): Observable<void> {
 
         return this._cacheBridge
             .set({
                 key: this._cacheSerializer.getResourceKey(args),
                 value: this._cacheSerializer.serializeData(args)
-            })
-            .map(() => args.data);
+            });
 
     }
 
@@ -78,14 +77,13 @@ export class CacheDefault implements Cache {
         dataListContainer: DataListContainer,
         params?: Params,
         query?: Query
-    }): Observable<DataListContainer> {
+    }): Observable<void> {
 
         return this._cacheBridge
             .set({
                 key: this._cacheSerializer.getResourceListKey(args),
                 value: this._cacheSerializer.serializeDataList(args)
-            })
-            .map(() => args.dataListContainer);
+            });
 
     }
 

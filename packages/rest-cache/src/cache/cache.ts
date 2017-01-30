@@ -31,13 +31,13 @@ export interface Cache {
         data: Data,
         params?: Params,
         query?: Query
-    }): Observable<Data>;
+    }): Observable<void>;
 
     setList(args: {
         resourceDescription: ResourceDescription,
         dataListContainer: DataListContainer,
         params?: Params,
         query?: Query
-    }): Observable<DataListContainer>;
+    }): Observable<void>;
 
 }
