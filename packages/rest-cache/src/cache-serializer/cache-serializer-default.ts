@@ -21,8 +21,7 @@ export class CacheSerializerDefault implements CacheSerializer {
     }): string {
         return this._serialize({
             data: {
-                path: resourceDescription.getDetailPath(),
-                params: params,
+                path: resourceDescription.interpolateDetailPath({params: params}),
                 query: query
             }
         });
@@ -36,8 +35,7 @@ export class CacheSerializerDefault implements CacheSerializer {
 
         return this._serialize({
             data: {
-                path: resourceDescription.getListPath(),
-                params: params,
+                path: resourceDescription.interpolateListPath({params: params}),
                 query: query
             }
         });

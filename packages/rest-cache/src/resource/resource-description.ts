@@ -5,6 +5,7 @@
  * $Id: $
  */
 
+import { Params } from '../client/params';
 import { BaseError } from '../errors/base-error';
 
 export class InvalidResourcePathError extends BaseError {
@@ -44,6 +45,18 @@ export class ResourceDescription {
         return this._getResourcePath().paramKey;
     }
 
+    interpolateDetailPath({params}: { params: Params }) {
+
+        let paramKey = this.getParamKey();
+
+        return this.getDetailPath().replace(`:${paramKey}`, params[paramKey]);
+
+    }
+
+    interpolateListPath({params}: { params: Params }) {
+        return this.getListPath();
+    }
+
     private _getResourcePath(): ResourcePath {
 
         let resourcePath;
@@ -67,5 +80,4 @@ export class ResourceDescription {
         return this._resourcePath = resourcePath;
 
     }
-
 }

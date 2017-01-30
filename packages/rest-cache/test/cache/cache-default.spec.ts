@@ -80,20 +80,14 @@ describe('CacheDefault', () => {
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(0)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/:blogId',
-                params: {
-                    blogId: 'BLOG_ID_1'
-                }
+                path: '/blogs/BLOG_ID_1'
             }),
             value: JSON.stringify(dataListContainer.data[0])
         });
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(1)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/:blogId',
-                params: {
-                    blogId: 'BLOG_ID_2'
-                }
+                path: '/blogs/BLOG_ID_2'
             }),
             value: JSON.stringify(dataListContainer.data[1])
         });
