@@ -33,6 +33,92 @@ describe('CacheDefault', () => {
 
     });
 
+    it('should set resource in cache using interpolated path as key', () => {
+
+        let isComplete;
+        let error;
+        let resultList = [];
+
+        let data = {
+            id: 'BLOG_ID_1',
+            title: 'BLOG_TITLE_1'
+        };
+
+        /* Mock `cacheBridge.set`. */
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+
+        /* Set data in cache. */
+        cache
+            .set({
+                resourceDescription: blogDescription,
+                data: data,
+                params: {
+                    blogId: 'BLOG_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        /* No data expected and observable should emit only one value. */
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([undefined]);
+
+        expect(cacheBridge.set).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.set).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1'
+            }),
+            value: JSON.stringify(data)
+        });
+
+    });
+
+    it('should get resource from cache using interpolated path as key', () => {
+
+        let isComplete;
+        let error;
+        let resultList = [];
+
+        let data = {
+            id: 'BLOG_ID_1',
+            title: 'BLOG_TITLE_1'
+        };
+
+        /* Mock `cacheBridge.get`. */
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.from([JSON.stringify(data)]));
+
+        /* Get data from cache. */
+        cache
+            .get({
+                resourceDescription: blogDescription,
+                params: {
+                    blogId: 'BLOG_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        /* No data expected and observable should emit only one value. */
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([data]);
+
+        expect(cacheBridge.get).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.get).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1'
+            })
+        });
+
+    });
+
     it('should split resource list in cache', () => {
 
         let isComplete;
