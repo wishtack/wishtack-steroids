@@ -79,11 +79,36 @@ export class CacheDefault implements Cache {
         query?: Query
     }): Observable<void> {
 
-        return this._cacheBridge
-            .set({
-                key: this._cacheSerializer.getResourceListKey(args),
-                value: this._cacheSerializer.serializeDataList(args)
-            });
+        let {resourceDescription, dataListContainer} = args;
+
+        /* Set all the resources "simultaneously" in the cache... */
+        return Observable
+            .merge(...dataListContainer.data.map((data) => this.set({
+                resourceDescription,
+                data: data,
+                params: {
+                    [resourceDescription.getParamKey()]: data.id
+                }
+                /* @todo: Put some "partial" indicator in the `query` here.
+                 * It will be used to know if the resource is complete or partial because it came from a list. */
+            })))
+            /* ...and wait for last observable to be complete... */
+            .last()
+            /* ...before setting the data id list in the cache... */
+            .flatMap(() => this._cacheBridge
+                .set({
+                    key: this._cacheSerializer.getResourceListKey(args),
+                    value: this._cacheSerializer.serializeDataList({
+                        resourceDescription: resourceDescription,
+                        dataListContainer: new DataListContainer({
+                            data: dataListContainer.data.map((data) => data.id),
+                            meta: dataListContainer.meta
+                        }),
+                        params: args.params,
+                        query: args.query
+                    })
+                })
+            );
 
     }
 
