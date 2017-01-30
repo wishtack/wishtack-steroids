@@ -42,10 +42,11 @@ export class RestCache {
 
     }
 
-    get({resourceDescription, params, query}: {
+    get({resourceDescription, params, query, refresh = true}: {
         resourceDescription: ResourceDescription,
         params?: Params,
-        query?: Query
+        query?: Query,
+        refresh?: boolean
     }): Observable<Resource> {
 
         return this._cache
@@ -61,6 +62,15 @@ export class RestCache {
                 isFromCache: true
             }))
 
+            .flatMap((data) => Observable.concat(
+                Observable.from([data]),
+                this._getFromClient({
+                    resourceDescription: resourceDescription,
+                    params: params,
+                    query: query
+                })
+            ))
+
             /* Handle cache MISS. */
             .catch((error) => {
 
@@ -70,26 +80,11 @@ export class RestCache {
                 }
 
                 /* Get data using client. */
-                return this._client
-                    .get({
-                        path: resourceDescription.getDetailPath(),
-                        params: params,
-                        query: query
-                    })
-
-                    /* Store data in cache. */
-                    .flatMap((data) => this._cache.set({
-                        resourceDescription: resourceDescription,
-                        data: data,
-                        params: params,
-                        query: query
-                    }))
-
-                    /* Map data to `Resource`. */
-                    .map((data) => new Resource({
-                        data: data,
-                        isFromCache: false
-                    }));
+                return this._getFromClient({
+                    resourceDescription: resourceDescription,
+                    params: params,
+                    query: query
+                });
 
             });
 
@@ -186,6 +181,34 @@ export class RestCache {
                 params: params,
                 query: query
             })
+            .map((data) => new Resource({
+                data: data,
+                isFromCache: false
+            }));
+
+    }
+
+    private _getFromClient({resourceDescription, params, query}: {
+        resourceDescription: ResourceDescription,
+        params: Params,
+        query: Query
+    }) {
+
+        return this._client
+            .get({
+                path: resourceDescription.getDetailPath(),
+                params: params,
+                query: query
+            })
+
+            /* Store data in cache. */
+            .flatMap((data) => this._cache.set({
+                resourceDescription: resourceDescription,
+                data: data,
+                params: params,
+                query: query
+            }))
+
             .map((data) => new Resource({
                 data: data,
                 isFromCache: false
