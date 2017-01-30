@@ -62,6 +62,7 @@ export class RestCache {
                 isFromCache: true
             }))
 
+            /* Refresh data using client. */
             .flatMap((data) => Observable.concat(
                 Observable.from([data]),
                 this._getFromClient({
@@ -111,6 +112,16 @@ export class RestCache {
                 isFromCache: true
             }))
 
+            /* Refresh data using client. */
+            .flatMap((dataListContainer) => Observable.concat(
+                Observable.from([dataListContainer]),
+                this._getListFromClient({
+                    resourceDescription: resourceDescription,
+                    params: params,
+                    query: query
+                })
+            ))
+
             /* Handle cache MISS. */
             .catch((error) => {
 
@@ -120,27 +131,11 @@ export class RestCache {
                 }
 
                 /* Get data using client. */
-                return this._client
-                    .getList({
-                        path: resourceDescription.getListPath(),
-                        params: params,
-                        query: query
-                    })
-
-                    /* Store data in cache. */
-                    .flatMap((dataListContainer) => this._cache.setList({
-                        resourceDescription: resourceDescription,
-                        dataListContainer: dataListContainer,
-                        params: params,
-                        query: query
-                    }))
-
-                    /* Map data to `Resource`. */
-                    .map((dataListContainer) => new ResourceListContainer({
-                        data: dataListContainer.data,
-                        meta: dataListContainer.meta,
-                        isFromCache: false
-                    }));
+                return this._getListFromClient({
+                    resourceDescription: resourceDescription,
+                    params: params,
+                    query: query
+                });
 
             });
 
@@ -192,7 +187,7 @@ export class RestCache {
         resourceDescription: ResourceDescription,
         params: Params,
         query: Query
-    }) {
+    }): Observable<Resource> {
 
         return this._client
             .get({
@@ -211,6 +206,36 @@ export class RestCache {
 
             .map((data) => new Resource({
                 data: data,
+                isFromCache: false
+            }));
+
+    }
+
+    private _getListFromClient({resourceDescription, params, query}: {
+        resourceDescription: ResourceDescription,
+        params: Params,
+        query: Query
+    }): Observable<ResourceListContainer> {
+
+        return this._client
+            .getList({
+                path: resourceDescription.getListPath(),
+                params: params,
+                query: query
+            })
+
+            /* Store data in cache. */
+            .flatMap((dataListContainer) => this._cache.setList({
+                resourceDescription: resourceDescription,
+                dataListContainer: dataListContainer,
+                params: params,
+                query: query
+            }))
+
+            /* Map data to `Resource`. */
+            .map((dataListContainer) => new ResourceListContainer({
+                data: dataListContainer.data,
+                meta: dataListContainer.meta,
                 isFromCache: false
             }));
 

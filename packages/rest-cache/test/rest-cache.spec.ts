@@ -331,8 +331,127 @@ describe('RestCache', () => {
 
     });
 
-    xit('should get resource list from client on cache hit if refresh is true', () => {
-        throw new Error('Not implemented error!');
+    it('should get resource list from client on cache hit if refresh is true', () => {
+
+        let dataListContainer;
+        let dataListContainerUpdated;
+        let error;
+        let isComplete;
+        let resourceDescription: ResourceDescription;
+        let resultList = [];
+        let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
+        restCache = new RestCache({
+            cache: new CacheDefault({
+                cacheBridge: cacheBridge
+            }),
+            client: client
+        });
+
+        dataListContainer = new DataListContainer({
+            data: [
+                {
+                    id: 'BLOG_ID_1',
+                    title: 'BLOG_TITLE_1'
+                },
+                {
+                    id: 'BLOG_ID_2',
+                    title: 'BLOG_TITLE_2'
+                }
+            ],
+            meta: {
+                offset: 0,
+                limit: 10
+            }
+        });
+
+        dataListContainerUpdated = new DataListContainer({
+            data: [
+                {
+                    id: 'BLOG_ID_1',
+                    title: 'BLOG_TITLE_1_UPDATE'
+                },
+                {
+                    id: 'BLOG_ID_2',
+                    title: 'BLOG_TITLE_2_UPDATE'
+                }
+            ],
+            meta: {
+                offset: 0,
+                limit: 10
+            }
+        });
+
+        /* Mocking `cacheBridge.get` HIT. */
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.from([JSON.stringify(dataListContainer)]));
+
+        /* Mocking `client.getList`. */
+        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainerUpdated]));
+
+        /* Mocking `cacheBridge.set`. */
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+
+        restCache.getList({
+            resourceDescription: resourceDescription,
+            query: {
+                offset: 0,
+                limit: 10
+            }
+        })
+            .subscribe(
+                (resourceListContainer) => resultList.push(resourceListContainer),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new ResourceListContainer({
+                isFromCache: true,
+                data: dataListContainer.data,
+                meta: dataListContainer.meta
+            }),
+            new ResourceListContainer({
+                isFromCache: false,
+                data: dataListContainerUpdated.data,
+                meta: dataListContainerUpdated.meta
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cacheBridge.get).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.get).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs',
+                query: {
+                    offset: 0,
+                    limit: 10
+                }
+            })
+        });
+
+        /* Check that client has been called. */
+        expect(client.getList).toHaveBeenCalledTimes(1);
+        expect(client.getList).toHaveBeenCalledWith(jasmine.objectContaining({
+            path: '/blogs'
+        }));
+
+        /* Check that data has been saved in cache. */
+        expect(cacheBridge.set).toHaveBeenCalledTimes(1);
+        expect(cacheBridge.set).toHaveBeenCalledWith({
+            key: JSON.stringify({
+                path: '/blogs',
+                query: {
+                    offset: 0,
+                    limit: 10
+                }
+            }),
+            value: JSON.stringify(dataListContainerUpdated)
+        });
+
     });
 
     xit('should get resource from cached list', () => {
