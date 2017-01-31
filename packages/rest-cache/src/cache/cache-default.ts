@@ -15,9 +15,11 @@ import { Query } from '../client/query';
 import { ResourceDescription } from '../resource/resource-description';
 import { Cache } from './cache';
 import { CacheSerializerDefault } from '../cache-serializer/cache-serializer-default';
+import { CacheMissError } from '../cache-bridge/cache-miss-error';
 
 export class CacheDefault implements Cache {
 
+    private static _IS_PARTIAL_KEY = '__restCacheIsPartial__';
     private _cacheBridge: CacheBridge;
     private _cacheSerializer: CacheSerializer;
 
@@ -29,7 +31,7 @@ export class CacheDefault implements Cache {
         this._cacheSerializer = cacheSerializer;
     }
 
-    get(args: {
+    get({resourceDescription, params, query}: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query
@@ -37,7 +39,24 @@ export class CacheDefault implements Cache {
 
         return this._cacheBridge
             .get({
-                key: this._cacheSerializer.getResourceKey(args)
+                key: this._cacheSerializer.getResourceKey({resourceDescription, params, query})
+            })
+            .catch((error) => {
+
+                if (!(error instanceof CacheMissError)) {
+                    throw error;
+                }
+
+                /* If resource is not found, try to find the partial one. */
+                /* Partial resources are created when caching resource lists. */
+                return this._cacheBridge.get({
+                    key: this._cacheSerializer.getResourceKey({
+                        resourceDescription,
+                        params,
+                        query: Object.assign({}, query, {[CacheDefault._IS_PARTIAL_KEY]: true})
+                    })
+                });
+
             })
             .map((value) => this._cacheSerializer.deserializeData({value: value}));
 
@@ -89,9 +108,10 @@ export class CacheDefault implements Cache {
                 params: {
                     ...params,
                     [resourceDescription.getParamKey()]: data.id
+                },
+                query: {
+                    [CacheDefault._IS_PARTIAL_KEY]: true
                 }
-                /* @todo: Put some "partial" indicator in the `query` here.
-                 * It will be used to know if the resource is complete or partial because it came from a list. */
             })))
             /* ...and wait for last observable to be complete... */
             .last()

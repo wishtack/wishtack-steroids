@@ -172,14 +172,20 @@ describe('CacheDefault', () => {
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(0)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/BLOG_ID_1'
+                path: '/blogs/BLOG_ID_1',
+                query: {
+                    __restCacheIsPartial__: true
+                }
             }),
             value: JSON.stringify(dataListContainer.data[0])
         });
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(1)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/BLOG_ID_2'
+                path: '/blogs/BLOG_ID_2',
+                query: {
+                    __restCacheIsPartial__: true
+                }
             }),
             value: JSON.stringify(dataListContainer.data[1])
         });
@@ -334,14 +340,20 @@ describe('CacheDefault', () => {
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(0)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/BLOG_ID_1/posts/POST_ID_1'
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_1',
+                query: {
+                    __restCacheIsPartial__: true
+                }
             }),
             value: JSON.stringify(dataListContainer.data[0])
         });
 
         expect(( <jasmine.Spy> cacheBridge.set ).calls.argsFor(1)[0]).toEqual({
             key: JSON.stringify({
-                path: '/blogs/BLOG_ID_1/posts/POST_ID_2'
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_2',
+                query: {
+                    __restCacheIsPartial__: true
+                }
             }),
             value: JSON.stringify(dataListContainer.data[1])
         });
@@ -355,6 +367,147 @@ describe('CacheDefault', () => {
                 meta: dataListContainer.meta
             })
         });
+
+    });
+
+    it('should not overwrite complete resource if resource is from list', () => {
+
+        let isComplete;
+        let error;
+        let resultList = [];
+        let cacheBridgeDict = {};
+
+        let data = {
+            id: 'POST_ID_1',
+            title: 'POST_TITLE_1',
+            text: 'POST_TEXT_1'
+        };
+
+        let dataListContainer = new DataListContainer({
+            data: [
+                {
+                    id: 'POST_ID_1',
+                    title: 'POST_TITLE_1'
+                },
+                {
+                    id: 'POST_ID_2',
+                    title: 'POST_TITLE_2'
+                }
+            ],
+            meta: {
+                offset: 0,
+                limit: 10
+            }
+        });
+
+        /* Mock `cacheBridge.set`. */
+        ( <jasmine.Spy> cacheBridge.set ).and.callFake(({key, value}) => {
+            cacheBridgeDict[key] = value;
+            return Observable.from([undefined]);
+        });
+
+        /* Mock `cacheBridge.get`. */
+        ( <jasmine.Spy> cacheBridge.get ).and.callFake(({key}) => Observable.from([cacheBridgeDict[key]]));
+
+        /*
+         * Set data in cache.
+         */
+
+        cache
+            .set({
+                resourceDescription: postDescription,
+                data: data,
+                params: {
+                    blogId: 'BLOG_ID_1',
+                    postId: 'POST_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+
+        isComplete = undefined;
+        resultList = [];
+
+        /*
+         * Get data from cache.
+         */
+
+        cache
+            .get({
+                resourceDescription: postDescription,
+                params: {
+                    blogId: 'BLOG_ID_1',
+                    postId: 'POST_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            data
+        ]);
+
+        isComplete = undefined;
+        resultList = [];
+
+        /*
+         * Set data list in cache.
+         */
+
+        cache
+            .setList({
+                resourceDescription: postDescription,
+                dataListContainer: dataListContainer,
+                params: {
+                    blogId: 'BLOG_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+
+        isComplete = undefined;
+        resultList = [];
+
+        /*
+         * Check that data has not been overwritten by list.
+         */
+
+        cache
+            .get({
+                resourceDescription: postDescription,
+                params: {
+                    blogId: 'BLOG_ID_1',
+                    postId: 'POST_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            data
+        ]);
 
     });
 
