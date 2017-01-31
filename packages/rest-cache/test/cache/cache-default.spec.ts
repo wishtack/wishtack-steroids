@@ -12,6 +12,7 @@ import { CacheDefault } from '../../src/cache/cache-default';
 import { CacheBridge } from '../../src/cache-bridge/cache-bridge';
 import { DataListContainer } from '../../src/client/data-list-container';
 import { ResourceDescription } from '../../src/resource/resource-description';
+import { CacheMissError } from '../../src/cache-bridge/cache-miss-error';
 
 describe('CacheDefault', () => {
 
@@ -365,6 +366,64 @@ describe('CacheDefault', () => {
             value: JSON.stringify({
                 data: dataListContainer.data.map((data) => data.id),
                 meta: dataListContainer.meta
+            })
+        });
+
+    });
+
+    it('should retrieve resource from list if not found', () => {
+
+        let isComplete;
+        let error;
+        let resultList = [];
+        let cacheBridgeDict = {};
+
+        let data = {
+            id: 'POST_ID_1',
+            title: 'POST_TITLE_1'
+        };
+
+        /* Mock `cacheBridge.get`. */
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValues(
+            /* MISS. */
+            Observable.throw(new CacheMissError()),
+            /* HIT. */
+            Observable.from([JSON.stringify(data)])
+        );
+
+        cache
+            .get({
+                resourceDescription: postDescription,
+                params: {
+                    blogId: 'BLOG_ID_1',
+                    postId: 'POST_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        /* No data expected and observable should emit only one value. */
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([data]);
+
+        expect(cacheBridge.get).toHaveBeenCalledTimes(2);
+
+        expect(( <jasmine.Spy> cacheBridge.get ).calls.argsFor(0)[0]).toEqual({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_1'
+            })
+        });
+
+        expect(( <jasmine.Spy> cacheBridge.get ).calls.argsFor(1)[0]).toEqual({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_1',
+                query: {
+                    __restCacheIsPartial__: true
+                }
             })
         });
 
