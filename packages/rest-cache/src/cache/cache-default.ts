@@ -53,7 +53,10 @@ export class CacheDefault implements Cache {
                     key: this._cacheSerializer.getResourceKey({
                         resourceDescription,
                         params,
-                        query: Object.assign({}, query, {[CacheDefault._IS_PARTIAL_KEY]: true})
+                        query: {
+                            ...query,
+                            [CacheDefault._IS_PARTIAL_KEY]: true
+                        }
                     })
                 });
 
@@ -62,7 +65,7 @@ export class CacheDefault implements Cache {
 
     }
 
-    getList(args: {
+    getList({resourceDescription, params, query}: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query
@@ -70,9 +73,33 @@ export class CacheDefault implements Cache {
 
         return this._cacheBridge
             .get({
-                key: this._cacheSerializer.getResourceListKey(args)
+                key: this._cacheSerializer.getResourceListKey({resourceDescription, params, query})
             })
-            .map((value) => this._cacheSerializer.deserializeDataList({value: value}));
+            .map((value) => this._cacheSerializer.deserializeDataList({value: value}))
+            .flatMap((dataListContainer) => {
+
+                let resourceIdList: string[] = dataListContainer.data;
+
+                return Observable
+                    /* Retrieve each resource from cache using it's id. */
+                    /* We don't use query when retrieving resources for a list (exactly as in setList). */
+                    /* That's because the query concerns the resource list and not the resources. */
+                    /* i.e. /products?keywords=test should not trigger /products/PRODUCT_ID?keywords=test. */
+                    .zip(...resourceIdList.map((resourceId) => this.get({
+                        resourceDescription,
+                        params: {
+                            ...params,
+                            [resourceDescription.getParamKey()]: resourceId
+                        }
+                    })))
+
+                    /* Wait for the cache to retrieve all observables then create a `DataListContainer`. */
+                    .map((dataList) => new DataListContainer({
+                        data: dataList,
+                        meta: dataListContainer.meta
+                    }));
+
+            });
 
     }
 

@@ -370,6 +370,88 @@ describe('CacheDefault', () => {
 
     });
 
+    it('should merge splitted child resource list when calling getList', () => {
+
+        let isComplete;
+        let error;
+        let resultList = [];
+
+        let dataListContainer = new DataListContainer({
+            data: [
+                {
+                    id: 'POST_ID_1',
+                    title: 'POST_TITLE_1'
+                },
+                {
+                    id: 'POST_ID_2',
+                    title: 'POST_TITLE_2'
+                }
+            ],
+            meta: {
+                offset: 0,
+                limit: 10
+            }
+        });
+
+        /* Mock `cacheBridge.get`. */
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValues(
+            /* Get list. */
+            Observable.from([JSON.stringify({
+                data: [
+                    'POST_ID_1',
+                    'POST_ID_2'
+                ],
+                meta: {
+                    offset: 0,
+                    limit: 10
+                }
+            })]),
+            /* Get child resource 0. */
+            Observable.from([JSON.stringify(dataListContainer.data[0])]),
+            /* Get child resource 1. */
+            Observable.from([JSON.stringify(dataListContainer.data[1])])
+        );
+
+        /* Get data list from cache. */
+        cache
+            .getList({
+                resourceDescription: postDescription,
+                params: {
+                    blogId: 'BLOG_ID_1'
+                }
+            })
+            .subscribe(
+                (result) => resultList.push(result),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).not.toBeDefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([dataListContainer]);
+
+        expect(cacheBridge.get).toHaveBeenCalledTimes(3);
+
+        expect(( <jasmine.Spy> cacheBridge.get ).calls.argsFor(0)[0]).toEqual({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1/posts',
+            })
+        });
+
+        expect(( <jasmine.Spy> cacheBridge.get ).calls.argsFor(1)[0]).toEqual({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_1'
+            })
+        });
+
+        expect(( <jasmine.Spy> cacheBridge.get ).calls.argsFor(2)[0]).toEqual({
+            key: JSON.stringify({
+                path: '/blogs/BLOG_ID_1/posts/POST_ID_2'
+            })
+        });
+
+    });
+
     it('should not overwrite complete resource if resource is from list', () => {
 
         let isComplete;
