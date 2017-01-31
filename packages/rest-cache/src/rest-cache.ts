@@ -21,7 +21,6 @@ export class RestCache {
 
     private _cache: Cache;
     private _client: Client;
-    private _id: string = '';
 
     constructor({client, cache}: { client: Client, cache?: Cache }) {
         this._cache = cache;
@@ -42,19 +41,21 @@ export class RestCache {
 
     }
 
-    get({resourceDescription, params, query, refresh = true}: {
+    get({resourceDescription, params, query, refresh = true, skipCache = false}: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query,
-        refresh?: boolean
+        refresh?: boolean,
+        skipCache?: boolean
     }): Observable<Resource> {
 
-        return this._cache
-            .get({
-                resourceDescription: resourceDescription,
-                params: params,
-                query: query
-            })
+        let args = {resourceDescription, params, query, refresh, skipCache};
+
+        if (skipCache === true) {
+            return this._getFromClient(args);
+        }
+
+        return this._cache.get(args)
 
             /* Parse data from cache. */
             .map((data) => new Resource({
@@ -71,11 +72,7 @@ export class RestCache {
 
                 /* Refresh data using client if asked for. */
                 if (refresh === true) {
-                    observableList.push(this._getFromClient({
-                        resourceDescription: resourceDescription,
-                        params: params,
-                        query: query
-                    }));
+                    observableList.push(this._getFromClient(args));
                 }
 
                 return Observable.concat(...observableList);
@@ -90,30 +87,27 @@ export class RestCache {
                 }
 
                 /* Get data using client. */
-                return this._getFromClient({
-                    resourceDescription: resourceDescription,
-                    params: params,
-                    query: query
-                });
+                return this._getFromClient(args);
 
             });
 
     }
 
-    getList({resourceDescription, params, query, refresh = true}: {
+    getList({resourceDescription, params, query, refresh = true, skipCache = false}: {
         resourceDescription: ResourceDescription,
         params?: Params,
         query?: Query,
-        refresh?: boolean
+        refresh?: boolean,
+        skipCache?: boolean
     }): Observable<ResourceListContainer> {
 
+        let args = {resourceDescription, params, query, refresh, skipCache};
 
-        return this._cache
-            .getList({
-                resourceDescription: resourceDescription,
-                params: params,
-                query: query
-            })
+        if (skipCache === true) {
+            return this._getListFromClient(args);
+        }
+
+        return this._cache.getList(args)
 
             /* Parse data from cache. */
             .map((dataListContainer) => new ResourceListContainer({
@@ -131,11 +125,7 @@ export class RestCache {
 
                 /* Refresh data using client if asked for. */
                 if (refresh === true) {
-                    observableList.push(this._getListFromClient({
-                        resourceDescription: resourceDescription,
-                        params: params,
-                        query: query
-                    }));
+                    observableList.push(this._getListFromClient(args));
                 }
 
                 return Observable.concat(...observableList);
@@ -151,11 +141,7 @@ export class RestCache {
                 }
 
                 /* Get data using client. */
-                return this._getListFromClient({
-                    resourceDescription: resourceDescription,
-                    params: params,
-                    query: query
-                });
+                return this._getListFromClient(args);
 
             });
 

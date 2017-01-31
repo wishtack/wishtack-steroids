@@ -580,4 +580,162 @@ describe('RestCache', () => {
 
     });
 
+    it('should get resource from client if cache is skipped', () => {
+
+        let data;
+        let error;
+        let isComplete;
+        let resourceDescription: ResourceDescription;
+        let resultList = [];
+        let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
+        restCache = new RestCache({
+            cache: cache,
+            client: client
+        });
+
+        data = {
+            id: 'BLOG_ID_1',
+            title: 'BLOG_TITLE_1'
+        };
+
+        /* Mocking `client.get`. */
+        ( <jasmine.Spy> client.get ).and.returnValue(Observable.from([data]));
+
+        /* Mocking `cache.set`. */
+        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+
+        restCache.get({
+            resourceDescription: resourceDescription,
+            params: {
+                blogId: 'BLOG_ID_1'
+            },
+            skipCache: true
+        })
+            .subscribe(
+                (resource) => resultList.push(resource),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new Resource({
+                isFromCache: false,
+                data: data,
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cache.get).not.toHaveBeenCalled();
+
+        /* Client should be called. */
+        expect(client.get).toHaveBeenCalledTimes(1);
+        expect(client.get).toHaveBeenCalledWith(jasmine.objectContaining({
+            path: '/blogs/:blogId',
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+        /* Check that data has been saved in cache. */
+        expect(cache.set).toHaveBeenCalledTimes(1);
+        expect(cache.set).toHaveBeenCalledWith(jasmine.objectContaining({
+            resourceDescription: resourceDescription,
+            data: data,
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+    });
+
+    it('should get resource list from client if cache is skipped', () => {
+
+        let dataListContainer;
+        let error;
+        let isComplete;
+        let resourceDescription: ResourceDescription;
+        let resultList = [];
+        let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
+        restCache = new RestCache({
+            cache: cache,
+            client: client
+        });
+
+        dataListContainer = new DataListContainer({
+            data: [
+                {
+                    id: 'BLOG_ID_1',
+                    title: 'BLOG_TITLE_1'
+                },
+                {
+                    id: 'BLOG_ID_2',
+                    title: 'BLOG_TITLE_2'
+                }
+            ],
+            meta: {
+                offset: 0,
+                limit: 10
+            }
+        });
+
+        /* Mocking `client.getList`. */
+        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainer]));
+
+        /* Mocking `cache.set`. */
+        ( <jasmine.Spy> cache.setList ).and.returnValue(Observable.from([undefined]));
+
+        restCache.getList({
+            resourceDescription: resourceDescription,
+            query: {
+                offset: 0,
+                limit: 10
+            },
+            skipCache: true
+        })
+            .subscribe(
+                (resourceListContainer) => resultList.push(resourceListContainer),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new ResourceListContainer({
+                isFromCache: false,
+                data: dataListContainer.data,
+                meta: dataListContainer.meta
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cache.getList).not.toHaveBeenCalled();
+
+        /* Client should be called. */
+        expect(client.getList).toHaveBeenCalledTimes(1);
+        expect(client.getList).toHaveBeenCalledWith(jasmine.objectContaining({
+            path: '/blogs'
+        }));
+
+        /* Check that data has been saved in cache. */
+        expect(cache.setList).toHaveBeenCalledTimes(1);
+        expect(cache.setList).toHaveBeenCalledWith(jasmine.objectContaining({
+            resourceDescription: resourceDescription,
+            dataListContainer: dataListContainer,
+            query: {
+                offset: 0,
+                limit: 10
+            }
+        }));
+
+    });
+
 });
