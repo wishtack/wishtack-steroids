@@ -104,6 +104,17 @@ export class RestCache {
                 params: params,
                 query: query
             })
+            /* Store data in cache. */
+            .flatMap((data) => this._cache
+                .set({
+                    resourceDescription: resourceDescription,
+                    data: data,
+                    params: params,
+                    query: query
+                })
+                /* Observable should emit the received data. */
+                .map(() => data)
+            )
             .map((data) => new Resource({
                 data: data,
                 isFromCache: false
@@ -125,6 +136,17 @@ export class RestCache {
                 params: params,
                 query: query
             })
+            /* Store data in cache. */
+            .flatMap((data) => this._cache
+                .set({
+                    resourceDescription: resourceDescription,
+                    data: data,
+                    params: params,
+                    query: query
+                })
+                /* Observable should emit the received data. */
+                .map(() => data)
+            )
             .map((data) => new Resource({
                 data: data,
                 isFromCache: false

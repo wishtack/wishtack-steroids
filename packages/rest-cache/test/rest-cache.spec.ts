@@ -738,4 +738,160 @@ describe('RestCache', () => {
 
     });
 
+    it('should update cache when resource is updated', () => {
+
+        let data;
+        let error;
+        let isComplete;
+        let resourceDescription: ResourceDescription;
+        let resultList = [];
+        let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
+        restCache = new RestCache({
+            cache: cache,
+            client: client
+        });
+
+        data = {
+            id: 'BLOG_ID_1',
+            title: 'BLOG_TITLE_1'
+        };
+
+        /* Mocking `client.patch`. */
+        ( <jasmine.Spy> client.patch ).and.returnValue(Observable.from([data]));
+
+        /* Mocking `cache.set`. */
+        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+
+        restCache.patch({
+            resourceDescription: resourceDescription,
+            data: {
+                title: 'BLOG_TITLE_1'
+            },
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        })
+            .subscribe(
+                (resource) => resultList.push(resource),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new Resource({
+                isFromCache: false,
+                data: data,
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cache.get).not.toHaveBeenCalled();
+
+        /* Client should be called. */
+        expect(client.patch).toHaveBeenCalledTimes(1);
+        expect(client.patch).toHaveBeenCalledWith(jasmine.objectContaining({
+            path: '/blogs/:blogId',
+            data: {
+                title: 'BLOG_TITLE_1'
+            },
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+        /* Check that data has been saved in cache. */
+        expect(cache.set).toHaveBeenCalledTimes(1);
+        expect(cache.set).toHaveBeenCalledWith(jasmine.objectContaining({
+            resourceDescription: resourceDescription,
+            data: data,
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+    });
+
+    it('should add resource to cache when resource is added', () => {
+
+        let data;
+        let error;
+        let isComplete;
+        let resourceDescription: ResourceDescription;
+        let resultList = [];
+        let restCache: RestCache;
+
+        resourceDescription = new ResourceDescription({path: '/blogs/:blogId'});
+
+        restCache = new RestCache({
+            cache: cache,
+            client: client
+        });
+
+        data = {
+            id: 'BLOG_ID_1',
+            title: 'BLOG_TITLE_1'
+        };
+
+        /* Mocking `client.patch`. */
+        ( <jasmine.Spy> client.post ).and.returnValue(Observable.from([data]));
+
+        /* Mocking `cache.set`. */
+        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+
+        restCache.post({
+            resourceDescription: resourceDescription,
+            data: {
+                title: 'BLOG_TITLE_1'
+            },
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        })
+            .subscribe(
+                (resource) => resultList.push(resource),
+                (_error) => error = _error,
+                () => isComplete = true
+            );
+
+        expect(error).toBeUndefined();
+        expect(isComplete).toBe(true);
+        expect(resultList).toEqual([
+            new Resource({
+                isFromCache: false,
+                data: data,
+            })
+        ]);
+
+        /* Check that cache has been used. */
+        expect(cache.get).not.toHaveBeenCalled();
+
+        /* Client should be called. */
+        expect(client.post).toHaveBeenCalledTimes(1);
+        expect(client.post).toHaveBeenCalledWith(jasmine.objectContaining({
+            path: '/blogs/:blogId',
+            data: {
+                title: 'BLOG_TITLE_1'
+            },
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+        /* Check that data has been saved in cache. */
+        expect(cache.set).toHaveBeenCalledTimes(1);
+        expect(cache.set).toHaveBeenCalledWith(jasmine.objectContaining({
+            resourceDescription: resourceDescription,
+            data: data,
+            params: {
+                blogId: 'BLOG_ID_1'
+            }
+        }));
+
+    });
+
 });
