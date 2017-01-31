@@ -51,45 +51,17 @@ export class RestCache {
 
         let args = {resourceDescription, params, query, refresh, skipCache};
 
-        if (skipCache === true) {
-            return this._getFromClient(args);
-        }
-
-        return this._cache.get(args)
-
-            /* Parse data from cache. */
-            .map((data) => new Resource({
+        /* Cache logic is in `_getResourceOrList` but the way to retrieve data from cache and client are in
+         * `getFromCache` and `getFromClient`. */
+        return this._getResourceOrList<Resource>({
+            getFromCache: () => this._cache.get(args).map((data) => new Resource({
                 data: data,
                 isFromCache: true
-            }))
-
-            /* Refresh data using client. */
-            .flatMap((resource) => {
-
-                let observableList = [
-                    Observable.from([resource])
-                ];
-
-                /* Refresh data using client if asked for. */
-                if (refresh === true) {
-                    observableList.push(this._getFromClient(args));
-                }
-
-                return Observable.concat(...observableList);
-
-            })
-            /* Handle cache MISS. */
-            .catch((error) => {
-
-                /* Let other errors pass through. */
-                if (!(error instanceof CacheMissError)) {
-                    throw error;
-                }
-
-                /* Get data using client. */
-                return this._getFromClient(args);
-
-            });
+            })),
+            getFromClient: () => this._getFromClient(args),
+            refresh: refresh,
+            skipCache: skipCache
+        });
 
     }
 
@@ -103,47 +75,18 @@ export class RestCache {
 
         let args = {resourceDescription, params, query, refresh, skipCache};
 
-        if (skipCache === true) {
-            return this._getListFromClient(args);
-        }
-
-        return this._cache.getList(args)
-
-            /* Parse data from cache. */
-            .map((dataListContainer) => new ResourceListContainer({
+        /* Cache logic is in `_getResourceOrList` but the way to retrieve data from cache and client are in
+         * `getFromCache` and `getFromClient`. */
+        return this._getResourceOrList<ResourceListContainer>({
+            getFromCache: () => this._cache.getList(args).map((dataListContainer) => new ResourceListContainer({
                 data: dataListContainer.data,
                 meta: dataListContainer.meta,
                 isFromCache: true
-            }))
-
-            /* Refresh data using client. */
-            .flatMap((resourceListContainer) => {
-
-                let observableList = [
-                    Observable.from([resourceListContainer])
-                ];
-
-                /* Refresh data using client if asked for. */
-                if (refresh === true) {
-                    observableList.push(this._getListFromClient(args));
-                }
-
-                return Observable.concat(...observableList);
-
-            })
-
-            /* Handle cache MISS. */
-            .catch((error) => {
-
-                /* Let other errors pass through. */
-                if (!(error instanceof CacheMissError)) {
-                    throw error;
-                }
-
-                /* Get data using client. */
-                return this._getListFromClient(args);
-
-            });
+            })),
+            getFromClient: () => this._getListFromClient(args),
+            refresh: refresh,
+            skipCache: skipCache
+        });
 
     }
 
@@ -186,6 +129,68 @@ export class RestCache {
                 data: data,
                 isFromCache: false
             }));
+
+    }
+
+    /**
+     *
+     * This private method contains all the common logic of `RestCache.get` and `RestCache.getList`.
+     * 1 - If `skipCache` is true, return resource or resource list from client.
+     * 2 - Get resource or resource list from cache.
+     * 3 - If `refresh` is true and on cache HIT, the observable will emit two values, the one from the cache
+     * then the one from the client.
+     * 4 - On cache miss, emit resource or resource list from client.
+     *
+     * @param getFromCache: A callable that returns a resource or resource list observable from cache.
+     * @param getFromClient: A callable that returns a resource or resource list observable from client.
+     * @param refresh
+     * @param skipCache
+     */
+    private _getResourceOrList<T>({
+        getFromCache,
+        getFromClient,
+        refresh,
+        skipCache
+    }: {
+        getFromCache: () => Observable<T>,
+        getFromClient: () => Observable<T>,
+        refresh: boolean,
+        skipCache: boolean
+    }): Observable<T> {
+
+        if (skipCache === true) {
+            return getFromClient();
+        }
+
+        return getFromCache()
+
+            /* Refresh data using client. */
+            .flatMap((resource) => {
+
+                let observableList = [
+                    Observable.from([resource])
+                ];
+
+                /* Refresh data using client if asked for. */
+                if (refresh === true) {
+                    observableList.push(getFromClient());
+                }
+
+                return Observable.concat(...observableList);
+
+            })
+            /* Handle cache MISS. */
+            .catch((error) => {
+
+                /* Let other errors pass through. */
+                if (!(error instanceof CacheMissError)) {
+                    throw error;
+                }
+
+                /* Get data using client. */
+                return getFromClient();
+
+            });
 
     }
 
