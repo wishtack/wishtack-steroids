@@ -20,7 +20,7 @@
     "@types/angular": "1.6.4",
     "@types/angular-mocks": "1.5.9",
     "@types/core-js": "0.9.35",
-    "@types/jasmine": "2.5.41",
+    "@types/jasmine": "2.5.42",
     "@types/jquery": "2.0.40",
     "@types/node": "7.0.5",
     "@types/webpack": "2.2.4",
