@@ -15,7 +15,7 @@ class WebpackConfigFactory {
     buildConfig({entry, libraryName, outputPath, srcRootPath}) {
 
         return webpackMerge(
-            this._commonConfig({srcRootPath}),
+            this._commonConfig({srcRootPath, outputPath}),
             {
                 entry: entry,
                 devtool: 'source-map',
@@ -63,7 +63,7 @@ class WebpackConfigFactory {
 
     }
 
-    _commonConfig({srcRootPath}) {
+    _commonConfig({srcRootPath, outputPath}) {
 
         return {
             module: {
@@ -79,7 +79,12 @@ class WebpackConfigFactory {
                     {
                         test: /\.ts$/,
                         use: [
-                            'awesome-typescript-loader'
+                            {
+                                loader: 'awesome-typescript-loader',
+                                options: {
+                                    declarationDir: outputPath
+                                }
+                            }
                         ],
                         exclude: /node_modules/
                     },
