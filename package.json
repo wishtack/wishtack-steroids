@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@angular/compiler": "2.4.8",
-    "@angular/core": "2.4.8",
+    "@angular/core": "2.4.10",
     "@types/angular": "1.6.6",
     "@types/angular-mocks": "1.5.9",
     "@types/core-js": "0.9.36",
