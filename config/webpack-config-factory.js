@@ -5,6 +5,7 @@
  * $Id: $
  */
 
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const webpackNodeExternals = require('webpack-node-externals');
@@ -12,10 +13,21 @@ const path = require('path');
 
 class WebpackConfigFactory {
 
-    buildConfig({entry, libraryName, outputPath, srcRootPath}) {
+    buildConfig({entry, libraryName, projectPath}) {
+
+        const distDirectoryName = 'dist';
+        const srcDirectoryName = 'src';
+
+        const outputPath = path.join(projectPath, distDirectoryName);
+        const srcRootPath = path.join(projectPath, srcDirectoryName);
+
+        const tsOptions = {
+            declaration: true,
+            declarationDir: outputPath
+        };
 
         return webpackMerge(
-            this._commonConfig({srcRootPath, outputPath}),
+            this._commonConfig({srcRootPath, outputPath, tsOptions}),
             {
                 entry: entry,
                 devtool: 'source-map',
@@ -28,6 +40,9 @@ class WebpackConfigFactory {
                     umdNamedDefine: true
                 },
                 plugins: [
+                    new CleanWebpackPlugin([distDirectoryName], {
+                        root: projectPath
+                    }),
                     new webpack.optimize.UglifyJsPlugin({
                         minimize: true,
                         sourceMap: true
@@ -63,7 +78,7 @@ class WebpackConfigFactory {
 
     }
 
-    _commonConfig({srcRootPath, outputPath}) {
+    _commonConfig({srcRootPath, outputPath, tsOptions = {}}) {
 
         return {
             module: {
@@ -81,9 +96,7 @@ class WebpackConfigFactory {
                         use: [
                             {
                                 loader: 'awesome-typescript-loader',
-                                options: {
-                                    declarationDir: outputPath
-                                }
+                                options: tsOptions
                             }
                         ],
                         exclude: /node_modules/

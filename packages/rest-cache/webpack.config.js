@@ -12,6 +12,5 @@ const WebpackConfigFactory = require('../../config/webpack-config-factory').Webp
 module.exports = new WebpackConfigFactory().buildConfig({
     entry: path.join(__dirname, 'src/rest-cache.ts'),
     libraryName: 'rest-cache',
-    outputPath: path.join(__dirname, 'dist'),
-    srcRootPath: path.join(__dirname, 'src')
+    projectPath: __dirname
 });

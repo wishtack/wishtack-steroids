@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "declaration": true,
+        "declaration": false,
         "target": "es5",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
