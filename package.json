@@ -1,5 +1,5 @@
 {
-  "name": "ng-steroids",
+  "name": "wishtack-steroids",
   "license": "MIT",
   "version": "0.0.0",
   "engines": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wishtack/ng-steroids.git"
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "scripts": {
     "build": "lerna run build",
@@ -15,21 +15,21 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "@angular/compiler": "2.4.8",
+    "@angular/compiler": "2.4.10",
     "@angular/core": "2.4.8",
-    "@types/angular": "1.6.6",
+    "@types/angular": "1.6.10",
     "@types/angular-mocks": "1.5.9",
     "@types/core-js": "0.9.36",
-    "@types/jasmine": "2.5.45",
+    "@types/jasmine": "2.5.46",
     "@types/jquery": "2.0.41",
     "@types/node": "7.0.6",
-    "@types/webpack": "2.2.8",
+    "@types/webpack": "2.2.12",
     "awesome-typescript-loader": "3.1.2",
     "babel": "6.23.0",
-    "babel-core": "6.23.1",
+    "babel-core": "6.24.0",
     "babel-loader": "6.4.0",
-    "babel-preset-es2015": "6.22.0",
-    "clean-webpack-plugin": "0.1.15",
+    "babel-preset-es2015": "6.24.0",
+    "clean-webpack-plugin": "0.1.16",
     "codelyzer": "2.0.1",
     "istanbul-instrumenter-loader": "1.2.0",
     "jasmine": "2.5.3",
@@ -46,13 +46,13 @@
     "lerna": "2.0.0-beta.38",
     "phantomjs-prebuilt": "2.1.14",
     "rxjs": "5.2.0",
-    "ts-loader": "2.0.1",
+    "ts-loader": "2.0.2",
     "tslint": "5.0.0",
     "tslint-loader": "3.4.3",
-    "typescript": "2.1.5",
-    "webpack": "2.2.0",
-    "webpack-merge": "4.0.0",
+    "typescript": "2.2.2",
+    "webpack": "2.3.0",
+    "webpack-merge": "4.1.0",
     "webpack-node-externals": "1.5.4",
-    "zone.js": "0.7.8"
+    "zone.js": "0.8.1"
   }
 }
