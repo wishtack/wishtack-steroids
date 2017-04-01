@@ -1,5 +1,5 @@
 {
-  "name": "ng-steroids",
+  "name": "wishtack-steroids",
   "license": "MIT",
   "version": "0.0.0",
   "engines": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wishtack/ng-steroids.git"
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "scripts": {
     "build": "lerna run build",
@@ -17,16 +17,16 @@
   "devDependencies": {
     "@angular/compiler": "2.4.8",
     "@angular/core": "2.4.10",
-    "@types/angular": "1.6.6",
+    "@types/angular": "1.6.10",
     "@types/angular-mocks": "1.5.9",
     "@types/core-js": "0.9.36",
     "@types/jasmine": "2.5.45",
     "@types/jquery": "2.0.41",
     "@types/node": "7.0.6",
-    "@types/webpack": "2.2.8",
+    "@types/webpack": "2.2.12",
     "awesome-typescript-loader": "3.1.2",
     "babel": "6.23.0",
-    "babel-core": "6.23.1",
+    "babel-core": "6.24.0",
     "babel-loader": "6.4.0",
     "babel-preset-es2015": "6.22.0",
     "clean-webpack-plugin": "0.1.15",
@@ -49,7 +49,7 @@
     "ts-loader": "2.0.1",
     "tslint": "4.5.0",
     "tslint-loader": "3.4.3",
-    "typescript": "2.1.5",
+    "typescript": "2.2.2",
     "webpack": "2.2.0",
     "webpack-merge": "4.0.0",
     "webpack-node-externals": "1.5.4",
