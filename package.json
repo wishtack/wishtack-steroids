@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wishtack/ng-steroids.git"
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "scripts": {
     "build": "lerna run build",
