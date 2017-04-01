@@ -19,7 +19,7 @@
     "@angular/core": "2.4.8",
     "@types/angular": "1.6.10",
     "@types/angular-mocks": "1.5.9",
-    "@types/core-js": "0.9.36",
+    "@types/core-js": "0.9.38",
     "@types/jasmine": "2.5.45",
     "@types/jquery": "2.0.41",
     "@types/node": "7.0.6",
