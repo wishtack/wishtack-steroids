@@ -49,7 +49,7 @@
     "ts-loader": "2.0.1",
     "tslint": "4.5.0",
     "tslint-loader": "3.4.3",
-    "typescript": "2.1.5",
+    "typescript": "2.2.2",
     "webpack": "2.2.0",
     "webpack-merge": "4.0.0",
     "webpack-node-externals": "1.5.4",
