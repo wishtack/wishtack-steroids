@@ -50,7 +50,7 @@
     "tslint": "4.5.0",
     "tslint-loader": "3.4.3",
     "typescript": "2.2.2",
-    "webpack": "2.3.0",
+    "webpack": "2.3.3",
     "webpack-merge": "4.1.0",
     "webpack-node-externals": "1.5.4",
     "zone.js": "0.8.1"
