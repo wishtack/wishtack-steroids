@@ -45,7 +45,7 @@
     "karma-webpack": "2.0.2",
     "lerna": "2.0.0-beta.38",
     "phantomjs-prebuilt": "2.1.14",
-    "rxjs": "5.2.0",
+    "rxjs": "5.2.1-smooth",
     "ts-loader": "2.0.2",
     "tslint": "4.5.0",
     "tslint-loader": "3.4.3",
