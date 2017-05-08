@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { CacheBridge } from '../cache-bridge/cache-bridge';
 import { CacheSerializer } from '../cache-serializer/cache-serializer';
 import { Data } from '../client/data';

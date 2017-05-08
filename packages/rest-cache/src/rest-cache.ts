@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { CacheMissError } from './cache-bridge/cache-miss-error';
 import { Cache } from './cache/cache';
