@@ -1,10 +1,9 @@
 {
   "name": "rest-cache",
   "description": "",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Wishtack",
   "license": "MIT",
-  "main": "dist/rest-cache.min.js",
   "scripts": {
     "build": "npm run clean:dist && ../../node_modules/.bin/tsc",
     "clean:dist": "rm -rf dist",
