@@ -1,12 +1,13 @@
 {
   "name": "rest-cache",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "Wishtack",
   "license": "MIT",
   "scripts": {
     "build": "npm run clean:dist && ../../node_modules/.bin/tsc",
     "clean:dist": "rm -rf dist",
+    "publish": "npm run build && cp package.json dist/ && ln -s ../node_modules dist/ && cd dist && npm publish",
     "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
     "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
   },
