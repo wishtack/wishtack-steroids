@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "dist/rest-cache.min.js",
   "scripts": {
-    "build": "../../node_modules/.bin/webpack",
+    "build": "npm run clean:dist && ../../node_modules/.bin/tsc",
+    "clean:dist": "rm -rf dist",
     "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
     "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
   },
