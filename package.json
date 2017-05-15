@@ -21,7 +21,7 @@
     "@types/angular-mocks": "1.5.9",
     "@types/core-js": "0.9.36",
     "@types/jasmine": "2.5.47",
-    "@types/jquery": "2.0.43",
+    "@types/jquery": "2.0.44",
     "@types/node": "7.0.7",
     "@types/webpack": "2.2.15",
     "awesome-typescript-loader": "3.1.3",
