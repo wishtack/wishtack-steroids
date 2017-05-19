@@ -53,6 +53,6 @@
     "webpack": "2.5.1",
     "webpack-merge": "4.1.0",
     "webpack-node-externals": "1.6.0",
-    "zone.js": "0.8.10"
+    "zone.js": "0.8.11"
   }
 }
