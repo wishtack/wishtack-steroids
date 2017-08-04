@@ -18,7 +18,7 @@
     "@angular/compiler": "4.1.2",
     "@angular/core": "4.1.2",
     "@types/angular": "1.6.17",
-    "@types/angular-mocks": "1.5.9",
+    "@types/angular-mocks": "1.5.10",
     "@types/core-js": "0.9.36",
     "@types/jasmine": "2.5.47",
     "@types/jquery": "2.0.44",
