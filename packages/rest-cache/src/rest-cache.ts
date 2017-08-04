@@ -5,6 +5,12 @@
  * $Id: $
  */
 
+import 'rxjs/add/observable/concat';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
+
 import { Observable } from 'rxjs/Observable';
 
 import { CacheMissError } from './cache-bridge/cache-miss-error';
@@ -105,7 +111,7 @@ export class RestCache {
                 query: query
             })
             /* Store data in cache. */
-            .flatMap((data) => this._cache
+            .switchMap((data) => this._cache
                 .set({
                     resourceDescription: resourceDescription,
                     data: data,
@@ -137,7 +143,7 @@ export class RestCache {
                 query: query
             })
             /* Store data in cache. */
-            .flatMap((data) => this._cache
+            .switchMap((data) => this._cache
                 .set({
                     resourceDescription: resourceDescription,
                     data: data,
@@ -187,7 +193,7 @@ export class RestCache {
         return getFromCache()
 
             /* Refresh data using client. */
-            .flatMap((resource) => {
+            .switchMap((resource) => {
 
                 let observableList = [
                     Observable.from([resource])
@@ -230,7 +236,7 @@ export class RestCache {
             })
 
             /* Store data in cache. */
-            .flatMap((data) => {
+            .switchMap((data) => {
 
                 return this._cache
                     .set({
@@ -264,7 +270,7 @@ export class RestCache {
             })
 
             /* Store data in cache. */
-            .flatMap((dataListContainer) => {
+            .switchMap((dataListContainer) => {
 
                 return this._cache
                     .setList({

@@ -76,7 +76,7 @@ export class CacheDefault implements Cache {
                 key: this._cacheSerializer.getResourceListKey({resourceDescription, params, query})
             })
             .map((value) => this._cacheSerializer.deserializeDataList({value: value}))
-            .flatMap((dataListContainer) => {
+            .switchMap((dataListContainer) => {
 
                 let resourceIdList: string[] = dataListContainer.data;
 
@@ -143,7 +143,7 @@ export class CacheDefault implements Cache {
             /* ...and wait for last observable to be complete... */
             .last()
             /* ...before setting the data id list in the cache... */
-            .flatMap(() => this._cacheBridge
+            .switchMap(() => this._cacheBridge
                 .set({
                     key: this._cacheSerializer.getResourceListKey(args),
                     value: this._cacheSerializer.serializeDataList({

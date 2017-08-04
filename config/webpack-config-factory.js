@@ -80,6 +80,11 @@ class WebpackConfigFactory {
 
     _commonConfig({srcRootPath, outputPath, tsOptions = {}}) {
 
+        tsOptions = Object.assign({
+            /* Setting default `configFileName`. */
+            configFileName: path.join(__dirname, '../tsconfig.json')
+        }, tsOptions);
+
         return {
             module: {
                 rules: [
