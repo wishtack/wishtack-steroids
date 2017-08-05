@@ -1,12 +1,13 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "declaration": true,
         "target": "es5",
-        "module": "es2015",
-        "sourceMap": true,
-        "moduleResolution": "node",
+        "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "declaration": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
         "outDir": "./dist",
         "typeRoots": [
             "../../node_modules/@types"
@@ -14,8 +15,5 @@
     },
     "files": [
         "./src/rest-cache.ts"
-    ],
-    "exclude": [
-        "../../node_modules"
     ]
 }

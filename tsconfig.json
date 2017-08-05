@@ -8,15 +8,6 @@
         "sourceMap": true,
         "typeRoots": [
             "node_modules/@types"
-        ],
-        "types": [
-            "angular",
-            "angular-mocks",
-            "core-js",
-            "jasmine",
-            "jquery",
-            "node",
-            "webpack"
         ]
     },
     "exclude": [

@@ -16,10 +16,9 @@ class WebpackConfigFactory {
     buildConfig({entry, libraryName, projectPath}) {
 
         const distDirectoryName = 'dist';
-        const srcDirectoryName = 'src';
 
         const outputPath = path.join(projectPath, distDirectoryName);
-        const srcRootPath = path.join(projectPath, srcDirectoryName);
+        const srcRootPath = path.join(projectPath, 'src');
 
         const tsOptions = {
             declaration: true,
@@ -27,7 +26,7 @@ class WebpackConfigFactory {
         };
 
         return webpackMerge(
-            this._commonConfig({srcRootPath, outputPath, tsOptions}),
+            this._commonConfig({projectPath, srcRootPath, outputPath, tsOptions}),
             {
                 entry: entry,
                 devtool: 'source-map',
@@ -53,10 +52,12 @@ class WebpackConfigFactory {
 
     }
 
-    testConfig({srcRootPath}) {
+    testConfig({projectPath}) {
+
+        const srcRootPath = path.join(projectPath, 'src');
 
         return webpackMerge(
-            this._commonConfig({srcRootPath}),
+            this._commonConfig({projectPath, srcRootPath}),
             {
                 devtool: 'inline-source-map',
                 module: {
@@ -78,11 +79,11 @@ class WebpackConfigFactory {
 
     }
 
-    _commonConfig({srcRootPath, outputPath, tsOptions = {}}) {
+    _commonConfig({projectPath, srcRootPath, outputPath, tsOptions = {}}) {
 
         tsOptions = Object.assign({
             /* Setting default `configFileName`. */
-            configFileName: path.join(__dirname, '../tsconfig.json')
+            configFileName: path.join(projectPath, 'tsconfig.json')
         }, tsOptions);
 
         return {

@@ -12,7 +12,7 @@ const WebpackConfigFactory = require('./webpack-config-factory').WebpackConfigFa
 
 class KarmaConfigFactory {
 
-    config({specBundleRelativeFilePath, srcRootPath}) {
+    config({projectPath, specBundleRelativeFilePath}) {
 
         return {
 
@@ -39,7 +39,7 @@ class KarmaConfigFactory {
             },
 
             webpack: new WebpackConfigFactory().testConfig({
-                srcRootPath: srcRootPath
+                projectPath: projectPath
             })
         };
 
