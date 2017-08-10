@@ -15,7 +15,7 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "@angular/compiler": "4.3.3",
+    "@angular/compiler": "4.3.4",
     "@angular/core": "4.3.3",
     "@types/angular": "1.6.28",
     "@types/angular-mocks": "1.5.10",
