@@ -43,7 +43,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.4",
     "lerna": "2.0.0",
-    "phantomjs-prebuilt": "2.1.14",
+    "phantomjs-prebuilt": "2.1.15",
     "rxjs": "5.4.2",
     "tslint": "5.5.0",
     "tslint-loader": "3.5.3",
