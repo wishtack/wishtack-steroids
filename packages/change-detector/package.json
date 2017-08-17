@@ -1,7 +1,7 @@
 {
   "name": "ng-steroids-change-detector",
   "description": "",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "author": "Wishtack",
   "license": "MIT",
   "main": "dist/change-detector.min.js",
