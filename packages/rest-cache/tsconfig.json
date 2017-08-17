@@ -1,21 +1,19 @@
 {
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declaration": false,
+        "declaration": true,
         "target": "es5",
         "module": "commonjs",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
+        "moduleResolution": "node",
+        "outDir": "./dist",
         "typeRoots": [
-            "node_modules/@types"
+            "../../node_modules/@types"
         ]
     },
-    "exclude": [
-        "node_modules"
-    ],
-    "compileOnSave": false,
-    "buildOnSave": false,
-    "atom": {
-        "rewriteTsconfig": false
-    }
+    "files": [
+        "./src/rest-cache.ts"
+    ]
 }

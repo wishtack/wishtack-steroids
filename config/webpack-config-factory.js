@@ -5,17 +5,28 @@
  * $Id: $
  */
 
-var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
-var webpackNodeExternals = require('webpack-node-externals');
-var path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const webpackNodeExternals = require('webpack-node-externals');
+const path = require('path');
 
 class WebpackConfigFactory {
 
-    buildConfig({entry, libraryName, outputPath, srcRootPath}) {
+    buildConfig({entry, libraryName, projectPath}) {
+
+        const distDirectoryName = 'dist';
+
+        const outputPath = path.join(projectPath, distDirectoryName);
+        const srcRootPath = path.join(projectPath, 'src');
+
+        const tsOptions = {
+            declaration: true,
+            declarationDir: outputPath
+        };
 
         return webpackMerge(
-            this._commonConfig({srcRootPath}),
+            this._commonConfig({projectPath, srcRootPath, outputPath, tsOptions}),
             {
                 entry: entry,
                 devtool: 'source-map',
@@ -28,44 +39,100 @@ class WebpackConfigFactory {
                     umdNamedDefine: true
                 },
                 plugins: [
-                    new webpack.optimize.UglifyJsPlugin({minimize: true})
+                    new CleanWebpackPlugin([distDirectoryName], {
+                        root: projectPath
+                    }),
+                    new webpack.optimize.UglifyJsPlugin({
+                        minimize: true,
+                        sourceMap: true
+                    })
                 ]
             }
         );
 
     }
 
-    testConfig({srcRootPath}) {
+    testConfig({projectPath}) {
+
+        const srcRootPath = path.join(projectPath, 'src');
 
         return webpackMerge(
-            this._commonConfig({srcRootPath}),
+            this._commonConfig({projectPath, srcRootPath}),
             {
-                devtool: 'inline-source-map'
+                devtool: 'inline-source-map',
+                module: {
+                    rules: [
+                        {
+                            enforce: 'post',
+                            test: /\.(js|ts)$/,
+                            loader: 'istanbul-instrumenter-loader',
+                            include: srcRootPath,
+                            exclude: [
+                                /\.(e2e|spec)\.ts$/,
+                                /node_modules/
+                            ]
+                        }
+                    ]
+                }
             }
         );
 
     }
 
-    _commonConfig({srcRootPath}) {
+    _commonConfig({projectPath, srcRootPath, outputPath, tsOptions = {}}) {
+
+        tsOptions = Object.assign({
+            /* Setting default `configFileName`. */
+            configFileName: path.join(projectPath, 'tsconfig.json')
+        }, tsOptions);
 
         return {
             module: {
-                loaders: [
+                rules: [
+                    {
+                        enforce: 'pre',
+                        test: /\.ts$/,
+                        use: [
+                            'tslint-loader'
+                        ],
+                        exclude: /node_modules/
+                    },
                     {
                         test: /\.ts$/,
-                        loader: 'babel!awesome-typescript',
+                        use: [
+                            {
+                                loader: 'awesome-typescript-loader',
+                                options: tsOptions
+                            }
+                        ],
                         exclude: /node_modules/
                     },
                     {
                         test: /\.js$/,
-                        loader: 'babel',
+                        use: [
+                            'babel-loader'
+                        ],
                         exclude: /node_modules/
                     }
                 ]
             },
+            plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        tslint: {
+                            emitErrors: false,
+                            failOnHint: false,
+                            resourcePath: srcRootPath
+                        }
+                    }
+                })
+            ],
             resolve: {
-                root: srcRootPath,
-                extensions: ['', '.js', '.ts']
+                modules: [
+                    srcRootPath,
+                    'node_modules'
+                ],
+                extensions: ['.js', '.ts']
             }
         }
 

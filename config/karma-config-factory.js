@@ -12,24 +12,34 @@ const WebpackConfigFactory = require('./webpack-config-factory').WebpackConfigFa
 
 class KarmaConfigFactory {
 
-    config({specBundleRelativeFilePath, srcRootPath}) {
+    config({projectPath, specBundleRelativeFilePath}) {
 
         return {
 
             browsers: ['PhantomJS'],
             frameworks: ['jasmine'],
-            reporters: ['progress'],
+            reporters: ['mocha', 'coverage', 'remap-coverage'],
 
             files: [
                 specBundleRelativeFilePath
             ],
 
             preprocessors: {
-                [specBundleRelativeFilePath]: ['webpack', 'sourcemap']
+                [specBundleRelativeFilePath]: ['coverage', 'webpack', 'sourcemap']
+            },
+
+            coverageReporter: {
+                type: 'in-memory'
+            },
+
+            remapCoverageReporter: {
+                'text-summary': null,
+                json: './coverage/coverage.json',
+                html: './coverage/html'
             },
 
             webpack: new WebpackConfigFactory().testConfig({
-                srcRootPath: srcRootPath
+                projectPath: projectPath
             })
         };
 

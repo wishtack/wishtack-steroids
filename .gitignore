@@ -1,5 +1,14 @@
+# OS.
 .DS_Store
+
+# IDE.
 .idea
+
+# Generated.
+coverage
 dist
 node_modules
-typings
+
+# Logs.
+lerna-debug.log
+npm-debug.log

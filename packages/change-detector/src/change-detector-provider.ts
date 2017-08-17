@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import {ChangeDetector} from './change-detector';
+import { ChangeDetector } from './change-detector';
 
 export class ChangeDetectorProvider {
 

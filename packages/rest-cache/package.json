@@ -1,12 +1,13 @@
 {
-  "name": "ng-steroids-change-detector",
+  "name": "rest-cache",
   "description": "",
-  "version": "0.3.0",
+  "version": "0.1.2",
   "author": "Wishtack",
   "license": "MIT",
-  "main": "dist/change-detector.min.js",
   "scripts": {
-    "build": "../../node_modules/.bin/webpack",
+    "build": "npm run clean:dist && ../../node_modules/.bin/tsc",
+    "clean:dist": "rm -rf dist",
+    "publish": "npm run build && cp package.json dist/ && ln -s ../node_modules dist/ && cd dist && npm publish",
     "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
     "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
   },
@@ -15,11 +16,9 @@
     "url": "https://github.com/wishtack/ng-steroids.git"
   },
   "devDependencies": {
-    "angular": "1.6.5",
-    "angular-mocks": "1.6.5"
+    "rxjs": "5.4.2"
   },
   "peerDependencies": {
-    "angular": "1.6.5",
-    "core-js": "2.4.1"
+    "rxjs": "5.4.2"
   }
 }
