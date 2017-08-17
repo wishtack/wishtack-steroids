@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/wishtack/ng-steroids.svg?branch=develop)](https://travis-ci.org/wishtack/ng-steroids)
 [![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/ng-steroids.svg)](https://greenkeeper.io/)
 
-## Angular 2 Change Detector for AngularJS 1.5.x
+## Angular 2+ Change Detector for AngularJS 1.5.x
 
 The idea here is to benefit from the [Angular 2 `OnPush` mode](http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html) in AngularJS. 
 
@@ -46,7 +46,14 @@ Using the `ng-steroids-change-detector` module you can implement this behaviour 
 
 ## Install
 
-```npm install --save-dev ng-steroids-change-detector```
+```yarn add ng-steroids-change-detector```
+
+## Import required polyfills
+
+```TypeScript
+import 'core-js/es6/array';
+import 'core-js/es6/set';
+```
 
 ## Usage
 
