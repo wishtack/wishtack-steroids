@@ -23,7 +23,7 @@
     "@types/jasmine": "2.5.53",
     "@types/jquery": "2.0.44",
     "@types/node": "7.0.7",
-    "@types/webpack": "3.0.5",
+    "@types/webpack": "3.0.6",
     "awesome-typescript-loader": "3.2.2",
     "babel-core": "6.25.0",
     "babel-loader": "7.1.1",
