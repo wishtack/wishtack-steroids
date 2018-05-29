@@ -1,2 +1,5 @@
-test
-webpack.config.js
+/tsconfig.json
+/coverage
+/src
+/test
+/webpack.config.js

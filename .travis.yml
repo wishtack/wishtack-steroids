@@ -4,7 +4,7 @@ language: node_js
 node_js:
   - "node"
 install:
-  - npm install
+  - yarn install
 script:
-  - npm run build
-  - npm test
+  - yarn build
+  - yarn test:singlerun

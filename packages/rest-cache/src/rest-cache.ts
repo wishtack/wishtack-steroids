@@ -5,13 +5,9 @@
  * $Id: $
  */
 
-import 'rxjs/add/observable/concat';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
 
-import { Observable } from 'rxjs/Observable';
+import { concat, from, Observable } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { CacheMissError } from './cache-bridge/cache-miss-error';
 import { Cache } from './cache/cache';
@@ -55,15 +51,15 @@ export class RestCache {
         skipCache?: boolean
     }): Observable<Resource> {
 
-        let args = {resourceDescription, params, query, refresh, skipCache};
+        const args = {resourceDescription, params, query, refresh, skipCache};
 
         /* Cache logic is in `_getResourceOrList` but the way to retrieve data from cache and client are in
          * `getFromCache` and `getFromClient`. */
         return this._getResourceOrList<Resource>({
-            getFromCache: () => this._cache.get(args).map((data) => new Resource({
+            getFromCache: () => this._cache.get(args).pipe(map((data) => new Resource({
                 data: data,
                 isFromCache: true
-            })),
+            }))),
             getFromClient: () => this._getFromClient(args),
             refresh: refresh,
             skipCache: skipCache
@@ -79,16 +75,16 @@ export class RestCache {
         skipCache?: boolean
     }): Observable<ResourceListContainer> {
 
-        let args = {resourceDescription, params, query, refresh, skipCache};
+        const args = {resourceDescription, params, query, refresh, skipCache};
 
         /* Cache logic is in `_getResourceOrList` but the way to retrieve data from cache and client are in
          * `getFromCache` and `getFromClient`. */
         return this._getResourceOrList<ResourceListContainer>({
-            getFromCache: () => this._cache.getList(args).map((dataListContainer) => new ResourceListContainer({
+            getFromCache: () => this._cache.getList(args).pipe(map((dataListContainer) => new ResourceListContainer({
                 data: dataListContainer.data,
                 meta: dataListContainer.meta,
                 isFromCache: true
-            })),
+            }))),
             getFromClient: () => this._getListFromClient(args),
             refresh: refresh,
             skipCache: skipCache
@@ -109,22 +105,23 @@ export class RestCache {
                 data: data,
                 params: params,
                 query: query
-            })
-            /* Store data in cache. */
-            .switchMap((data) => this._cache
-                .set({
-                    resourceDescription: resourceDescription,
-                    data: data,
-                    params: params,
-                    query: query
-                })
-                /* Observable should emit the received data. */
-                .map(() => data)
-            )
-            .map((data) => new Resource({
-                data: data,
-                isFromCache: false
-            }));
+            }).pipe(
+                /* Store data in cache. */
+                switchMap((_data) => this._cache
+                    .set({
+                        resourceDescription: resourceDescription,
+                        data: _data,
+                        params: params,
+                        query: query
+                    }).pipe(
+                        /* Observable should emit the received data. */
+                        map(() => _data))
+                ),
+                map((_data) => new Resource({
+                    data: _data,
+                    isFromCache: false
+                }))
+            );
 
     }
 
@@ -141,22 +138,23 @@ export class RestCache {
                 data: data,
                 params: params,
                 query: query
-            })
-            /* Store data in cache. */
-            .switchMap((data) => this._cache
-                .set({
-                    resourceDescription: resourceDescription,
-                    data: data,
-                    params: params,
-                    query: query
-                })
-                /* Observable should emit the received data. */
-                .map(() => data)
-            )
-            .map((data) => new Resource({
-                data: data,
-                isFromCache: false
-            }));
+            }).pipe(
+                /* Store data in cache. */
+                switchMap((_data) => this._cache
+                    .set({
+                        resourceDescription: resourceDescription,
+                        data: _data,
+                        params: params,
+                        query: query
+                    }).pipe(
+                        /* Observable should emit the received data. */
+                        map(() => _data))
+                ),
+                map((_data) => new Resource({
+                    data: _data,
+                    isFromCache: false
+                }))
+            );
 
     }
 
@@ -175,11 +173,11 @@ export class RestCache {
      * @param skipCache
      */
     private _getResourceOrList<T>({
-        getFromCache,
-        getFromClient,
-        refresh,
-        skipCache
-    }: {
+                                      getFromCache,
+                                      getFromClient,
+                                      refresh,
+                                      skipCache
+                                  }: {
         getFromCache: () => Observable<T>,
         getFromClient: () => Observable<T>,
         refresh: boolean,
@@ -190,13 +188,12 @@ export class RestCache {
             return getFromClient();
         }
 
-        return getFromCache()
-
+        return getFromCache().pipe(
             /* Refresh data using client. */
-            .switchMap((resource) => {
+            switchMap((resource) => {
 
-                let observableList = [
-                    Observable.from([resource])
+                const observableList = [
+                    from([resource])
                 ];
 
                 /* Refresh data using client if asked for. */
@@ -204,11 +201,11 @@ export class RestCache {
                     observableList.push(getFromClient());
                 }
 
-                return Observable.concat(...observableList);
+                return concat(...observableList);
 
-            })
+            }),
             /* Handle cache MISS. */
-            .catch((error) => {
+            catchError((error) => {
 
                 /* Let other errors pass through. */
                 if (!(error instanceof CacheMissError)) {
@@ -218,7 +215,7 @@ export class RestCache {
                 /* Get data using client. */
                 return getFromClient();
 
-            });
+            }),);
 
     }
 
@@ -233,26 +230,24 @@ export class RestCache {
                 path: resourceDescription.getDetailPath(),
                 params: params,
                 query: query
-            })
+            }).pipe(
+                /* Store data in cache. */
+                switchMap((data) => {
 
-            /* Store data in cache. */
-            .switchMap((data) => {
+                    return this._cache
+                        .set({
+                            resourceDescription: resourceDescription,
+                            data: data,
+                            params: params,
+                            query: query
+                        }).pipe(
+                            /* Map `Data` to `Resource`. */
+                            map(() => new Resource({
+                                data: data,
+                                isFromCache: false
+                            })));
 
-                return this._cache
-                    .set({
-                        resourceDescription: resourceDescription,
-                        data: data,
-                        params: params,
-                        query: query
-                    })
-
-                    /* Map `Data` to `Resource`. */
-                    .map(() => new Resource({
-                        data: data,
-                        isFromCache: false
-                    }));
-
-            });
+                }));
 
     }
 
@@ -267,27 +262,25 @@ export class RestCache {
                 path: resourceDescription.getListPath(),
                 params: params,
                 query: query
-            })
+            }).pipe(
+                /* Store data in cache. */
+                switchMap((dataListContainer) => {
 
-            /* Store data in cache. */
-            .switchMap((dataListContainer) => {
+                    return this._cache
+                        .setList({
+                            resourceDescription: resourceDescription,
+                            dataListContainer: dataListContainer,
+                            params: params,
+                            query: query
+                        }).pipe(
+                            /* Map `DataListContainer` to `ResourceListContainer`. */
+                            map(() => new ResourceListContainer({
+                                data: dataListContainer.data,
+                                meta: dataListContainer.meta,
+                                isFromCache: false
+                            })));
 
-                return this._cache
-                    .setList({
-                        resourceDescription: resourceDescription,
-                        dataListContainer: dataListContainer,
-                        params: params,
-                        query: query
-                    })
-
-                    /* Map `DataListContainer` to `ResourceListContainer`. */
-                    .map(() => new ResourceListContainer({
-                        data: dataListContainer.data,
-                        meta: dataListContainer.meta,
-                        isFromCache: false
-                    }));
-
-            });
+                }));
 
     }
 

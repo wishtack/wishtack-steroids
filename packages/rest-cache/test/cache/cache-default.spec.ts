@@ -5,14 +5,15 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs';
+import { from, throwError } from 'rxjs';
+
+import { CacheBridge } from '../../src/cache-bridge/cache-bridge';
+import { CacheMissError } from '../../src/cache-bridge/cache-miss-error';
 
 import { Cache } from '../../src/cache/cache';
 import { CacheDefault } from '../../src/cache/cache-default';
-import { CacheBridge } from '../../src/cache-bridge/cache-bridge';
 import { DataListContainer } from '../../src/client/data-list-container';
 import { ResourceDescription } from '../../src/resource/resource-description';
-import { CacheMissError } from '../../src/cache-bridge/cache-miss-error';
 
 describe('CacheDefault', () => {
 
@@ -52,7 +53,7 @@ describe('CacheDefault', () => {
         };
 
         /* Mock `cacheBridge.set`. */
-        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(from([undefined]));
 
         /* Set data in cache. */
         cache
@@ -96,7 +97,7 @@ describe('CacheDefault', () => {
         };
 
         /* Mock `cacheBridge.get`. */
-        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.from([JSON.stringify(data)]));
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(from([JSON.stringify(data)]));
 
         /* Get data from cache. */
         cache
@@ -150,7 +151,7 @@ describe('CacheDefault', () => {
         });
 
         /* Mock `cacheBridge.set`. */
-        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(from([undefined]));
 
         /* Store a data list in cache. */
         cache
@@ -215,7 +216,7 @@ describe('CacheDefault', () => {
         };
 
         /* Mock `cacheBridge.set`. */
-        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(from([undefined]));
 
         /* Set data in cache. */
         cache
@@ -260,7 +261,7 @@ describe('CacheDefault', () => {
         };
 
         /* Mock `cacheBridge.get`. */
-        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(Observable.from([JSON.stringify(data)]));
+        ( <jasmine.Spy> cacheBridge.get ).and.returnValue(from([JSON.stringify(data)]));
 
         /* Get data from cache. */
         cache
@@ -315,7 +316,7 @@ describe('CacheDefault', () => {
         });
 
         /* Mock `cacheBridge.set`. */
-        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cacheBridge.set ).and.returnValue(from([undefined]));
 
         /* Store a data list in cache. */
         cache
@@ -386,9 +387,9 @@ describe('CacheDefault', () => {
         /* Mock `cacheBridge.get`. */
         ( <jasmine.Spy> cacheBridge.get ).and.returnValues(
             /* MISS. */
-            Observable.throw(new CacheMissError()),
+            throwError(new CacheMissError()),
             /* HIT. */
-            Observable.from([JSON.stringify(data)])
+            from([JSON.stringify(data)])
         );
 
         cache
@@ -455,7 +456,7 @@ describe('CacheDefault', () => {
         /* Mock `cacheBridge.get`. */
         ( <jasmine.Spy> cacheBridge.get ).and.returnValues(
             /* Get list. */
-            Observable.from([JSON.stringify({
+            from([JSON.stringify({
                 data: [
                     'POST_ID_1',
                     'POST_ID_2'
@@ -466,9 +467,9 @@ describe('CacheDefault', () => {
                 }
             })]),
             /* Get child resource 0. */
-            Observable.from([JSON.stringify(dataListContainer.data[0])]),
+            from([JSON.stringify(dataListContainer.data[0])]),
             /* Get child resource 1. */
-            Observable.from([JSON.stringify(dataListContainer.data[1])])
+            from([JSON.stringify(dataListContainer.data[1])])
         );
 
         /* Get data list from cache. */
@@ -544,11 +545,11 @@ describe('CacheDefault', () => {
         /* Mock `cacheBridge.set`. */
         ( <jasmine.Spy> cacheBridge.set ).and.callFake(({key, value}) => {
             cacheBridgeDict[key] = value;
-            return Observable.from([undefined]);
+            return from([undefined]);
         });
 
         /* Mock `cacheBridge.get`. */
-        ( <jasmine.Spy> cacheBridge.get ).and.callFake(({key}) => Observable.from([cacheBridgeDict[key]]));
+        ( <jasmine.Spy> cacheBridge.get ).and.callFake(({key}) => from([cacheBridgeDict[key]]));
 
         /*
          * Set data in cache.
@@ -650,10 +651,6 @@ describe('CacheDefault', () => {
             data
         ]);
 
-    });
-
-    xit('should get child resource from parent embedded list', () => {
-        throw new Error('Not implemented error!');
     });
 
 });

@@ -1,18 +1,21 @@
 {
-  "name": "ng-steroids-change-detector",
+  "name": "@wishtack/change-detector",
   "description": "",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": "Wishtack",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/change-detector.min.js",
   "scripts": {
-    "build": "../../node_modules/.bin/webpack",
-    "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
-    "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
+    "build": "webpack",
+    "test:single-run": "yarn test --single-run",
+    "test": "karma start test/karma.conf.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wishtack/ng-steroids.git"
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "devDependencies": {
     "angular": "1.6.5",

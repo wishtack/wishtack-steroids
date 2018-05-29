@@ -5,10 +5,7 @@
  * $Id: $
  */
 
-const path = require('path');
-
-const WebpackConfigFactory = require('./webpack-config-factory').WebpackConfigFactory;
-
+const { WebpackConfigFactory } = require('./webpack-config-factory');
 
 class KarmaConfigFactory {
 
@@ -16,7 +13,7 @@ class KarmaConfigFactory {
 
         return {
 
-            browsers: ['PhantomJS'],
+            browsers: ['ChromeHeadless'],
             frameworks: ['jasmine'],
             reporters: ['mocha', 'coverage', 'remap-coverage'],
 

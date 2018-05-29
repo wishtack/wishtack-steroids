@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Data } from './data';
 import { DataListContainer } from './data-list-container';
