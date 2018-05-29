@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/wishtack/ng-steroids.svg?branch=develop)](https://travis-ci.org/wishtack/ng-steroids)
-[![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/ng-steroids.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/wishtack/wishtack-steroids.svg?branch=master)](https://travis-ci.org/wishtack/ng-steroids)
+[![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/wishtack-steroids.svg)](https://greenkeeper.io/)
 
 ## Angular 2+ Change Detector for AngularJS 1.5.x to 1.7.x
 
