@@ -18,6 +18,8 @@
     "test": "lerna run test:single-run"
   },
   "devDependencies": {
+    "@angular/core": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
     "@types/angular": "^1.6.45",
     "@types/angular-mocks": "^1.5.11",
     "@types/jasmine": "^2.8.7",
@@ -35,7 +37,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.0",
     "lerna": "^2.11.0",
-    "rxjs": "^5.4.2",
     "ts-loader": "^4.3.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3",
