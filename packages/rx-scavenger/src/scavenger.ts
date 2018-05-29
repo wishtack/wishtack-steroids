@@ -6,9 +6,7 @@
  */
 
 import { OnDestroy } from '@angular/core';
-import { OperatorFunction } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { MonoTypeOperatorFunction, Observable, Subscription } from 'rxjs';
 
 /**
  * `OnDestroy` method is optional.
@@ -38,11 +36,11 @@ export class Scavenger {
         this._tryRegisterNgOnDestroyHook(component);
     }
 
-    collect<T>(): OperatorFunction<T, T> {
+    collect<T>(): MonoTypeOperatorFunction<T> {
         return this._trackSubscription(subscription => this._subscriptionList.push(subscription));
     }
 
-    collectByKey<T>(key: string): OperatorFunction<T, T> {
+    collectByKey<T>(key: string): MonoTypeOperatorFunction<T> {
 
         if (typeof key !== 'string' || key === '') {
             throw new InvalidKeyError(key);
@@ -101,23 +99,19 @@ export class Scavenger {
 
     }
 
-    private _trackSubscription<T>(callback: (subscription: Subscription) => void): OperatorFunction<T, T> {
+    private _trackSubscription<T>(callback: (subscription: Subscription) => void): MonoTypeOperatorFunction<T> {
 
-        return source$ => {
+        return source$ => new Observable(observer => {
 
-            return new Observable(observer => {
+            /* Let everything go through... */
+            const subscription = source$.subscribe(observer);
 
-                /* Let everything go through... */
-                const subscription = source$.subscribe(observer);
+            /* ...but grab subscription. */
+            callback(subscription);
 
-                /* ...but grab subscription. */
-                callback(subscription);
+            return subscription;
 
-                return subscription;
-
-            });
-
-        };
+        });
 
     }
 

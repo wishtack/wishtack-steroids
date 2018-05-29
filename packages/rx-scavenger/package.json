@@ -19,8 +19,8 @@
     "type": "git",
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
-  "dependencies": {
-    "rxjs": "^6.2.0"
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
   },
   "devDependencies": {}
 }
