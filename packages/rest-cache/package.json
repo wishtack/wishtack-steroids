@@ -4,6 +4,9 @@
   "version": "0.2.0",
   "author": "Wishtack",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/rest-cache.js",
   "types": "dist/rest-cache.d.ts",
   "scripts": {
