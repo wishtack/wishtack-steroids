@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/rest-cache",
   "description": "",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {

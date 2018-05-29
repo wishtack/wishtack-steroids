@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/rx-scavenger",
   "description": "RxJS Subscription Garbage Collector + Angular `ngOnDestroy` hook.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -21,6 +21,5 @@
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"
-  },
-  "devDependencies": {}
+  }
 }
