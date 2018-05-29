@@ -8,7 +8,7 @@
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Scavenger } from '../src/scavenger';
+import { ComponentWithOptionalOnDestroy, Scavenger } from '../src/scavenger';
 
 describe('Scavenger', () => {
 
@@ -104,11 +104,41 @@ describe('Scavenger', () => {
 
     });
 
-    xit('should create ngOnDestroy and unsubscribe', () => {
+    it('should create ngOnDestroy and unsubscribe', () => {
+
+        const component: ComponentWithOptionalOnDestroy = {};
+        const scavenger = new Scavenger(component);
+
+        spyOn(scavenger, 'unsubscribe');
+
+        expect(component.ngOnDestroy).not.toBeUndefined();
+
+        component.ngOnDestroy();
+
+        /* `ngOnDestroy()` should call `scavenger.unsubscribe()`. */
+        expect(scavenger.unsubscribe).toHaveBeenCalledTimes(1);
 
     });
 
-    xit('should wrap ngOnDestroy and unsubscribe', () => {
+    it('should wrap ngOnDestroy and unsubscribe', () => {
+
+        const ngOnDestroy = jasmine.createSpy('ngOnDestroy');
+
+        const component: ComponentWithOptionalOnDestroy = {
+            ngOnDestroy
+        };
+        const scavenger = new Scavenger(component);
+
+        spyOn(scavenger, 'unsubscribe');
+
+        component.ngOnDestroy();
+
+        /* `ngOnDestroy()` should call `scavenger.unsubscribe()`... */
+        expect(scavenger.unsubscribe).toHaveBeenCalledTimes(1);
+        /* ... and the original `ngOnDestroy()`. */
+        expect(ngOnDestroy).toHaveBeenCalledTimes(1);
+        /* `ngOnDestroy` should be bound to `component`. */
+        expect(ngOnDestroy.calls.first().object).toBe(component);
 
     });
 

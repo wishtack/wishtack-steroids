@@ -34,6 +34,10 @@ export class Scavenger {
     private _subscriptionMap = new Map<string, Subscription>();
     private _subscriptionList: Subscription[] = [];
 
+    constructor(component: ComponentWithOptionalOnDestroy = null) {
+        this._tryRegisterNgOnDestroyHook(component);
+    }
+
     collect<T>(): OperatorFunction<T, T> {
         return this._trackSubscription(subscription => this._subscriptionList.push(subscription));
     }
@@ -72,6 +76,31 @@ export class Scavenger {
 
     }
 
+    private _tryRegisterNgOnDestroyHook(component: ComponentWithOptionalOnDestroy) {
+
+        let originalNgOnDestroy;
+
+        if (component == null) {
+            return;
+        }
+
+        /* Overriding ngOnDestroy to auto unsubscribe from all observables. */
+        if (component.ngOnDestroy != null) {
+            originalNgOnDestroy = component.ngOnDestroy.bind(component);
+        }
+
+        component.ngOnDestroy = () => {
+
+            this.unsubscribe();
+
+            if (originalNgOnDestroy != null) {
+                originalNgOnDestroy();
+            }
+
+        };
+
+    }
+
     private _trackSubscription<T>(callback: (subscription: Subscription) => void): OperatorFunction<T, T> {
 
         return source$ => {
@@ -91,6 +120,5 @@ export class Scavenger {
         };
 
     }
-
 
 }
