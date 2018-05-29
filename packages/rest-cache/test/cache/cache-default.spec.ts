@@ -652,8 +652,4 @@ describe('CacheDefault', () => {
 
     });
 
-    xit('should get child resource from parent embedded list', () => {
-        throw new Error('Not implemented error!');
-    });
-
 });

@@ -13,7 +13,7 @@ class KarmaConfigFactory {
 
         return {
 
-            browsers: ['PhantomJS'],
+            browsers: ['ChromeHeadless'],
             frameworks: ['jasmine'],
             reporters: ['mocha', 'coverage', 'remap-coverage'],
 
