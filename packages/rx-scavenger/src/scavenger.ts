@@ -44,4 +44,7 @@ export class Scavenger {
 
     }
 
+    collectByKey<T>(key: string): OperatorFunction<T, T> {
+        throw new Error('Not implemented yet!');
+    }
 }

@@ -5,7 +5,8 @@
  * $Id: $
  */
 
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Scavenger } from '../src/scavenger';
 
@@ -22,7 +23,7 @@ describe('Scavenger', () => {
         const scavenger = new Scavenger();
         let value: string;
 
-        subject$
+        const subscription = subject$
             .pipe(
                 scavenger.collect()
             )
@@ -30,11 +31,77 @@ describe('Scavenger', () => {
 
         expect(value).toBe('Hello');
 
+        expect(subscription.closed).toBe(false);
+
         scavenger.unsubscribe();
+
+        expect(subscription.closed).toBe(true);
 
         subject$.next('Bye');
 
         expect(value).toBe('Hello');
+
+    });
+
+    xit('should replace subscription if collected by key', () => {
+
+        const scavenger = new Scavenger();
+
+        const foo: {
+            lastValue?: string,
+            value$?: Observable<string>,
+            subscription?: Subscription
+        } = {};
+        const john: typeof foo = {};
+
+        /* Creating two observables. */
+        foo.value$ = subject$.pipe(map(_value => `${_value} Foo`));
+        john.value$ = subject$.pipe(map(_value => `${_value} John`));
+
+        /* Subscribing to the foo's observable... */
+        foo.subscription = foo.value$
+            .pipe(
+                /* ... but we collect the subscription by key this time. */
+                scavenger.collectByKey('greetings')
+            )
+            .subscribe(value => foo.lastValue = value);
+
+        expect(foo.lastValue).toBe('Hello Foo');
+        expect(foo.subscription.closed).toBe(false);
+
+        /* Subscribing to the john's observable... */
+        john.subscription = john.value$
+            .pipe(
+                /* ... but we collect the subscription with the same key. */
+                scavenger.collectByKey('greetings')
+            )
+            .subscribe(value => john.lastValue = value);
+
+        /* New subscription should replace the previous one. */
+        expect(foo.lastValue).toBe('Hello Foo');
+        expect(foo.subscription.closed).toBe(true);
+
+        expect(john.lastValue).toBe('Hello John');
+        expect(john.subscription.closed).toBe(false);
+
+        subject$.next('Bye');
+
+        expect(foo.lastValue).toBe('Hello Foo');
+        expect(foo.subscription.closed).toBe(true);
+
+        expect(john.lastValue).toBe('Bye John');
+        expect(john.subscription.closed).toBe(false);
+
+        scavenger.unsubscribe();
+
+        subject$.next('Are you there?');
+
+        expect(foo.lastValue).toBe('Hello Foo');
+        expect(foo.subscription.closed).toBe(true);
+
+        expect(john.lastValue).toBe('Bye John');
+        expect(john.subscription.closed).toBe(true);
+
 
     });
 
