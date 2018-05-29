@@ -1,0 +1,20 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "declarationDir": "./dist",
+        "target": "es5",
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "typeRoots": [
+            "../../node_modules/@types"
+        ]
+    },
+    "files": [
+        "./src/scavenger.ts"
+    ]
+}
