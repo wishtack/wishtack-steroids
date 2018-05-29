@@ -5,15 +5,14 @@
   "author": "Wishtack",
   "license": "MIT",
   "scripts": {
-    "build": "npm run clean:dist && ../../node_modules/.bin/tsc",
+    "build": "yarn clean:dist && tsc",
     "clean:dist": "rm -rf dist",
-    "publish": "npm run build && cp package.json dist/ && ln -s ../node_modules dist/ && cd dist && npm publish",
-    "test": "../../node_modules/.bin/karma start test/karma.conf.js --single-run",
-    "watch:test": "../../node_modules/.bin/karma start test/karma.conf.js"
+    "test": "karma start test/karma.conf.js --single-run",
+    "watch:test": "karma start test/karma.conf.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wishtack/ng-steroids.git"
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "devDependencies": {
     "rxjs": "5.4.2"

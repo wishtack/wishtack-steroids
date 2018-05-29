@@ -6,9 +6,9 @@
  */
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const webpackNodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 class WebpackConfigFactory {
@@ -20,17 +20,12 @@ class WebpackConfigFactory {
         const outputPath = path.join(projectPath, distDirectoryName);
         const srcRootPath = path.join(projectPath, 'src');
 
-        const tsOptions = {
-            declaration: true,
-            declarationDir: outputPath
-        };
-
         return webpackMerge(
-            this._commonConfig({projectPath, srcRootPath, outputPath, tsOptions}),
+            this._commonConfig({projectPath, srcRootPath, outputPath}),
             {
                 entry: entry,
                 devtool: 'source-map',
-                externals: [webpackNodeExternals()],
+                mode: 'production',
                 output: {
                     path: outputPath,
                     filename: `${libraryName}.min.js`,
@@ -41,10 +36,6 @@ class WebpackConfigFactory {
                 plugins: [
                     new CleanWebpackPlugin([distDirectoryName], {
                         root: projectPath
-                    }),
-                    new webpack.optimize.UglifyJsPlugin({
-                        minimize: true,
-                        sourceMap: true
                     })
                 ]
             }
@@ -60,6 +51,7 @@ class WebpackConfigFactory {
             this._commonConfig({projectPath, srcRootPath}),
             {
                 devtool: 'inline-source-map',
+                mode: 'development',
                 module: {
                     rules: [
                         {
@@ -81,38 +73,23 @@ class WebpackConfigFactory {
 
     _commonConfig({projectPath, srcRootPath, outputPath, tsOptions = {}}) {
 
-        tsOptions = Object.assign({
-            /* Setting default `configFileName`. */
-            configFileName: path.join(projectPath, 'tsconfig.json')
-        }, tsOptions);
+        tsOptions = {
+            /* Setting default `configFile`. */
+            configFile: path.join(projectPath, 'tsconfig.json'),
+            ...tsOptions,
+        };
 
         return {
             module: {
                 rules: [
                     {
-                        enforce: 'pre',
-                        test: /\.ts$/,
-                        use: [
-                            'tslint-loader'
-                        ],
-                        exclude: /node_modules/
-                    },
-                    {
                         test: /\.ts$/,
                         use: [
                             {
-                                loader: 'awesome-typescript-loader',
+                                loader: 'ts-loader',
                                 options: tsOptions
                             }
-                        ],
-                        exclude: /node_modules/
-                    },
-                    {
-                        test: /\.js$/,
-                        use: [
-                            'babel-loader'
-                        ],
-                        exclude: /node_modules/
+                        ]
                     }
                 ]
             },

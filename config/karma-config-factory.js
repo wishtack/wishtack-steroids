@@ -5,10 +5,7 @@
  * $Id: $
  */
 
-const path = require('path');
-
-const WebpackConfigFactory = require('./webpack-config-factory').WebpackConfigFactory;
-
+const { WebpackConfigFactory } = require('./webpack-config-factory');
 
 class KarmaConfigFactory {
 
