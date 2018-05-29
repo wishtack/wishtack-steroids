@@ -43,7 +43,7 @@ describe('Scavenger', () => {
 
     });
 
-    xit('should replace subscription if collected by key', () => {
+    it('should replace subscription if collected by key', () => {
 
         const scavenger = new Scavenger();
 
@@ -101,7 +101,6 @@ describe('Scavenger', () => {
 
         expect(john.lastValue).toBe('Bye John');
         expect(john.subscription.closed).toBe(true);
-
 
     });
 

@@ -15,16 +15,64 @@ import { Subscription } from 'rxjs/internal/Subscription';
  */
 export type ComponentWithOptionalOnDestroy = any | OnDestroy;
 
-export class Scavenger {
+export class InvalidKeyError {
 
-    private _subscriptionList: Subscription[] = [];
+    private _message: string;
 
-    unsubscribe() {
-        this._subscriptionList.forEach(subscription => subscription.unsubscribe());
-        this._subscriptionList = [];
+    constructor(key: string) {
+        this._message = `Invalid key: ${key}`;
     }
 
+    toString() {
+        return this._message;
+    }
+
+}
+
+export class Scavenger {
+
+    private _subscriptionMap = new Map<string, Subscription>();
+    private _subscriptionList: Subscription[] = [];
+
     collect<T>(): OperatorFunction<T, T> {
+        return this._trackSubscription(subscription => this._subscriptionList.push(subscription));
+    }
+
+    collectByKey<T>(key: string): OperatorFunction<T, T> {
+
+        if (typeof key !== 'string' || key === '') {
+            throw new InvalidKeyError(key);
+        }
+
+        return this._trackSubscription(subscription => {
+
+            const previousSubscription = this._subscriptionMap.get(key);
+
+            if (previousSubscription != null) {
+                previousSubscription.unsubscribe();
+            }
+
+            this._subscriptionMap.set(key, subscription);
+
+        });
+
+    }
+
+    unsubscribe() {
+
+        const subscriptionList = [
+            ...this._subscriptionList,
+            ...Array.from(this._subscriptionMap.values())
+        ];
+
+        subscriptionList.forEach(subscription => subscription.unsubscribe());
+
+        this._subscriptionList = [];
+        this._subscriptionMap.clear();
+
+    }
+
+    private _trackSubscription<T>(callback: (subscription: Subscription) => void): OperatorFunction<T, T> {
 
         return source$ => {
 
@@ -34,7 +82,7 @@ export class Scavenger {
                 const subscription = source$.subscribe(observer);
 
                 /* ...but grab subscription. */
-                this._subscriptionList = [...this._subscriptionList, subscription];
+                callback(subscription);
 
                 return subscription;
 
@@ -44,7 +92,5 @@ export class Scavenger {
 
     }
 
-    collectByKey<T>(key: string): OperatorFunction<T, T> {
-        throw new Error('Not implemented yet!');
-    }
+
 }
