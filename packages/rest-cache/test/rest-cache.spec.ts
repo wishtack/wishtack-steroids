@@ -5,15 +5,16 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs';
+import { from } from 'rxjs';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { CacheMissError } from '../src/cache-bridge/cache-miss-error';
 
 import { Cache } from '../src/cache/cache';
-import { CacheMissError } from '../src/cache-bridge/cache-miss-error';
-import { Resource } from '../src/resource/resource';
-import { ResourceListContainer } from '../src/resource/resource-list-container';
 import { Client } from '../src/client/client';
 import { DataListContainer } from '../src/client/data-list-container';
+import { Resource } from '../src/resource/resource';
 import { ResourceDescription } from '../src/resource/resource-description';
+import { ResourceListContainer } from '../src/resource/resource-list-container';
 import { RestCache } from '../src/rest-cache';
 
 describe('RestCache', () => {
@@ -42,7 +43,7 @@ describe('RestCache', () => {
 
     it('should proxy call to client', () => {
 
-        let observable = Observable.from([]);
+        let observable = from([]);
         let resourceDescription: ResourceDescription;
         let restCache = new RestCache({
             client: client
@@ -78,13 +79,13 @@ describe('RestCache', () => {
         };
 
         /* Mocking `cache.get` MISS. */
-        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.throw(new CacheMissError()));
+        ( <jasmine.Spy> cache.get ).and.returnValue(throwError(new CacheMissError()));
 
         /* Mocking `client.get`. */
-        ( <jasmine.Spy> client.get ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> client.get ).and.returnValue(from([data]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.set ).and.returnValue(from([undefined]));
 
         restCache.get({
             resourceDescription: resourceDescription,
@@ -171,13 +172,13 @@ describe('RestCache', () => {
         });
 
         /* Mocking `cache.getList` MISS. */
-        ( <jasmine.Spy> cache.getList ).and.returnValue(Observable.throw(new CacheMissError()));
+        ( <jasmine.Spy> cache.getList ).and.returnValue(throwError(new CacheMissError()));
 
         /* Mocking `client.getList`. */
-        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainer]));
+        ( <jasmine.Spy> client.getList ).and.returnValue(from([dataListContainer]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.setList ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.setList ).and.returnValue(from([undefined]));
 
         restCache.getList({
             resourceDescription: resourceDescription,
@@ -253,7 +254,7 @@ describe('RestCache', () => {
         };
 
         /* Mocking `cache.get` HIT. */
-        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> cache.get ).and.returnValue(from([data]));
 
         restCache.get({
             resourceDescription: resourceDescription,
@@ -328,7 +329,7 @@ describe('RestCache', () => {
         });
 
         /* Mocking `cache.get` HIT. */
-        ( <jasmine.Spy> cache.getList ).and.returnValue(Observable.from([dataListContainer]));
+        ( <jasmine.Spy> cache.getList ).and.returnValue(from([dataListContainer]));
 
         restCache.getList({
             resourceDescription: resourceDescription,
@@ -400,13 +401,13 @@ describe('RestCache', () => {
         };
 
         /* Mocking `cache.get` HIT. */
-        ( <jasmine.Spy> cache.get ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> cache.get ).and.returnValue(from([data]));
 
         /* Mocking `client.get`. */
-        ( <jasmine.Spy> client.get ).and.returnValue(Observable.from([dataRefreshed]));
+        ( <jasmine.Spy> client.get ).and.returnValue(from([dataRefreshed]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.set ).and.returnValue(from([undefined]));
 
         restCache.get({
             resourceDescription: resourceDescription,
@@ -515,13 +516,13 @@ describe('RestCache', () => {
         });
 
         /* Mocking `cache.get` HIT. */
-        ( <jasmine.Spy> cache.getList ).and.returnValue(Observable.from([dataListContainer]));
+        ( <jasmine.Spy> cache.getList ).and.returnValue(from([dataListContainer]));
 
         /* Mocking `client.getList`. */
-        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainerRefreshed]));
+        ( <jasmine.Spy> client.getList ).and.returnValue(from([dataListContainerRefreshed]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.setList ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.setList ).and.returnValue(from([undefined]));
 
         restCache.getList({
             resourceDescription: resourceDescription,
@@ -602,10 +603,10 @@ describe('RestCache', () => {
         };
 
         /* Mocking `client.get`. */
-        ( <jasmine.Spy> client.get ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> client.get ).and.returnValue(from([data]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.set ).and.returnValue(from([undefined]));
 
         restCache.get({
             resourceDescription: resourceDescription,
@@ -687,10 +688,10 @@ describe('RestCache', () => {
         });
 
         /* Mocking `client.getList`. */
-        ( <jasmine.Spy> client.getList ).and.returnValue(Observable.from([dataListContainer]));
+        ( <jasmine.Spy> client.getList ).and.returnValue(from([dataListContainer]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.setList ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.setList ).and.returnValue(from([undefined]));
 
         restCache.getList({
             resourceDescription: resourceDescription,
@@ -760,10 +761,10 @@ describe('RestCache', () => {
         };
 
         /* Mocking `client.patch`. */
-        ( <jasmine.Spy> client.patch ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> client.patch ).and.returnValue(from([data]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.set ).and.returnValue(from([undefined]));
 
         restCache.patch({
             resourceDescription: resourceDescription,
@@ -838,10 +839,10 @@ describe('RestCache', () => {
         };
 
         /* Mocking `client.patch`. */
-        ( <jasmine.Spy> client.post ).and.returnValue(Observable.from([data]));
+        ( <jasmine.Spy> client.post ).and.returnValue(from([data]));
 
         /* Mocking `cache.set`. */
-        ( <jasmine.Spy> cache.set ).and.returnValue(Observable.from([undefined]));
+        ( <jasmine.Spy> cache.set ).and.returnValue(from([undefined]));
 
         restCache.post({
             resourceDescription: resourceDescription,

@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface CacheBridge {
 
