@@ -4,6 +4,8 @@
   "version": "0.1.2",
   "author": "Wishtack",
   "license": "MIT",
+  "main": "dist/rest-cache.js",
+  "types" : "dist/rest-cache.d.ts",
   "scripts": {
     "build": "yarn clean:dist && tsc",
     "clean:dist": "rm -rf dist",
