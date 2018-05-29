@@ -1,0 +1,26 @@
+{
+  "name": "@wishtack/rx-scavenger",
+  "description": "RxJS Subscription Garbage Collector + Angular `ngOnDestroy` hook.",
+  "version": "0.0.0",
+  "author": "Wishtack",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/scavenger.js",
+  "types": "dist/scavenger.d.ts",
+  "scripts": {
+    "build": "yarn clean:dist && tsc",
+    "clean:dist": "rm -rf dist",
+    "test:single-run": "yarn test --single-run",
+    "test": "karma start test/karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
+  },
+  "devDependencies": {}
+}

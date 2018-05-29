@@ -19,8 +19,8 @@
     "test": "lerna run test:single-run"
   },
   "devDependencies": {
-    "@angular/core": "^6.0.3",
     "@angular/compiler": "^6.0.3",
+    "@angular/core": "^6.0.3",
     "@types/angular": "^1.6.45",
     "@types/angular-mocks": "^1.5.11",
     "@types/jasmine": "^2.8.7",
@@ -30,12 +30,10 @@
     "jasmine": "^3.1.0",
     "karma": "^2.0.2",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.2",
+    "karma-coverage-istanbul-reporter": "^2.0.1",
     "karma-jasmine": "^1.1.2",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-coverage": "^0.1.5",
-    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.0",
     "lerna": "^2.11.0",
     "ts-loader": "^4.3.0",
