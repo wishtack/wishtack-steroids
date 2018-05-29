@@ -18,11 +18,11 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "devDependencies": {
-    "angular": "1.6.5",
-    "angular-mocks": "1.6.5"
+    "angular": "~1.7.0",
+    "angular-mocks": "~1.7.0"
   },
   "peerDependencies": {
-    "angular": "1.6.5",
-    "core-js": "2.4.1"
+    "angular": "^1.6.0",
+    "core-js": "*"
   }
 }

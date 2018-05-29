@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/wishtack/ng-steroids.svg?branch=develop)](https://travis-ci.org/wishtack/ng-steroids)
 [![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/ng-steroids.svg)](https://greenkeeper.io/)
 
-## Angular 2+ Change Detector for AngularJS 1.5.x
+## Angular 2+ Change Detector for AngularJS 1.5.x to 1.7.x
 
 The idea here is to benefit from the [Angular 2 `OnPush` mode](http://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html) in AngularJS. 
 
@@ -42,11 +42,11 @@ And if we had 10 watchers per component, we would end up with `11 * N + 1` watch
 Luckily, we have [one-time-binding](http://www.blog.wishtack.com/single-post/2015/03/02/AngularJS-Performance-ngrepeat-Performance-and-Optional-one-time-binding) and we can one-time-bind everything and end up with 0 watchers. But what if users can be updated? Are we forced to watch everything?
 What about enabling the watch explicitly per component only when the user reference changes (not it's properties)... YES ! Immutability !
 
-Using the `ng-steroids-change-detector` module you can implement this behaviour as if you were already using Angular 2.
+Using the `@wishtack/change-detector` module you can implement this behaviour as if you were already using Angular 2.
 
 ## Install
 
-```yarn add ng-steroids-change-detector```
+```yarn add @wishtack/change-detector```
 
 ## Import required polyfills
 
