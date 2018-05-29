@@ -7,7 +7,7 @@
   "main": "dist/change-detector.min.js",
   "scripts": {
     "build": "webpack",
-    "test:single-run": "karma start test/karma.conf.js --single-run",
+    "test:single-run": "yarn test --single-run",
     "test": "karma start test/karma.conf.js"
   },
   "repository": {

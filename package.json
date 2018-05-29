@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "test": "lerna run test"
+    "test": "lerna run test:single-run"
   },
   "devDependencies": {
     "@angular/compiler": "4.3.3",

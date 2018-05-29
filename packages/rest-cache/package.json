@@ -7,8 +7,8 @@
   "scripts": {
     "build": "yarn clean:dist && tsc",
     "clean:dist": "rm -rf dist",
-    "test": "karma start test/karma.conf.js --single-run",
-    "watch:test": "karma start test/karma.conf.js"
+    "test:single-run": "yarn test --single-run",
+    "test": "karma start test/karma.conf.js"
   },
   "repository": {
     "type": "git",
