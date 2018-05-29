@@ -88,3 +88,7 @@ Using the `Scavenger.collectByKey(key: string)` method, the first `Subscription`
         
     }
 ```
+
+## Manual Unsubscribe
+
+You can also unsubscribe from all the collected `Subscription`s using `Scavenger.unsubscribe()`.
