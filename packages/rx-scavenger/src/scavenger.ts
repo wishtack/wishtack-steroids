@@ -7,6 +7,8 @@
 
 import { OnDestroy } from '@angular/core';
 import { OperatorFunction } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 /**
  * `OnDestroy` method is optional.
@@ -15,13 +17,31 @@ export type ComponentWithOptionalOnDestroy = any | OnDestroy;
 
 export class Scavenger {
 
+    private _subscriptionList: Subscription[] = [];
+
     unsubscribe() {
-        throw new Error('Not implemented!');
+        this._subscriptionList.forEach(subscription => subscription.unsubscribe());
+        this._subscriptionList = [];
     }
 
-    scavenge<T>(): OperatorFunction<T, T> {
-        throw new Error('Not implemented!');
-    }
+    collect<T>(): OperatorFunction<T, T> {
 
+        return source$ => {
+
+            return new Observable(observer => {
+
+                /* Let everything go through... */
+                const subscription = source$.subscribe(observer);
+
+                /* ...but grab subscription. */
+                this._subscriptionList = [...this._subscriptionList, subscription];
+
+                return subscription;
+
+            });
+
+        };
+
+    }
 
 }

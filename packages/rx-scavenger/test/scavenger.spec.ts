@@ -17,18 +17,14 @@ describe('Scavenger', () => {
         subject$ = new BehaviorSubject('Hello');
     });
 
-    it('should create scavenger', () => {
-        expect(new Scavenger()).not.toBeNull();
-    });
-
-    xit('should unsubscribe', () => {
+    it('should collect subscription using pipe and unsubscribe', () => {
 
         const scavenger = new Scavenger();
         let value: string;
 
         subject$
             .pipe(
-                scavenger.scavenge()
+                scavenger.collect()
             )
             .subscribe(_value => value = _value);
 
