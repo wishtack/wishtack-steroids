@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/change-detector",
   "description": "",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": "Wishtack",
   "license": "MIT",
   "main": "dist/change-detector.min.js",
