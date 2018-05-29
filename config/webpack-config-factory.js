@@ -43,7 +43,7 @@ class WebpackConfigFactory {
 
     }
 
-    testConfig({projectPath}) {
+    testConfig({coverage, projectPath}) {
 
         const srcRootPath = path.join(projectPath, 'src');
 
@@ -54,16 +54,19 @@ class WebpackConfigFactory {
                 mode: 'development',
                 module: {
                     rules: [
-                        {
+                        ...coverage ? [{
                             enforce: 'post',
                             test: /\.(js|ts)$/,
                             loader: 'istanbul-instrumenter-loader',
+                            options: {
+                                preserveComments: true
+                            },
                             include: srcRootPath,
                             exclude: [
                                 /\.(e2e|spec)\.ts$/,
                                 /node_modules/
                             ]
-                        }
+                        }] : []
                     ]
                 }
             }
