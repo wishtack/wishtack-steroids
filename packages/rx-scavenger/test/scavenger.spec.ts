@@ -212,7 +212,7 @@ describe('Scavenger', () => {
 
     });
 
-    xit('should unsubscribe from synchronous fire hose when replaced', () => {
+    it('should unsubscribe from synchronous fire hose when replaced', () => {
 
         const fireHose$ = range(0, 10);
         const scavenger = new Scavenger();

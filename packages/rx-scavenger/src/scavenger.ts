@@ -5,8 +5,11 @@
  * $Id: $
  */
 
+import 'core-js/es6/map';
+import 'core-js/modules/es7.array.includes';
+
 import { OnDestroy } from '@angular/core';
-import { MonoTypeOperatorFunction, Observable, Subscriber, Subscription } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
 /**
@@ -43,18 +46,16 @@ export class Scavenger {
 
     collect<T>(): MonoTypeOperatorFunction<T> {
         return this._trackSubscription({
-            isPreSubscriptionInProgress: ({preSubscription}) => {
-                /* Pre-subscription is still there which means that we still didn't have a subscription
-                 * and the pre-subscription has not been interrupted. */
-                return this._preSubscriptionList.indexOf(preSubscription) !== -1;
-            },
+            /* Pre-subscription is still there which means that we still didn't have a subscription
+             * and the pre-subscription has not been interrupted. */
+            isPreSubscriptionInProgress: ({preSubscription}) => this._preSubscriptionList.includes(preSubscription),
             onPreSubscription: ({preSubscription}) => this._preSubscriptionList.push(preSubscription),
             onSubscription: ({preSubscription, subscription}) => {
 
                 this._subscriptionList.push(subscription);
 
-                /* Remove `preSubscription` now that we have the subscription for performance's sake
-                 * in order to avoid */
+                /* Performance: Remove `preSubscription` now that we have the subscription.
+                 * This will improve `isPreSubscriptionInProgress`'s performance as it will be a smaller `Array`. */
                 this._preSubscriptionList = this._preSubscriptionList
                     .filter(_preSubscription => _preSubscription !== preSubscription);
 
@@ -69,9 +70,11 @@ export class Scavenger {
         }
 
         return this._trackSubscription({
-            isPreSubscriptionInProgress: () => true,
-            onPreSubscription: ({preSubscription}) => {},
-            onSubscription: ({subscription}) => {
+            isPreSubscriptionInProgress: ({preSubscription}) => {
+                return this._preSubscriptionMap.get(key) === preSubscription;
+            },
+            onPreSubscription: ({preSubscription}) => this._preSubscriptionMap.set(key, preSubscription),
+            onSubscription: ({preSubscription, subscription}) => {
 
                 const previousSubscription = this._subscriptionMap.get(key);
 
@@ -80,6 +83,10 @@ export class Scavenger {
                 }
 
                 this._subscriptionMap.set(key, subscription);
+
+                /* Performance: Remove `preSubscription` now that we have the subscription.
+                 * This will improve `isPreSubscriptionInProgress`'s performance as it will be a smaller `Map`. */
+                this._preSubscriptionMap.delete(key);
 
             }
         });
@@ -151,7 +158,6 @@ export class Scavenger {
             /* Let everything go through... */
             const subscription = source$
                 .pipe(
-                    /* @TODO: rename pre-subscription has not been interrupted. */
                     takeWhile(() => {
 
                         /* We have a subscription now so we don't care about pre-subscriptions any more. */
