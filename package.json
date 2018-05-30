@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "lerna:publish": "lerna publish --conventional-commits --npm-client=npm",
+    "lerna:publish": "yarn build && lerna publish --conventional-commits --npm-client=npm",
     "test": "lerna run test:single-run"
   },
   "devDependencies": {
