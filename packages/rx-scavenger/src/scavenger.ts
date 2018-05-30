@@ -12,11 +12,6 @@ import { OnDestroy } from '@angular/core';
 import { MonoTypeOperatorFunction, Observable, Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
-/**
- * `OnDestroy` method is optional.
- */
-export type ComponentWithOptionalOnDestroy = any | OnDestroy;
-
 export type PreSubscriptionOpaqueToken = any;
 
 export class InvalidKeyError {
@@ -40,7 +35,7 @@ export class Scavenger {
     private _preSubscriptionList = [];
     private _preSubscriptionMap = new Map<string, PreSubscriptionOpaqueToken>();
 
-    constructor(component: ComponentWithOptionalOnDestroy = null) {
+    constructor(component: OnDestroy = null) {
         this._tryRegisterNgOnDestroyHook(component);
     }
 
@@ -108,18 +103,18 @@ export class Scavenger {
 
     }
 
-    private _tryRegisterNgOnDestroyHook(component: ComponentWithOptionalOnDestroy) {
-
-        let originalNgOnDestroy;
+    /**
+     * `ngOnDestroy()` method is mandatory because Angular's Renderer2 doesn't call `ngOnDestroy` if added
+     * dynamically.
+     * Cf. https://github.com/wishtack/wishtack-steroids/issues/146.
+     */
+    private _tryRegisterNgOnDestroyHook(component: OnDestroy) {
 
         if (component == null) {
             return;
         }
 
-        /* Overriding ngOnDestroy to auto unsubscribe from all observables. */
-        if (component.ngOnDestroy != null) {
-            originalNgOnDestroy = component.ngOnDestroy.bind(component);
-        }
+        const originalNgOnDestroy = component.ngOnDestroy.bind(component);
 
         component.ngOnDestroy = () => {
 
@@ -144,9 +139,9 @@ export class Scavenger {
      * @private
      */
     private _trackSubscription<T>({isPreSubscriptionInProgress, onPreSubscription, onSubscription}: {
-        isPreSubscriptionInProgress: (args: {preSubscription: PreSubscriptionOpaqueToken}) => boolean,
-        onPreSubscription: (args: {preSubscription: PreSubscriptionOpaqueToken}) => void,
-        onSubscription: (args: {preSubscription: PreSubscriptionOpaqueToken, subscription: Subscription}) => void
+        isPreSubscriptionInProgress: (args: { preSubscription: PreSubscriptionOpaqueToken }) => boolean,
+        onPreSubscription: (args: { preSubscription: PreSubscriptionOpaqueToken }) => void,
+        onSubscription: (args: { preSubscription: PreSubscriptionOpaqueToken, subscription: Subscription }) => void
     }): MonoTypeOperatorFunction<T> {
 
         return source$ => new Observable(subscriber => {

@@ -5,10 +5,11 @@
  * $Id: $
  */
 
+import { OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, range, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ComponentWithOptionalOnDestroy, Scavenger } from '../src/scavenger';
+import { Scavenger } from '../src/scavenger';
 
 describe('Scavenger', () => {
 
@@ -150,27 +151,11 @@ describe('Scavenger', () => {
 
     });
 
-    it('should create ngOnDestroy and unsubscribe', () => {
-
-        const component: ComponentWithOptionalOnDestroy = {};
-        const scavenger = new Scavenger(component);
-
-        spyOn(scavenger, 'unsubscribe');
-
-        expect(component.ngOnDestroy).not.toBeUndefined();
-
-        component.ngOnDestroy();
-
-        /* `ngOnDestroy()` should call `scavenger.unsubscribe()`. */
-        expect(scavenger.unsubscribe).toHaveBeenCalledTimes(1);
-
-    });
-
     it('should wrap ngOnDestroy and unsubscribe', () => {
 
         const ngOnDestroy = jasmine.createSpy('ngOnDestroy');
 
-        const component: ComponentWithOptionalOnDestroy = {
+        const component: OnDestroy = {
             ngOnDestroy
         };
         const scavenger = new Scavenger(component);
