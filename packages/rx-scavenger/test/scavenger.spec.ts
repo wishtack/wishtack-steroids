@@ -5,7 +5,7 @@
  * $Id: $
  */
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, range, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ComponentWithOptionalOnDestroy, Scavenger } from '../src/scavenger';
@@ -120,7 +120,7 @@ describe('Scavenger', () => {
 
     });
 
-    it('should wrap ngOnDestroy and unsubscribe', () => {
+    xit('should wrap ngOnDestroy and unsubscribe', () => {
 
         const ngOnDestroy = jasmine.createSpy('ngOnDestroy');
 
@@ -139,6 +139,55 @@ describe('Scavenger', () => {
         expect(ngOnDestroy).toHaveBeenCalledTimes(1);
         /* `ngOnDestroy` should be bound to `component`. */
         expect(ngOnDestroy.calls.first().object).toBe(component);
+
+    });
+
+    it('should unsubscribe from synchronous fire hose', () => {
+
+        const fireHose$ = range(0, 10);
+        const scavenger = new Scavenger();
+        let value;
+
+        const subscription = fireHose$
+            .pipe(
+                scavenger.collect()
+            )
+            .subscribe(_value => {
+                value = _value;
+                scavenger.unsubscribe();
+            });
+
+        expect(subscription.closed).toEqual(true);
+
+        expect(value).toEqual(0);
+
+    });
+
+    xit('should unsubscribe from synchronous fire hose when replaced', () => {
+
+        const fireHose$ = range(0, 10);
+        const scavenger = new Scavenger();
+        let valueNew;
+        let valuePrevious;
+
+        const source$ = fireHose$
+            .pipe(
+                scavenger.collectByKey('synchronous-fire-hose')
+            );
+
+        const subscription = source$
+            .subscribe(_value => {
+
+                valuePrevious = _value;
+
+                source$.subscribe(_valueNew => valueNew = _valueNew);
+
+            });
+
+        expect(subscription.closed).toEqual(true);
+
+        expect(valuePrevious).toEqual(0);
+        expect(valueNew).toEqual(9);
 
     });
 
