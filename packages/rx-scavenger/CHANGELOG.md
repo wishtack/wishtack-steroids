@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@0.2.0...@wishtack/rx-scavenger@1.0.0) (2018-05-30)
+
+
+### Bug Fixes
+
+* `Scavenger.unsubscribe()` was not called if `ngOnDestroy()` is not implemented due to Angular not calling dynamically added `ngOnDestroy()` method. Fixes [#146](https://github.com/wishtack/wishtack-steroids/issues/146). ([d108d60](https://github.com/wishtack/wishtack-steroids/commit/d108d60))
+
+
+### BREAKING CHANGES
+
+* The component given to Scavenger's constructor must have an `ngOnDestroy` method.
+
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2018-05-30)
 
