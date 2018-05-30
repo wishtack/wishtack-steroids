@@ -188,7 +188,10 @@ describe('Scavenger', () => {
 
     });
 
-    xit('should unsubscribe from synchronous fire hose', () => {
+    /**
+     * Fire hose observables drain themselves before returning the closed subscription.
+     */
+    it('should unsubscribe from synchronous fire hose', () => {
 
         const fireHose$ = range(0, 10);
         const scavenger = new Scavenger();
