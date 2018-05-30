@@ -166,7 +166,7 @@ describe('Scavenger', () => {
 
     });
 
-    xit('should wrap ngOnDestroy and unsubscribe', () => {
+    it('should wrap ngOnDestroy and unsubscribe', () => {
 
         const ngOnDestroy = jasmine.createSpy('ngOnDestroy');
 
@@ -188,7 +188,7 @@ describe('Scavenger', () => {
 
     });
 
-    it('should unsubscribe from synchronous fire hose', () => {
+    xit('should unsubscribe from synchronous fire hose', () => {
 
         const fireHose$ = range(0, 10);
         const scavenger = new Scavenger();
