@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./logo.png" alt="Rx-Scavenger Logo">
+    <img src="https://github.com/wishtack/wishtack-steroids/raw/master/packages/rx-scavenger/logo.png" alt="Rx-Scavenger Logo">
     <h1>Rx-Scavenger : The RxJS Subscription Garbage Collector
 </p>
 
