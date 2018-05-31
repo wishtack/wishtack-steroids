@@ -34,7 +34,7 @@ import { Scavenger } from 'rx-scavenger';
 @Component({
     ...
 })
-export class WeatherComponent implements OnInit {
+export class WeatherComponent implements OnDestroy, OnInit {
     
     private _scavenger = new Scavenger(this);
     
@@ -52,6 +52,9 @@ export class WeatherComponent implements OnInit {
                 ...
             });
         
+    }
+    
+    ngOnDestroy() {
     }
     
 }
