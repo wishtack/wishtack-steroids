@@ -60,7 +60,7 @@ export class WeatherComponent implements OnDestroy, OnInit {
 }
 ```
 
-As you can see, there's no need to implement `ngOnDestroy()` method as the `Scavenger` class takes care of implementing it and collecting every `Subscription` to the `Observable` returned by `WeatherStation.getWeather()` using the `Scavenger.collect()` method.
+As you can see, there's no need to call `Scavenger.unsubscribe()` in `ngOnDestroy()` method as the `Scavenger` class takes care of implementing it and collecting every `Subscription` to the `Observable` returned by `WeatherStation.getWeather()` using the `Scavenger.collect()` method.
 
 ## Using `collectByKey` to avoid overwritten `Subscription`s
 
