@@ -22,5 +22,9 @@
   "peerDependencies": {
     "core-js": "^2.0.0",
     "rxjs": "^6.0.0"
+  },
+  "devDependencies": {
+    "core-js": "^2.0.0",
+    "rxjs": "^6.0.0"
   }
 }
