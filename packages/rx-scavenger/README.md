@@ -67,7 +67,7 @@ As you can see, there's no need to call `Scavenger.unsubscribe()` in `ngOnDestro
 ```typescript
     refreshWeather(city) {
         
-        this._subscription = his._weatherStation
+        this._subscription = this._weatherStation
             .getWeather(city)
             .subscribe(weather => {
                 ...
