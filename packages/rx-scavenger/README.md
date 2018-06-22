@@ -29,7 +29,7 @@ or `npm install --save @wishtack/rx-scavenger`
 ## Usage in an Angular component
 
 ```typescript
-import { Scavenger } from 'rx-scavenger';
+import { Scavenger } from '@wishtack/rx-scavenger';
 
 @Component({
     ...
