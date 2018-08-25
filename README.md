@@ -9,7 +9,7 @@ This is a monorepo containing the following packages:
 - Angular's `OnPush` and `ChangeDetector` implementation for Angular 1.x. 
 
 #### [@wishtack/rest-cache](/packages/rest-cache)
-- Framework agnostic, reactive and fully customizable library to handle restful APIs caching.
+- [Work in Progress] Framework agnostic, reactive and fully customizable library to handle restful APIs caching.
 
 #### [@wishtack/rx-scavenger](/packages/rx-scavenger)
 - `rx-scavenger` is an **[RxJS](https://github.com/Reactive-Extensions/RxJS) `Subscription` Garbage Collector**.
