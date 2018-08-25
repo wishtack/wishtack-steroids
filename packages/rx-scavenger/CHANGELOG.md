@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@1.0.0...@wishtack/rx-scavenger@1.0.2) (2018-08-25)
+
+
+### Bug Fixes
+
+* Set more flexible compatibility window for core-js peer dependency. ([57b5860](https://github.com/wishtack/wishtack-steroids/commit/57b5860))
+
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@1.0.0...@wishtack/rx-scavenger@1.0.1) (2018-05-30)
 
