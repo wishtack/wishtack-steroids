@@ -4,32 +4,32 @@
   "newProjectRoot": "projects",
   "projects": {
     "reactive-component-loader": {
-      "root": "projects/reactive-component-loader",
-      "sourceRoot": "projects/reactive-component-loader/src",
+      "root": "",
+      "sourceRoot": "src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/reactive-component-loader/tsconfig.lib.json",
-            "project": "projects/reactive-component-loader/ng-package.json"
+            "tsConfig": "src/tsconfig.lib.json",
+            "project": "ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/reactive-component-loader/src/test.ts",
-            "tsConfig": "projects/reactive-component-loader/tsconfig.spec.json",
-            "karmaConfig": "projects/reactive-component-loader/karma.conf.js"
+            "main": "src/test.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/reactive-component-loader/tsconfig.lib.json",
-              "projects/reactive-component-loader/tsconfig.spec.json"
+              "src/tsconfig.lib.json",
+              "src/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
