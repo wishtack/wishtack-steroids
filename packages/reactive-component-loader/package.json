@@ -1,6 +1,11 @@
 {
-  "name": "reactive-component-loader",
+  "name": "@wishtack/reactive-component-loader",
+  "description": "Lazy load Angular components without even using the router.",
   "version": "0.0.0",
+  "author": "Wishtack",
+  "license": "MIT",
+  "main": "dist/reactive-component-loader/esm2015/public_api.js",
+  "types": "dist/reactive-component-loader/public_api.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,10 +15,14 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
+  },
   "peerDependencies": {
-    "@angular/core": "~7.0.0",
-    "rxjs": "~6.3.3",
+    "@angular/core": "^6.1.10",
+    "ng-dynamic-component": "^4.0.0",
+    "rxjs": "^6.3.3",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -32,7 +41,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@ngtools/webpack": "~7.0.3",
-    "@types/jasmine": "~2.8.8",
+    "@types/jasmine": "~2.8.9",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
@@ -44,6 +53,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "ng-dynamic-component": "^4.0.0",
     "ng-packagr": "^4.2.0",
     "protractor": "~5.4.0",
     "rxjs": "~6.3.3",

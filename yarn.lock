@@ -926,7 +926,7 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
-"@types/jasmine@*", "@types/jasmine@^2.8.7", "@types/jasmine@~2.8.8":
+"@types/jasmine@*", "@types/jasmine@^2.8.7", "@types/jasmine@~2.8.9":
   version "2.8.9"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.8.9.tgz#e028c891e8551fdf6de905d959581fc4fa0b5509"
   integrity sha512-8dPZwjosElZOGGYw1nwTvOEMof4gjwAWNFS93nBI091BoEfd5drnHOLRMiRF/LOPuMTn5LgEdv0bTUO8QFVuHQ==
@@ -6248,6 +6248,11 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+ng-dynamic-component@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ng-dynamic-component/-/ng-dynamic-component-4.0.0.tgz#0962add0b20bf01c2f4c3d1e5d66b6f5cf320959"
+  integrity sha512-EQpT3gIeaz1GUZu063mZinZFMi/w7+Bpgggkm8A5dJffUi8hlBXSAj03z9drDwJEFRC4astfV34FOde4XZ9Ubg==
 
 ng-packagr@^4.2.0:
   version "4.4.0"
