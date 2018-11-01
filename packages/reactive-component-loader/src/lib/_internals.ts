@@ -6,10 +6,11 @@
  */
 
 import { InjectionToken } from '@angular/core';
+import { LoadChildrenCallback } from './load-children-callback';
 
 export interface ModuleRegistryItem {
     moduleId: string;
-    modulePath: string;
+    loadChildren: LoadChildrenCallback;
 }
 
 export const REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY =

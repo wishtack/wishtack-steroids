@@ -26,7 +26,7 @@ export class TestContainerComponent {
     @Input() outputs: {[key: string]: (event: any) => void};
 }
 
-describe('ReactiveComponentLoader', () => {
+describe('<wt-lazy>', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -36,7 +36,8 @@ describe('ReactiveComponentLoader', () => {
             imports: [
                 ReactiveComponentLoaderModule.declareModule({
                     moduleId: 'greetings',
-                    modulePath: './path/to/greetings.module#GreetingsModule'
+                    loadChildren: () => import('../../fixtures/greetings.module')
+                        .then(_module => _module.GreetingsModule)
                 }),
                 RouterTestingModule
             ]
@@ -52,15 +53,7 @@ describe('ReactiveComponentLoader', () => {
         fixture.detectChanges();
     });
 
-    let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
-    beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
-
-    it('should be retrieve component recipe', fakeAsync(() => {
-
-        /* Stubbing the lazy loaded module. */
-        spyNgModuleFactoryLoader.stubbedModules = {
-            './path/to/greetings.module#GreetingsModule': GreetingsModule
-        };
+    it('should lazy load component', fakeAsync(() => {
 
         component.inputs = {
             name: '@yjaaidi'

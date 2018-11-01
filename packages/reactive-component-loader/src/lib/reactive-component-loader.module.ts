@@ -6,11 +6,11 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule, NgModuleFactoryLoader, SystemJsNgModuleLoader } from '@angular/core';
-import { provideRoutes } from '@angular/router';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
 import { LazyComponent } from './lazy/lazy.component';
+import { LoadChildrenCallback } from './load-children-callback';
 
 /**
  * @description
@@ -45,40 +45,19 @@ import { LazyComponent } from './lazy/lazy.component';
     imports: [
         CommonModule,
         DynamicModule.withComponents([])
-    ],
-    providers: [
-        /* @HACK: Add an empty array to ROUTE token.
-         * Otherwise `PreloadAllModules` preloading strategy ends up in infinite loop. */
-        provideRoutes([])
     ]
 })
 export class ReactiveComponentLoaderModule {
 
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ReactiveComponentLoaderModule,
-            providers: [
-                {
-                    provide: NgModuleFactoryLoader,
-                    useClass: SystemJsNgModuleLoader
-                }
-            ]
-        };
-    }
-
     /**
-     * @param args.id a unique id for the module.
-     * @param args.path the module's path (e.g.: '../path/to/my-module.module#MyModule').
+     * @param args.moduleId a unique id for the module.
+     * @param args.loadChildren the module's provider function.
      */
-    static declareModule(args: { moduleId: string, modulePath: string }): ModuleWithProviders {
+    static declareModule(args: { moduleId: string, loadChildren: LoadChildrenCallback }): ModuleWithProviders {
 
         return {
             ngModule: ReactiveComponentLoaderModule,
             providers: [
-                provideRoutes([{
-                    path: args.modulePath,
-                    loadChildren: args.modulePath
-                }]),
                 {
                     provide: REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY,
                     useValue: args,

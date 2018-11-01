@@ -6,13 +6,13 @@
  */
 
 import {
+    Compiler,
     ComponentFactory,
-    ComponentFactoryResolver,
     Inject,
     Injectable,
     Injector,
     NgModuleFactory,
-    NgModuleFactoryLoader,
+    Optional,
     Type
 } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
@@ -42,10 +42,9 @@ export function componentNotFoundError(selector: string) {
 export class ReactiveComponentLoader {
 
     constructor(
-        @Inject(REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY) private _moduleRegistry: ModuleRegistryItem[],
+        @Optional() private _compiler: Compiler,
         private _injector: Injector,
-        private _componentFactoryResolver: ComponentFactoryResolver,
-        private _ngModuleFactoryLoader: NgModuleFactoryLoader
+        @Inject(REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY) private _moduleRegistry: ModuleRegistryItem[]
     ) {
     }
 
@@ -72,27 +71,53 @@ export class ReactiveComponentLoader {
                 throw moduleNotFoundError(moduleId);
             }
 
-            const ngModuleFactory = await this._ngModuleFactoryLoader.load(moduleRegistryItem.modulePath);
+            /* Get the module factory. */
+            const ngModuleFactory = await this._getModuleFactory(moduleRegistryItem);
 
+            /* Create the module. */
             const moduleRef = ngModuleFactory.create(this._injector);
 
-            const componentFactoryResolver = moduleRef.componentFactoryResolver;
-
-            const componentFactory = Array.from(
-                componentFactoryResolver['_factories'].values() as Array<ComponentFactory<any>>
-            )
-                .find(_componentFactory => _componentFactory.selector === selector);
-
-            if (componentFactory == null) {
-                throw componentNotFoundError(selector);
-            }
+            /* Get the component type. */
+            const componentType = this._tryGetComponentType(moduleRef, selector);
 
             return {
-                componentType: componentFactory.componentType,
+                componentType,
                 ngModuleFactory
             };
 
         });
+
+    }
+
+    /**
+     * Try to find component factory with the right selector.
+     * @throws error if component not found.
+     */
+    private _tryGetComponentType(moduleRef, selector: string) {
+
+        const componentFactoryResolver = moduleRef.componentFactoryResolver;
+
+        const componentFactory = Array.from(
+            componentFactoryResolver['_factories'].values() as Array<ComponentFactory<any>>
+        )
+            .find(_componentFactory => _componentFactory.selector === selector);
+
+        if (componentFactory == null) {
+            throw componentNotFoundError(selector);
+        }
+
+        return componentFactory.componentType;
+
+    }
+
+    /**
+     * Compile module or grab compiled module if AOT.
+     */
+    private async _getModuleFactory(moduleRegistryItem: ModuleRegistryItem): Promise<NgModuleFactory<any>> {
+
+        const moduleTypeOrFactory = await moduleRegistryItem.loadChildren() as any;
+
+        return this._compiler != null ? await this._compiler.compileModuleAsync(moduleTypeOrFactory) : moduleTypeOrFactory;
 
     }
 
