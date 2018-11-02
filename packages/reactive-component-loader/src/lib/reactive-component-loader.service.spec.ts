@@ -132,7 +132,7 @@ describe('ReactiveComponentLoader', () => {
             };
         });
 
-        xit('should throw an error if module is declared with different locations', fakeAsync(() => {
+        it('should throw an error if module is declared with different locations', fakeAsync(() => {
 
             reactiveComponentLoader.getComponentRecipe({
                 moduleId: 'greetings',

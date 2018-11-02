@@ -28,12 +28,16 @@ export interface ComponentRecipe<T> {
     ngModuleFactory: NgModuleFactory<any>;
 }
 
-export function moduleNotFoundError(moduleId: string) {
-    return new Error(`Module with id '${moduleId}' not found.`);
-}
-
 export function componentNotFoundError(selector: string) {
     return new Error(`Component '<${selector}>' not found.`);
+}
+
+export function duplicateModuleDeclarationError(moduleId: string) {
+    return new Error(`Module with id '${moduleId}' has been declared more than once with different locations.`);
+}
+
+export function moduleNotFoundError(moduleId: string) {
+    return new Error(`Module with id '${moduleId}' not found.`);
 }
 
 @Injectable({
@@ -63,13 +67,10 @@ export class ReactiveComponentLoader {
 
             const {moduleId, selector} = componentLocation;
 
-            /* @TODO: Trigger error if multiple modules with same id and different pathes. */
-            const moduleInfo = this._moduleRegistry
-                .find(_moduleRegistryItem => _moduleRegistryItem.moduleId === moduleId);
-
-            if (moduleInfo == null) {
-                throw moduleNotFoundError(moduleId);
-            }
+            /* Throws error if:
+             * - module not found
+             * - or if there's a duplicate module declaration with different locations. */
+            const moduleInfo = this._findModuleInfo(moduleId);
 
             /* Get the module factory. */
             const ngModuleFactory = await this._getModuleFactory(moduleInfo);
@@ -115,6 +116,30 @@ export class ReactiveComponentLoader {
      */
     private async _getModuleFactory(moduleRegistryItem: ModuleInfo): Promise<NgModuleFactory<any>> {
         return this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
+    }
+
+    private _findModuleInfo(moduleId: string) {
+
+        const moduleInfoList = this._moduleRegistry
+            .filter(_moduleInfo => _moduleInfo.moduleId === moduleId);
+
+        const moduleInfo = moduleInfoList[0];
+
+        if (moduleInfo == null) {
+            throw moduleNotFoundError(moduleId);
+        }
+
+        /* Counting for duplicates but only if they have a different location. */
+        const duplicateCount = moduleInfoList
+            .filter(_moduleInfo => _moduleInfo.loadChildren !== moduleInfo.loadChildren)
+            .length;
+
+        if (duplicateCount > 0) {
+            throw duplicateModuleDeclarationError(moduleInfo.moduleId);
+        }
+
+        return moduleInfo;
+
     }
 
 }
