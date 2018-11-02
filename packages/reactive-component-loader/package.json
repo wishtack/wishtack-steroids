@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/reactive-component-loader",
   "description": "Lazy load Angular components without even using the router.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
