@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ComponentLocation, ComponentRecipe, ReactiveComponentLoader } from '../reactive-component-loader.service';
+import { Inputs } from './inputs';
+import { Outputs } from './outputs';
 
 @Component({
     selector: 'wt-lazy',
@@ -10,8 +12,8 @@ import { ComponentLocation, ComponentRecipe, ReactiveComponentLoader } from '../
 export class LazyComponent implements OnChanges {
 
     @Input() location: ComponentLocation;
-    @Input() inputs: { [key: string]: any };
-    @Input() outputs: { [key: string]: (...args) => void };
+    @Input() inputs: Inputs;
+    @Input() outputs: Outputs;
 
     componentRecipe$: Observable<ComponentRecipe<any>>;
 
