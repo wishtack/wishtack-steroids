@@ -10,7 +10,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { RouterTestingModule, SpyNgModuleFactoryLoader } from '@angular/router/testing';
 import { GreetingsModule } from '../../fixtures/greetings.module';
 import { ReactiveComponentLoaderModule } from '../reactive-component-loader.module';
-import { ComponentLocation, ReactiveComponentLoader } from '../reactive-component-loader.service';
+import { ComponentLocation } from '../reactive-component-loader.service';
 
 @Component({
     template: `
@@ -34,16 +34,25 @@ describe('<wt-lazy>', () => {
                 TestContainerComponent
             ],
             imports: [
-                ReactiveComponentLoaderModule.declareModule({
+                ReactiveComponentLoaderModule.withModule({
                     moduleId: 'greetings',
-                    loadChildren: () => import('../../fixtures/greetings.module')
-                        .then(_module => _module.GreetingsModule)
+                    loadChildren: './path/to/greetings.module#GreetingsModule'
                 }),
                 RouterTestingModule
             ]
         })
             .compileComponents();
     }));
+
+    let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
+    beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
+
+    beforeEach(() => {
+        /* Stubbing the lazy loaded module. */
+        spyNgModuleFactoryLoader.stubbedModules = {
+            './path/to/greetings.module#GreetingsModule': GreetingsModule
+        };
+    });
 
     let component: TestContainerComponent;
     let fixture: ComponentFixture<TestContainerComponent>;

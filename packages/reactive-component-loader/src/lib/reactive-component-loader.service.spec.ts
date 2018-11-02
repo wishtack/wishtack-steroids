@@ -5,9 +5,10 @@
  * $Id: $
  */
 
+import { NgModuleFactoryLoader } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { GreetingsComponent } from '../fixtures/greetings.module';
+import { RouterTestingModule, SpyNgModuleFactoryLoader } from '@angular/router/testing';
+import { GreetingsComponent, GreetingsModule } from '../fixtures/greetings.module';
 import { ReactiveComponentLoaderModule } from './reactive-component-loader.module';
 import { ReactiveComponentLoader } from './reactive-component-loader.service';
 
@@ -16,10 +17,9 @@ describe('ReactiveComponentLoader', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [
-            ReactiveComponentLoaderModule.declareModule({
+            ReactiveComponentLoaderModule.withModule({
                 moduleId: 'greetings',
-                loadChildren: () => import('../fixtures/greetings.module')
-                    .then(_module => _module.GreetingsModule)
+                loadChildren: './path/to/greetings.module#GreetingsModule'
             }),
             RouterTestingModule
         ]
@@ -27,6 +27,16 @@ describe('ReactiveComponentLoader', () => {
 
     let reactiveComponentLoader: ReactiveComponentLoader;
     beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
+
+    let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
+    beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
+
+    beforeEach(() => {
+        /* Stubbing the lazy loaded module. */
+        spyNgModuleFactoryLoader.stubbedModules = {
+            './path/to/greetings.module#GreetingsModule': GreetingsModule
+        };
+    });
 
     it('should retrieve component recipe', async () => {
 

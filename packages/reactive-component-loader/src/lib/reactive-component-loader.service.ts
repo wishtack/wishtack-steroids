@@ -6,17 +6,17 @@
  */
 
 import {
-    Compiler,
     ComponentFactory,
     Inject,
     Injectable,
     Injector,
     NgModuleFactory,
-    Optional,
+    NgModuleFactoryLoader,
     Type
 } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
-import { ModuleRegistryItem, REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
+import { REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
+import { ModuleInfo } from './module-info';
 
 export interface ComponentLocation {
     moduleId: string;
@@ -42,9 +42,9 @@ export function componentNotFoundError(selector: string) {
 export class ReactiveComponentLoader {
 
     constructor(
-        @Optional() private _compiler: Compiler,
         private _injector: Injector,
-        @Inject(REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY) private _moduleRegistry: ModuleRegistryItem[]
+        private _ngModuleFactoryLoader: NgModuleFactoryLoader,
+        @Inject(REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY) private _moduleRegistry: ModuleInfo[]
     ) {
     }
 
@@ -64,15 +64,15 @@ export class ReactiveComponentLoader {
             const {moduleId, selector} = componentLocation;
 
             /* @TODO: Trigger error if multiple modules with same id and different pathes. */
-            const moduleRegistryItem = this._moduleRegistry
+            const moduleInfo = this._moduleRegistry
                 .find(_moduleRegistryItem => _moduleRegistryItem.moduleId === moduleId);
 
-            if (moduleRegistryItem == null) {
+            if (moduleInfo == null) {
                 throw moduleNotFoundError(moduleId);
             }
 
             /* Get the module factory. */
-            const ngModuleFactory = await this._getModuleFactory(moduleRegistryItem);
+            const ngModuleFactory = await this._getModuleFactory(moduleInfo);
 
             /* Create the module. */
             const moduleRef = ngModuleFactory.create(this._injector);
@@ -113,12 +113,8 @@ export class ReactiveComponentLoader {
     /**
      * Compile module or grab compiled module if AOT.
      */
-    private async _getModuleFactory(moduleRegistryItem: ModuleRegistryItem): Promise<NgModuleFactory<any>> {
-
-        const moduleTypeOrFactory = await moduleRegistryItem.loadChildren() as any;
-
-        return this._compiler != null ? await this._compiler.compileModuleAsync(moduleTypeOrFactory) : moduleTypeOrFactory;
-
+    private async _getModuleFactory(moduleRegistryItem: ModuleInfo): Promise<NgModuleFactory<any>> {
+        return this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
     }
 
 }

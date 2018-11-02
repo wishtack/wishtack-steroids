@@ -7,4 +7,4 @@
 
 import { Type } from '@angular/core';
 
-export type LoadChildrenCallback = () => Type<any> | Promise<Type<any>>;
+export type ModuleLoaderCallback = () => Type<any> | Promise<Type<any>>;

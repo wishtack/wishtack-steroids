@@ -6,11 +6,16 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, NgModuleFactoryLoader, SystemJsNgModuleLoader } from '@angular/core';
+import { provideRoutes, Route } from '@angular/router';
 import { DynamicModule } from 'ng-dynamic-component';
 import { REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
 import { LazyComponent } from './lazy/lazy.component';
-import { LoadChildrenCallback } from './load-children-callback';
+import { ModuleInfo } from './module-info';
+
+export function noMatch() {
+    return null;
+}
 
 /**
  * @description
@@ -19,19 +24,20 @@ import { LoadChildrenCallback } from './load-children-callback';
  *
  * This is useful for lazy loading components dynamically.
  *
- * 1. To enable the module, the root module should load `DynamicComponentLoaderModule.forRoot()`.
+ * 1. To enable the module, the root module should load `ReactiveComponentLoaderModule.forRoot()`.
  *
- * 2. Lazy loaded modules should be declared using `DynamicComponentLoaderModule.declareModule`:
+ * 2. Lazy loaded modules should be declared using `ReactiveComponentLoaderModule.withModule`:
  * ```
  * imports: [
- *     DynamicComponentLoaderModule.declareModule({
+ *     ReactiveComponentLoaderModule.withModule({
  *         moduleId: 'item-list',
- *         modulePath: './+item-list/item-list.module#ItemListModule'
+ *         loadChildren: './+item-list/item-list.module#ItemListModule'
  *     })
  * ]
  * ```
  *
- * 3. The lazy loaded module should import `DynamicComponentLoaderModule` otherwise you might end up with an infinite loop in the router
+ * 3. The lazy loaded module should import `ReactiveComponentLoaderModule`
+ * otherwise you might end up with an infinite loop in the router
  * when using `PreloadAllModules` preloading strategy.
  *
  */
@@ -45,22 +51,40 @@ import { LoadChildrenCallback } from './load-children-callback';
     imports: [
         CommonModule,
         DynamicModule.withComponents([])
+    ],
+    providers: [
+        /* @HACK: Add an empty array to ROUTE token.
+         * Otherwise `PreloadAllModules` preloading strategy ends up in infinite loop. */
+        provideRoutes([])
     ]
 })
 export class ReactiveComponentLoaderModule {
 
-    /**
-     * @param args.moduleId a unique id for the module.
-     * @param args.loadChildren the module's provider function.
-     */
-    static declareModule(args: { moduleId: string, loadChildren: LoadChildrenCallback }): ModuleWithProviders {
-
+    static forRoot() {
         return {
             ngModule: ReactiveComponentLoaderModule,
             providers: [
                 {
+                    provide: NgModuleFactoryLoader,
+                    useClass: SystemJsNgModuleLoader
+                }
+            ]
+        };
+    }
+
+    static withModule(moduleInfo: ModuleInfo): ModuleWithProviders {
+        return {
+            ngModule: ReactiveComponentLoaderModule,
+            providers: [
+                provideRoutes([
+                    {
+                        loadChildren: moduleInfo.loadChildren,
+                        matcher: noMatch
+                    }
+                ]),
+                {
                     provide: REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY,
-                    useValue: args,
+                    useValue: moduleInfo,
                     multi: true
                 }
             ]
