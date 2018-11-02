@@ -1,27 +1,110 @@
-# ReactiveComponentLoader
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
+[![Build Status](https://travis-ci.org/wishtack/wishtack-steroids.svg?branch=master)](https://travis-ci.org/wishtack/wishtack-steroids)
+[![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/wishtack-steroids.svg)](https://greenkeeper.io/)
 
-## Development server
+# What is Reactive Component Loader?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+`@wishtack/reactive-component-loader` is an Angular module that allows:
+- **declarative** dynamic **component insertion**,
+- **component lazy loading** and not only with the router *(even with AOT enabled)*,
+- **passing @Inputs and @Outputs** easily to the dynamically inserted component (using [ng-dynamic-component](https://github.com/gund/ng-dynamic-component)).
 
-## Code scaffolding
+# Getting Started
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 1. Install
 
-## Build
+```shell
+yarn add @wishtack/reactive-component-loader
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+or `npm install --save @wishtack/reactive-component-loader`
 
-## Running unit tests
+## 2. Setup
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Add `ReactiveComponentLoaderModule.forRoot()` to the root module.
 
-## Running end-to-end tests
+```typescript
+@NgModule({
+    ...
+    imports: [
+        ReactiveComponentLoaderModule.forRoot()
+    ]
+    ...
+})
+export class AppModule {
+}
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## 3. Declare lazy loaded modules
 
-## Further help
+```typescript
+@NgModule({
+    ...
+    imports: [
+        ReactiveComponentLoaderModule.withModule({
+            moduleId: 'todo-form-v1',
+            loadChildren: './+todo-form-v1/todo-form-v1.module#TodoFormV1Module'
+        }),
+        ReactiveComponentLoaderModule.withModule({
+            moduleId: 'todo-form-v2',
+            loadChildren: './+todo-form-v2/todo-form-v2.module#TodoFormV2Module'
+        }),
+    ]
+    ...
+})
+export class TodoListModule {
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## 4. Lazy load components
+
+### Using `<wt-lazy>`...
+
+```typescript
+
+@Component({
+    template: `
+    <wt-lazy
+        [location]="todoFormComponentLocation"
+        [inputs]="{keywords: keywords}
+        [outputs]="{keywordsChange: onKeywordsChange}">
+    `
+})
+export class SomeFeatureComponent {
+    
+    todoFormComponentLocation = {
+        moduleId: 'todo-form-v1',
+        selector: 'wt-todo-form-v1'
+    };
+    
+    onKeywordsChange = (keywords: string) => {
+        ...
+    }
+    
+}
+
+```
+
+### ... or `ngComponentOutlet`
+
+```typescript
+@Component({
+    template: `
+    <ng-container *ngIf="todoFormComponentRecipe$ | async as recipe">
+        <ng-container *ngComponentOutlet="recipe.componentType; ngModuleFactory: recipe.ngModuleFactory"
+    </ng-container>
+    `
+})
+export class SomeFeatureComponent {
+    
+    todoFormComponentRecipe$ = this._reactiveComponentLoader.getComponentRecipe({
+        moduleId: 'todo-form-v1',
+        selector: 'wt-todo-form-v1'
+    });
+    
+    constructor(private _reactiveComponentLoader: ReactiveComponentLoader) {
+    }
+    
+}
+
+```
