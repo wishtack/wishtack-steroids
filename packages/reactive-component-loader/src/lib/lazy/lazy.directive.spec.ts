@@ -11,6 +11,8 @@ import { RouterTestingModule, SpyNgModuleFactoryLoader } from '@angular/router/t
 import { GreetingsModule } from '../../fixtures/greetings.module';
 import { ReactiveComponentLoaderModule } from '../reactive-component-loader.module';
 import { ComponentLocation } from '../reactive-component-loader.service';
+import { Inputs } from './inputs';
+import { Outputs } from './outputs';
 
 @Component({
     template: `
@@ -19,11 +21,11 @@ import { ComponentLocation } from '../reactive-component-loader.service';
 })
 export class TestContainerComponent {
     @Input() location: ComponentLocation;
-    @Input() inputs: {[key: string]: any};
-    @Input() outputs: {[key: string]: (event: any) => void};
+    @Input() inputs: Inputs;
+    @Input() outputs: Outputs;
 }
 
-xdescribe('[wtLazy] directive', () => {
+describe('[wtLazy] directive', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -56,7 +58,7 @@ xdescribe('[wtLazy] directive', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(TestContainerComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.autoDetectChanges(true);
     });
 
     it('should lazy load component', fakeAsync(() => {
@@ -69,16 +71,65 @@ xdescribe('[wtLazy] directive', () => {
             selector: 'wt-greetings'
         };
 
-        /* Propagate inputs to `<wt-lazy>`. */
+        /* Propagate inputs to `[wtLazy]`. */
         fixture.detectChanges();
 
         /* Trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
         tick();
 
-        /* Trigger change now that the component's recipe has been received. */
+        expect(fixture.nativeElement.textContent).toEqual('Hello @yjaaidi');
+
+    }));
+
+    it('should reflect location changes', fakeAsync(() => {
+
+        component.inputs = {
+            name: '@yjaaidi'
+        };
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-greetings'
+        };
+
+        /* Propagate inputs to `[wtLazy]` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-bye'
+        };
+
+        /* Propagate inputs to `[wtLazy]` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        expect(fixture.nativeElement.textContent).toEqual('Bye @yjaaidi');
+
+    }));
+
+    it('should reflect input changes', fakeAsync(() => {
+
+
+        component.inputs = {
+            name: '@yjaaidi'
+        };
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-greetings'
+        };
+
+        /* Propagate inputs to `[wtLazy]` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        component.inputs = {
+            name: 'Wishtack.io'
+        };
+
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.textContent).toEqual('Hello @yjaaidi');
+        expect(fixture.nativeElement.textContent).toEqual('Hello Wishtack.io');
 
     }));
 

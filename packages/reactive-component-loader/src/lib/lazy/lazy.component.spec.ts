@@ -59,7 +59,7 @@ describe('<wt-lazy>', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(TestContainerComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.autoDetectChanges(true);
     });
 
     it('should lazy load component', fakeAsync(() => {
@@ -82,6 +82,57 @@ describe('<wt-lazy>', () => {
         fixture.detectChanges();
 
         expect(fixture.nativeElement.textContent).toEqual('Hello @yjaaidi');
+
+    }));
+
+    it('should reflect location changes', fakeAsync(() => {
+
+        component.inputs = {
+            name: '@yjaaidi'
+        };
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-greetings'
+        };
+
+        /* Propagate inputs to `<wt-lazy>` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-bye'
+        };
+
+        /* Propagate inputs to `<wt-lazy>` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        expect(fixture.nativeElement.textContent).toEqual('Bye @yjaaidi');
+
+    }));
+
+    it('should reflect input changes', fakeAsync(() => {
+
+        component.inputs = {
+            name: '@yjaaidi'
+        };
+        component.location = {
+            moduleId: 'greetings',
+            selector: 'wt-greetings'
+        };
+
+        /* Propagate inputs to `<wt-lazy>` and trigger `ReactiveComponentLoader.getComponentRecipe`'s observer. */
+        fixture.detectChanges();
+        tick();
+
+        component.inputs = {
+            name: 'Wishtack.io'
+        };
+
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.textContent).toEqual('Hello Wishtack.io');
 
     }));
 
