@@ -11,88 +11,144 @@ import { RouterTestingModule, SpyNgModuleFactoryLoader } from '@angular/router/t
 import { GreetingsComponent, GreetingsModule } from '../fixtures/greetings.module';
 import { ReactiveComponentLoaderModule } from './reactive-component-loader.module';
 import { ReactiveComponentLoader } from './reactive-component-loader.service';
+import Spy = jasmine.Spy;
 
 
 describe('ReactiveComponentLoader', () => {
 
-    beforeEach(() => TestBed.configureTestingModule({
-        imports: [
-            ReactiveComponentLoaderModule.withModule({
-                moduleId: 'greetings',
-                loadChildren: './path/to/greetings.module#GreetingsModule'
-            }),
-            RouterTestingModule
-        ]
-    }));
-
-    let reactiveComponentLoader: ReactiveComponentLoader;
-    beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
-
-    let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
-    beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
+    let error: Spy;
+    let next: Spy;
 
     beforeEach(() => {
-        /* Stubbing the lazy loaded module. */
-        spyNgModuleFactoryLoader.stubbedModules = {
-            './path/to/greetings.module#GreetingsModule': GreetingsModule
-        };
+        error = jasmine.createSpy('error');
+        next = jasmine.createSpy('next');
     });
 
-    it('should retrieve component recipe', async () => {
+    describe('with one module', () => {
 
-        /* Retrieving the component's recipe using its location. */
-        const recipe = await reactiveComponentLoader.getComponentRecipe({
-            moduleId: 'greetings',
-            selector: 'wt-greetings'
-        }).toPromise();
+        beforeEach(() => TestBed.configureTestingModule({
+            imports: [
+                ReactiveComponentLoaderModule.withModule({
+                    moduleId: 'greetings',
+                    loadChildren: './path/to/greetings.module#GreetingsModule'
+                }),
+                RouterTestingModule
+            ]
+        }));
 
-        /* Check that we retrieved the right component type. */
-        expect(recipe.componentType).toBe(GreetingsComponent);
+        let reactiveComponentLoader: ReactiveComponentLoader;
+        beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
 
-        /* Create the component... */
-        const fixture = TestBed.createComponent(recipe.componentType);
+        let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
+        beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
 
-        /* ... and see if it works. */
-        fixture.componentInstance.name = '@yjaaidi';
-        fixture.detectChanges();
-        expect(fixture.nativeElement.textContent).toEqual('Hello @yjaaidi');
+        beforeEach(() => {
+            /* Stubbing the lazy loaded module. */
+            spyNgModuleFactoryLoader.stubbedModules = {
+                './path/to/greetings.module#GreetingsModule': GreetingsModule
+            };
+        });
+
+        it('should retrieve component recipe', async () => {
+
+            /* Retrieving the component's recipe using its location. */
+            const recipe = await reactiveComponentLoader.getComponentRecipe({
+                moduleId: 'greetings',
+                selector: 'wt-greetings'
+            }).toPromise();
+
+            /* Check that we retrieved the right component type. */
+            expect(recipe.componentType).toBe(GreetingsComponent);
+
+            /* Create the component... */
+            const fixture = TestBed.createComponent(recipe.componentType);
+
+            /* ... and see if it works. */
+            fixture.componentInstance.name = '@yjaaidi';
+            fixture.detectChanges();
+            expect(fixture.nativeElement.textContent).toEqual('Hello @yjaaidi');
+
+        });
+
+        it('should throw an error if module is not found', fakeAsync(() => {
+
+            reactiveComponentLoader.getComponentRecipe({
+                moduleId: 'unknown-module-id',
+                selector: 'wt-greetings'
+            })
+                .subscribe({next, error});
+
+            tick();
+
+            expect(next).not.toHaveBeenCalled();
+            expect(error).toHaveBeenCalledWith(new Error(`Module with id 'unknown-module-id' not found.`));
+
+        }));
+
+        it('should throw an error if component is not found', fakeAsync(() => {
+
+            reactiveComponentLoader.getComponentRecipe({
+                moduleId: 'greetings',
+                selector: 'wt-unknown-component'
+            })
+                .subscribe({next, error});
+
+            tick();
+
+            expect(next).not.toHaveBeenCalled();
+            expect(error).toHaveBeenCalledWith(new Error(`Component '<wt-unknown-component>' not found.`));
+
+        }));
 
     });
 
-    it('should throw an error if module is not found', fakeAsync(() => {
+    describe('with duplicate modules', () => {
 
-        const error = jasmine.createSpy('error');
-        const next = jasmine.createSpy('next');
+        beforeEach(() => TestBed.configureTestingModule({
+            imports: [
+                ReactiveComponentLoaderModule.withModule({
+                    moduleId: 'greetings',
+                    loadChildren: './path/to/greetings-1.module#GreetingsModule'
+                }),
+                ReactiveComponentLoaderModule.withModule({
+                    moduleId: 'greetings',
+                    loadChildren: './path/to/greetings-2.module#GreetingsModule'
+                }),
+                RouterTestingModule
+            ]
+        }));
 
-        reactiveComponentLoader.getComponentRecipe({
-            moduleId: 'unknown-module-id',
-            selector: 'wt-greetings'
-        })
-            .subscribe({next, error});
+        let reactiveComponentLoader: ReactiveComponentLoader;
+        beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
 
-        tick();
+        let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
+        beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
 
-        expect(next).not.toHaveBeenCalled();
-        expect(error).toHaveBeenCalledWith(new Error(`Module with id 'unknown-module-id' not found.`));
+        beforeEach(() => {
+            /* Stubbing the lazy loaded module. */
+            spyNgModuleFactoryLoader.stubbedModules = {
+                './path/to/greetings-1.module#GreetingsModule': GreetingsModule,
+                './path/to/greetings-2.module#GreetingsModule': GreetingsModule
+            };
+        });
 
-    }));
+        xit('should throw an error if module is declared with different locations', fakeAsync(() => {
 
-    it('should throw an error if component is not found', fakeAsync(() => {
+            reactiveComponentLoader.getComponentRecipe({
+                moduleId: 'greetings',
+                selector: 'wt-greetings'
+            })
+                .subscribe({next, error});
 
-        const error = jasmine.createSpy('error');
-        const next = jasmine.createSpy('next');
+            tick();
 
-        reactiveComponentLoader.getComponentRecipe({
-            moduleId: 'greetings',
-            selector: 'wt-unknown-component'
-        })
-            .subscribe({next, error});
+            expect(next).not.toHaveBeenCalled();
+            expect(error).toHaveBeenCalledWith(new Error(
+                `Module with id 'greetings' has been declared more than once with different locations.`
+            ));
 
-        tick();
+        }));
 
-        expect(next).not.toHaveBeenCalled();
-        expect(error).toHaveBeenCalledWith(new Error(`Component '<wt-unknown-component>' not found.`));
-
-    }));
+    });
 
 });
