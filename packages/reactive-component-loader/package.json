@@ -4,12 +4,16 @@
   "version": "0.1.0",
   "author": "Wishtack",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/reactive-component-loader/esm2015/public_api.js",
   "types": "dist/reactive-component-loader/public_api.d.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "custom:publish": "cd dist/reactive-component-loader && npm publish",
     "test": "ng test",
     "test:single-run": "ng test --watch false",
     "lint": "ng lint",
@@ -63,5 +67,6 @@
     "tslint": "~5.11.0",
     "typescript": "~3.1.1",
     "zone.js": "~0.8.26"
-  }
+  },
+  "gitHead": "dbe0d91db0f770c9edc965dfbf06d1630b37edb5"
 }
