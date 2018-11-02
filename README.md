@@ -1,6 +1,6 @@
 # Boost your apps with Wishtack's Steroids
 
-[![Build Status](https://travis-ci.org/wishtack/wishtack-steroids.svg?branch=master)](https://travis-ci.org/wishtack/ng-steroids)
+[![Build Status](https://travis-ci.org/wishtack/wishtack-steroids.svg?branch=master)](https://travis-ci.org/wishtack/wishtack-steroids)
 [![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/wishtack-steroids.svg)](https://greenkeeper.io/)
 
 This is a monorepo containing the following packages:
