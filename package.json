@@ -24,7 +24,7 @@
     "@types/angular": "^1.6.45",
     "@types/angular-mocks": "^1.5.11",
     "@types/jasmine": "^2.8.7",
-    "clean-webpack-plugin": "^0.1.19",
+    "clean-webpack-plugin": "^1.0.0",
     "codelyzer": "^4.3.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine": "^3.1.0",
