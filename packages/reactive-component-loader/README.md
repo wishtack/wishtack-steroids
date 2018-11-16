@@ -24,6 +24,8 @@ or `npm install --save @wishtack/reactive-component-loader`
 Add `ReactiveComponentLoaderModule.forRoot()` to the root module.
 
 ```typescript
+import { ReactiveComponentLoaderModule } from '@wishtack/reactive-component-loader';
+
 @NgModule({
     ...
     imports: [
@@ -43,11 +45,11 @@ export class AppModule {
     imports: [
         ReactiveComponentLoaderModule.withModule({
             moduleId: 'todo-form-v1',
-            loadChildren: './+todo-form-v1/todo-form-v1.module#TodoFormV1Module'
+            loadChildren: './todo-form-v1/todo-form-v1.module#TodoFormV1Module'
         }),
         ReactiveComponentLoaderModule.withModule({
             moduleId: 'todo-form-v2',
-            loadChildren: './+todo-form-v2/todo-form-v2.module#TodoFormV2Module'
+            loadChildren: './todo-form-v2/todo-form-v2.module#TodoFormV2Module'
         }),
     ]
     ...
