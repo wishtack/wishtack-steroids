@@ -19,8 +19,8 @@
     "test": "lerna run test:single-run"
   },
   "devDependencies": {
-    "@angular/compiler": "^7.0.1",
-    "@angular/core": "^7.0.1",
+    "@angular/compiler-cli": "~7.1.2",
+    "@ngtools/webpack": "~7.1.2",
     "@types/angular": "^1.6.45",
     "@types/angular-mocks": "^1.5.11",
     "@types/jasmine": "^2.8.7",
@@ -38,7 +38,7 @@
     "lerna": "^3.4.3",
     "ts-loader": "^5.3.0",
     "tslint": "^5.10.0",
-    "typescript": "^3.1.4",
+    "typescript": "~3.1.6",
     "webpack": "^4.10.0",
     "webpack-cli": "^3.0.2",
     "webpack-merge": "^4.1.2"
