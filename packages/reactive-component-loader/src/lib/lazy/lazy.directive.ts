@@ -11,8 +11,7 @@ import {
     ViewContainerRef
 } from '@angular/core';
 import { Scavenger } from '@wishtack/rx-scavenger';
-import { ComponentInjector, DynamicComponent, DynamicDirective } from 'ng-dynamic-component';
-import { COMPONENT_INJECTOR } from 'ng-dynamic-component/dynamic/component-injector';
+import { DynamicComponent, DynamicDirective } from 'ng-dynamic-component';
 import { IoService } from 'ng-dynamic-component/dynamic/io.service';
 import { ComponentLocation, ComponentRecipe, ReactiveComponentLoader } from '../reactive-component-loader.service';
 import { Inputs } from './inputs';
