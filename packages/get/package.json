@@ -1,0 +1,27 @@
+{
+    "name": "@wishtack/get",
+    "description": "A safe navigation `get` function.",
+    "version": "1.0.0",
+    "author": "Wishtack",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "main": "dist/get.js",
+    "types": "dist/get.d.ts",
+    "scripts": {
+        "build": "yarn clean:dist && tsc",
+        "clean:dist": "rm -rf dist",
+        "test:single-run": "jest",
+        "test": "jest --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wishtack/wishtack-steroids.git"
+    },
+    "devDependencies": {
+        "@types/jest": "^23.3.12",
+        "jest": "^23.6.0",
+        "ts-jest": "^23.10.5"
+    }
+}
