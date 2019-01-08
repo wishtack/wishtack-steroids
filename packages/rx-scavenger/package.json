@@ -24,6 +24,7 @@
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
+    "@types/jasmine": "^3.3.5",
     "core-js": "^2.0.0",
     "rxjs": "^6.0.0"
   }

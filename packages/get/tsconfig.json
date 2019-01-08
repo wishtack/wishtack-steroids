@@ -12,9 +12,15 @@
         "outDir": "./dist",
         "typeRoots": [
             "../../node_modules/@types"
+        ],
+        "types": [
+            "jest"
         ]
     },
     "files": [
         "./src/get.ts"
+    ],
+    "exclude": [
+        "**/*.spec.ts"
     ]
 }

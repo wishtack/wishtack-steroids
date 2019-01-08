@@ -21,9 +21,6 @@
   "devDependencies": {
     "@angular/compiler-cli": "~7.2.0",
     "@ngtools/webpack": "~7.1.2",
-    "@types/angular": "^1.6.45",
-    "@types/angular-mocks": "^1.5.11",
-    "@types/jasmine": "^3.3.5",
     "clean-webpack-plugin": "^1.0.0",
     "codelyzer": "^4.3.0",
     "istanbul-instrumenter-loader": "^3.0.1",

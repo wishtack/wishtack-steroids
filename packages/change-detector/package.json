@@ -18,6 +18,9 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "devDependencies": {
+    "@types/angular": "^1.6.45",
+    "@types/angular-mocks": "^1.5.11",
+    "@types/jasmine": "^3.3.5",
     "angular": "~1.7.0",
     "angular-mocks": "~1.7.0"
   },
