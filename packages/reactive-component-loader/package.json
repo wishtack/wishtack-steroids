@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/reactive-component-loader",
   "description": "Lazy load Angular components without even using the router.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -47,7 +47,7 @@
     "@types/jasmine": "~3.3.5",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~10.12.18",
-    "@wishtack/rx-scavenger": "^1.0.2",
+    "@wishtack/rx-scavenger": "^1.0.3",
     "codelyzer": "~4.5.0",
     "core-js": "^2.6.0",
     "jasmine-core": "~3.3.0",
