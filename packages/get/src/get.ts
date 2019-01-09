@@ -1,5 +1,8 @@
-// https://github.com/tc39/proposal-optional-chaining
-// https://github.com/Microsoft/TypeScript/issues/16
+/**
+ * A typed functional alternative to Optional Chaining Operator (a.k.a. Safe Navigation Operator).
+ * Cf. https://github.com/Microsoft/TypeScript/issues/16
+ * Cf. https://github.com/tc39/proposal-optional-chaining
+ */
 export function get<
     T,
     A extends keyof T

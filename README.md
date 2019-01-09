@@ -14,6 +14,9 @@ This is a monorepo containing the following packages:
 #### [@wishtack/rx-scavenger](/packages/rx-scavenger)
 - `@wishtack/rx-scavenger` is an **[RxJS](https://github.com/Reactive-Extensions/RxJS) `Subscription` Garbage Collector**.
 
+#### [@wishtack/get](/packages/get)
+- A TypeScript typed functional alternative to Optional Chaining Operator (a.k.a. Safe Navigation Operator).
+
 #### [@wishtack/change-detector](/packages/change-detector)
 - Angular's `OnPush` and `ChangeDetector` implementation for Angular 1.x. 
 
