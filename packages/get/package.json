@@ -1,7 +1,7 @@
 {
     "name": "@wishtack/get",
     "description": "A safe navigation `get` function.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Wishtack",
     "license": "MIT",
     "publishConfig": {
