@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/change-detector@0.4.4...@wishtack/change-detector@0.4.5) (2019-02-12)
+
+**Note:** Version bump only for package @wishtack/change-detector
+
+
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/change-detector@0.4.1...@wishtack/change-detector@0.4.3) (2018-05-30)
 

@@ -6,7 +6,7 @@
     "lazy loading",
     "typescript"
   ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -53,7 +53,7 @@
     "@types/jasmine": "~3.3.5",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~11.9.0",
-    "@wishtack/rx-scavenger": "^1.0.4",
+    "@wishtack/rx-scavenger": "^1.0.5",
     "codelyzer": "~4.5.0",
     "core-js": "^2.6.0",
     "jasmine-core": "~3.3.0",
