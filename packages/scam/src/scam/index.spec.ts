@@ -19,7 +19,7 @@ describe('scam', () => {
         };
 
         const appOptions = {
-            name: 'bar',
+            name: 'wishtack',
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
@@ -41,7 +41,7 @@ describe('scam', () => {
 
         runner.runSchematic('scam', {
             name: 'hello-world',
-            project: 'app'
+            project: 'wishtack'
         }, appTree);
 
         // expect(tree.files).toContain('/hello-world/hello-world.component.ts');
