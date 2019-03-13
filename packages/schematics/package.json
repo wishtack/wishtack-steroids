@@ -1,17 +1,26 @@
 {
   "name": "@wishtack/schematics",
+  "description": "Wishtack Schematics",
+  "keywords": [
+    "angular",
+    "schematics",
+    "typescript"
+  ],
   "version": "1.0.0",
-  "description": "A blank schematics",
+  "author": "Wishtack",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wishtack/wishtack-steroids.git"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest --watch",
     "test:single-run": "jest"
   },
-  "keywords": [
-    "schematics"
-  ],
-  "author": "",
-  "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^7.3.5",
