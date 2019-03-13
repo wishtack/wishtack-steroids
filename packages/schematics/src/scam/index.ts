@@ -6,6 +6,7 @@ export function scam(options: Schema): Rule {
         externalSchematic('@schematics/angular', 'module', options),
         externalSchematic('@schematics/angular', 'component', {
             ...options,
+            export: true,
             module: options.name
         }),
     ]);
