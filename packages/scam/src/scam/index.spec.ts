@@ -45,7 +45,7 @@ describe('scam', () => {
         }, appTree);
 
         expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world.module.ts');
-        // expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world/hello-world.component.ts');
+        expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world.component.ts');
 
     });
 
