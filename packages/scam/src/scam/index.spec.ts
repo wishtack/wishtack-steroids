@@ -37,15 +37,16 @@ describe('scam', () => {
 
     it('should create a module with a component in the same directory', () => {
 
-        const runner = new SchematicTestRunner('schematics', collectionPath);
+        const runner = new SchematicTestRunner('@schematics/angular',
+            require.resolve('@schematics/angular/collection.json'));
 
-        runner.runSchematic('scam', {
+        const tree = runner.runSchematic('module', {
             name: 'hello-world',
             project: 'wishtack'
         }, appTree);
 
-        // expect(tree.files).toContain('/hello-world/hello-world.component.ts');
-        // expect(tree.files).toContain('/hello-world/hello-world.module.ts');
+        expect(tree.files).toContain('/hello-world/hello-world.component.ts');
+        expect(tree.files).toContain('/hello-world/hello-world.module.ts');
 
     });
 
