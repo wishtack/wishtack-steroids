@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "scam": {
+      "description": "Creates a SCAM: Single Component Angular Module.",
+      "factory": "./scam/index#scam",
+      "schema": "./scam/schema.json"
+    }
+  }
+}
