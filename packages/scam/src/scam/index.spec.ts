@@ -9,10 +9,12 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('scam', () => {
 
     it('works', () => {
+
         const runner = new SchematicTestRunner('schematics', collectionPath);
         const tree = runner.runSchematic('scam', {}, Tree.empty());
 
         expect(tree.files).toEqual([]);
+
     });
 
 });
