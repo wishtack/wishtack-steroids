@@ -10,6 +10,14 @@
     "@angular-devkit/core" "7.3.1"
     rxjs "6.3.3"
 
+"@angular-devkit/architect@0.13.5":
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.13.5.tgz#ecd41e3bc37337b9b8884cebc761a367b06cb697"
+  integrity sha512-ouqDu5stZA2gsWnbKMThDfOG/D6lJQaLL+oGEoM5zfnKir3ctyV5rOm73m2pDYUblByTCb+rkj5KmooUWpnV1g==
+  dependencies:
+    "@angular-devkit/core" "7.3.5"
+    rxjs "6.3.3"
+
 "@angular-devkit/build-angular@~0.13.1":
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.13.1.tgz#369febda48dd40e47a4f0077064e792612a8e1c1"
@@ -121,7 +129,7 @@
     "@angular-devkit/core" "7.3.1"
     rxjs "6.3.3"
 
-"@angular-devkit/schematics@^7.3.5":
+"@angular-devkit/schematics@7.3.5", "@angular-devkit/schematics@^7.3.5":
   version "7.3.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-7.3.5.tgz#7b007f8a86dea76e93eef007d4fb6e7d8324b7bb"
   integrity sha512-BFCCkwRMBC4aFlngaloi1avCTgGrl1MFc/0Av2sCpBh/fdm1FqSVzmOiTfu93dehRVVL/bTrA2qj+xpNsXCxzA==
@@ -135,6 +143,25 @@
   integrity sha512-Wx6cqU6koFOASlyl4aCygtbtROoehU6OKwV2EZTkfzHx6Eu/QyTiSa5kyoApVM5LMmCNeb8SxJMSAnKXztNl0A==
   dependencies:
     tslib "^1.9.0"
+
+"@angular/cli@^7.3.5":
+  version "7.3.5"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-7.3.5.tgz#7aa0294410e0a9ae18b9e686803d9b0997d8c5fa"
+  integrity sha512-WL339qoWMIsQympJAabtcvX6hMydGD/H0fm8K9ihD7xd6Af1QCSDN/aWTIvYyEzj9Hb8/sJ3mgRtvLlr1xTHzg==
+  dependencies:
+    "@angular-devkit/architect" "0.13.5"
+    "@angular-devkit/core" "7.3.5"
+    "@angular-devkit/schematics" "7.3.5"
+    "@schematics/angular" "7.3.5"
+    "@schematics/update" "0.13.5"
+    "@yarnpkg/lockfile" "1.1.0"
+    ini "1.3.5"
+    inquirer "6.2.1"
+    npm-package-arg "6.1.0"
+    opn "5.4.0"
+    pacote "9.4.0"
+    semver "5.6.0"
+    symbol-observable "1.2.0"
 
 "@angular/cli@~7.3.1":
   version "7.3.1"
@@ -1210,6 +1237,15 @@
     "@angular-devkit/schematics" "7.3.1"
     typescript "3.2.4"
 
+"@schematics/angular@7.3.5":
+  version "7.3.5"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-7.3.5.tgz#7af1cd446b051b2be3fbe59cb4ba140ec06e2d87"
+  integrity sha512-fKNZccf1l2OcDwtDupYj54N/YuiMLCWeaXNxcJNUYvGnBtzxQJ4P2LtSCjB4HDvYCtseQM7iyc7D1Xrr5gI8nw==
+  dependencies:
+    "@angular-devkit/core" "7.3.5"
+    "@angular-devkit/schematics" "7.3.5"
+    typescript "3.2.4"
+
 "@schematics/update@0.13.1":
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.13.1.tgz#481475aee18b4a9472a06512b2e4d6429af68231"
@@ -1217,6 +1253,20 @@
   dependencies:
     "@angular-devkit/core" "7.3.1"
     "@angular-devkit/schematics" "7.3.1"
+    "@yarnpkg/lockfile" "1.1.0"
+    ini "1.3.5"
+    pacote "9.4.0"
+    rxjs "6.3.3"
+    semver "5.6.0"
+    semver-intersect "1.4.0"
+
+"@schematics/update@0.13.5":
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.13.5.tgz#6019accecd2bca5efc931cc9832ecb234009ceb2"
+  integrity sha512-bmwVKeyOmC948gJrIxPg0TY0999nusqSVqXJ8hqAgD0fyD6rnzF74nUhovQGvwFV0pZK8fCkRfdJIqgAPFcHcw==
+  dependencies:
+    "@angular-devkit/core" "7.3.5"
+    "@angular-devkit/schematics" "7.3.5"
     "@yarnpkg/lockfile" "1.1.0"
     ini "1.3.5"
     pacote "9.4.0"
@@ -1283,11 +1333,6 @@
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.8.tgz#fc6abd92f7121431685ec986f0ec8f77b4390a3e"
   integrity sha512-BaOFpaddRVV8qykJoWHrHtamml880oh0+DIZWbtJgx0pu+KhDF1gER5hSfCIfzyMrbjMuYFnLUfyo1l0JUVU3Q==
-
-"@types/jasmine@^3.0.0":
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.9.tgz#ee886a9113db567e722a8a0c37f0e6283f2cefa3"
-  integrity sha512-vw3VyFPa9mlba6NZPBZC3q2Zrnkgy5xuCVI43/tTLX6umdYrYvcFtQUKi2zH3PjFZQ9XCxNM/NMrM9uk8TPOzg==
 
 "@types/jasminewd2@~2.0.6":
   version "2.0.6"
@@ -5952,7 +5997,7 @@ jasmine@2.8.0:
     glob "^7.0.6"
     jasmine-core "~2.8.0"
 
-jasmine@^3.0.0, jasmine@^3.1.0:
+jasmine@^3.1.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-3.3.1.tgz#d61bb1dd8888859bd11ea83074a78ee13d949905"
   integrity sha512-/vU3/H7U56XsxIXHwgEuWpCgQ0bRi2iiZeUpx7Nqo8n1TpoDHfZhkPIc7CO8I4pnMzYsi3XaSZEiy8cnTfujng==
