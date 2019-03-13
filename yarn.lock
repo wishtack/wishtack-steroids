@@ -117,7 +117,7 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/cli@^7.3.5", "@angular/cli@~7.3.1":
+"@angular/cli@~7.3.1":
   version "7.3.5"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-7.3.5.tgz#7aa0294410e0a9ae18b9e686803d9b0997d8c5fa"
   integrity sha512-WL339qoWMIsQympJAabtcvX6hMydGD/H0fm8K9ihD7xd6Af1QCSDN/aWTIvYyEzj9Hb8/sJ3mgRtvLlr1xTHzg==
@@ -1181,7 +1181,7 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@schematics/angular@7.3.5":
+"@schematics/angular@7.3.5", "@schematics/angular@^7.3.5":
   version "7.3.5"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-7.3.5.tgz#7af1cd446b051b2be3fbe59cb4ba140ec06e2d87"
   integrity sha512-fKNZccf1l2OcDwtDupYj54N/YuiMLCWeaXNxcJNUYvGnBtzxQJ4P2LtSCjB4HDvYCtseQM7iyc7D1Xrr5gI8nw==
