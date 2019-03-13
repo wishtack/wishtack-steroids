@@ -13,7 +13,8 @@ describe('scam', () => {
         const runner = new SchematicTestRunner('schematics', collectionPath);
 
         runner.runSchematic('scam', {
-            name: 'hello-world'
+            name: 'hello-world',
+            project: 'app'
         }, Tree.empty());
 
         // expect(tree.files).toContain('/hello-world/hello-world.component.ts');
