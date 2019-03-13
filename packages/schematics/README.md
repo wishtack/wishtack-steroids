@@ -1,28 +1,31 @@
-# Getting Started With Schematics
+# Wishtack Schematics
 
-This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
+## SCAM
 
-### Testing
+SCAM stands for (Single Component Angular Module) and the term was coined by Lars Gyrup Brink Nielsen in his article about Tree-Shakable Components https://blog.angularindepth.com/angular-revisited-tree-shakable-components-and-optional-ngmodules-329a4629276d
 
-To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
+## Installation
 
-Check the documentation with
-```bash
-schematics --help
+```sh
+yarn add @wishtack/schematics 
+# or npm install --save @wishtack/schematics
 ```
 
-### Unit Testing
+## Usage
 
-`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
-
-### Publishing
-
-To publish, simply do:
-
-```bash
-npm run build
-npm publish
+```sh
+yarn ng generate @wishtack/schematics:scam sandwich/sandwich-preview
+# or npx ng generate @wishtack/schematics:scam sandwich/sandwich-preview
 ```
 
-That's it!
- 
+This will produce the following file tree.
+
+```
+sandwich/
+  sandwich-preview/ 
+    sandwich-preview.component.ts
+    sandwich-preview.component.*
+    sandwich-preview.module.ts
+```
+
+Where `sandwich-preview.module.ts` declares and exports `SandwichPreviewComponent`.

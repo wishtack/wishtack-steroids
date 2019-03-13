@@ -17,6 +17,9 @@ This is a monorepo containing the following packages:
 #### [@wishtack/get](/packages/get)
 - A TypeScript typed functional alternative to Optional Chaining Operator (a.k.a. Safe Navigation Operator).
 
+#### [@wishtack/schematics](/packages/schematics)
+- Wishtack's Angular Schematics like `scam` which allows you to generate single component angular modules.
+
 #### [@wishtack/change-detector](/packages/change-detector)
 - Angular's `OnPush` and `ChangeDetector` implementation for Angular 1.x. 
 
