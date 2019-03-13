@@ -39,13 +39,13 @@ describe('scam', () => {
 
         const runner = new SchematicTestRunner('schematics', collectionPath);
 
-        runner.runSchematic('scam', {
+        const tree = runner.runSchematic('scam', {
             name: 'hello-world',
             project: 'wishtack'
         }, appTree);
 
+        expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world.module.ts');
         // expect(tree.files).toContain('/hello-world/hello-world.component.ts');
-        // expect(tree.files).toContain('/hello-world/hello-world.module.ts');
 
     });
 
