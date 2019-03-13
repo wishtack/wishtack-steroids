@@ -42,7 +42,7 @@ describe('scam', () => {
         runner.runSchematic('scam', {
             name: 'hello-world',
             project: 'app'
-        }, Tree.empty());
+        }, appTree);
 
         // expect(tree.files).toContain('/hello-world/hello-world.component.ts');
         // expect(tree.files).toContain('/hello-world/hello-world.module.ts');
