@@ -12,8 +12,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/reactive-component-loader/esm2015/public_api.js",
-  "types": "dist/reactive-component-loader/public_api.d.ts",
+  "main": "dist/reactive-component-loader/bundles/wishtack-reactive-component-loader.umd.js",
+  "module": "dist/reactive-component-loader/fesm5/wishtack-reactive-component-loader.js",
+  "es2015": "dist/reactive-component-loader/fesm2015/wishtack-reactive-component-loader.js",
+  "esm5": "dist/reactive-component-loader/esm5/wishtack-reactive-component-loader.js",
+  "esm2015": "dist/reactive-component-loader/esm2015/wishtack-reactive-component-loader.js",
+  "fesm5": "dist/reactive-component-loader/fesm5/wishtack-reactive-component-loader.js",
+  "fesm2015": "dist/reactive-component-loader/fesm2015/wishtack-reactive-component-loader.js",
+  "types": "dist/reactive-component-loader/wishtack-reactive-component-loader.d.ts",
+  "typings": "dist/reactive-component-loader/wishtack-reactive-component-loader.d.ts",
+  "metadata": "dist/reactive-component-loader/wishtack-reactive-component-loader.metadata.json",
+  "sideEffects": false,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
