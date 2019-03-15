@@ -110,7 +110,7 @@ export class HelloWorldModule { }
 `;
 
 
-        it('should merge component and module', () => {
+        xit('should merge component and module', () => {
 
             const expectedContent = `import { Component, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
