@@ -11,10 +11,12 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
 
     const project = getProject(tree, options.project);
 
-    console.log(findModuleFromOptions(tree, {
+    const modulePath = findModuleFromOptions(tree, {
         ...options,
         path: options.path || buildDefaultPath(project)
-    }));
+    });
+
+    tree.read(modulePath);
 
     return tree;
 
