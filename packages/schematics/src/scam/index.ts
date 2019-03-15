@@ -29,8 +29,9 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
                 return true;
             }
 
-            /* Keep only imports from @angular scope. */
-            return line.includes('@angular/');
+            /* Keep only imports from @angular scope, except NgModule. */
+            return line.includes('@angular/')
+                && !line.includes('NgModule');
 
         });
 
