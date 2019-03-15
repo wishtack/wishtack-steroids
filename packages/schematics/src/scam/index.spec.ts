@@ -35,6 +35,13 @@ describe('scam', () => {
 
     });
 
+    xit(`should create module in the component's file`, () => {
+
+        const runner = new SchematicTestRunner('schematics', collectionPath);
+
+
+    });
+
     it('should create a module with a component in the same directory', () => {
 
         const runner = new SchematicTestRunner('schematics', collectionPath);
