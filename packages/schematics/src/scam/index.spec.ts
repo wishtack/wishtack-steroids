@@ -39,6 +39,10 @@ describe('scam', () => {
 
         const runner = new SchematicTestRunner('schematics', collectionPath);
 
+        const tree = runner.runSchematic('scam', {
+            name: 'hello-world',
+            project: 'wishtack'
+        }, appTree);
 
     });
 
