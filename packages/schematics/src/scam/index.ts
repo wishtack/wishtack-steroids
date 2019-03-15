@@ -7,7 +7,7 @@ export interface ScamOptions extends NgComponentOptions {
 
 export function scam(options: ScamOptions): Rule {
 
-    const ruleList = [
+    let ruleList = [
         externalSchematic('@schematics/angular', 'module', options),
         externalSchematic('@schematics/angular', 'component', {
             ...options,
@@ -15,6 +15,12 @@ export function scam(options: ScamOptions): Rule {
             module: options.name
         })
     ];
+
+    if (!options.separateModule) {
+        ruleList = [
+            ...ruleList
+        ];
+    }
 
     return chain(ruleList);
 
