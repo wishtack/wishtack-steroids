@@ -93,6 +93,8 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
     const moduleContent = tree.read(modulePath);
     const componentContent = tree.read(componentPath);
 
+    tree.overwrite(componentPath, _mergeComponentAndModule(componentContent.toString(), moduleContent.toString()));
+
     tree.delete(modulePath);
 
     return tree;
