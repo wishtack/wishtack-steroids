@@ -78,7 +78,40 @@ describe('scam', () => {
 
     describe('_mergeComponentAndModule', () => {
 
+        const componentContent = `import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-hello-world',
+  templateUrl: './hello-world.component.html',
+  styleUrls: ['./hello-world.component.css']
+})
+export class HelloWorldComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+`;
+        const moduleContent = `import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HelloWorldComponent } from './hello-world.component';
+
+@NgModule({
+  declarations: [HelloWorldComponent],
+  imports: [
+    CommonModule
+  ],
+  exports: [HelloWorldComponent]
+})
+export class HelloWorldModule { }
+`;
+
+
         xit('should merge component and module', () => {
+
+
 
         });
 
