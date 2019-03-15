@@ -22,7 +22,9 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
     moduleLineList = moduleLineList
         .filter(line => {
 
-            if (line.)
+            if (!line.startsWith('import')) {
+                return true;
+            }
 
             return true;
 
