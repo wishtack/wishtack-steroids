@@ -1,11 +1,12 @@
 import { chain, externalSchematic, Rule } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 
 export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
-export const _mergeModuleIntoComponentFile: Rule = (tree, context) => {
+export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
     return tree;
 };
 
@@ -23,7 +24,7 @@ export function scam(options: ScamOptions): Rule {
     if (!options.separateModule) {
         ruleList = [
             ...ruleList,
-            _mergeModuleIntoComponentFile
+            _mergeModuleIntoComponentFile(options)
         ];
     }
 
