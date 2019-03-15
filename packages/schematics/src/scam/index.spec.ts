@@ -41,7 +41,8 @@ describe('scam', () => {
 
         const tree = runner.runSchematic('scam', {
             name: 'hello-world',
-            project: 'wishtack'
+            project: 'wishtack',
+            separateModule: true
         }, appTree);
 
         expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world.module.ts');
@@ -49,8 +50,8 @@ describe('scam', () => {
 
         const moduleContent = tree.readContent('/projects/wishtack/src/app/hello-world/hello-world.module.ts');
         expect(moduleContent).toMatch(/import.*HelloWorldComponent.*from '.\/hello-world.component'/);
-        expect(moduleContent).toMatch(/declarations:\s*\[HelloWorldComponent\]/m);
-        expect(moduleContent).toMatch(/exports:\s*\[\s*HelloWorldComponent\]/m);
+        expect(moduleContent).toMatch(/declarations:\s*\[HelloWorldComponent]/m);
+        expect(moduleContent).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
 
     });
 
