@@ -22,9 +22,6 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
     const moduleContent = tree.read(modulePath);
     const componentContent = tree.read(componentPath);
 
-    // @todo: read module content.
-    // @todo: merge module content in component.
-
     tree.delete(modulePath);
 
     return tree;
