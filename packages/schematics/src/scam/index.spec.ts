@@ -2,6 +2,10 @@ import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
+function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
+    throw new Error('😱 Not implemented yet!');
+}
+
 describe('scam', () => {
 
     describe('schematic', () => {
@@ -111,6 +115,34 @@ export class HelloWorldModule { }
 
         xit('should merge component and module', () => {
 
+            const expectedContent = `import { Component, NgModule, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-hello-world',
+  templateUrl: './hello-world.component.html',
+  styleUrls: ['./hello-world.component.css']
+})
+export class HelloWorldComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+
+@NgModule({
+  declarations: [HelloWorldComponent],
+  imports: [
+    CommonModule
+  ],
+  exports: [HelloWorldComponent]
+})
+export class HelloWorldModule { }
+`;
+
+            expect(_mergeComponentAndModule(componentContent, moduleContent)).toEqual(expectedContent);
 
 
         });
