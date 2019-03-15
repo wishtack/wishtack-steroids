@@ -17,8 +17,17 @@ export interface ScamOptions extends NgComponentOptions {
 export function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
 
     const componentLineList = componentContent.split('\n');
-    const moduleLineList = moduleContent.split('\n');
-    
+    let moduleLineList = moduleContent.split('\n');
+
+    moduleLineList = moduleLineList
+        .filter(line => {
+
+            if (line.)
+
+            return true;
+
+        });
+
     const lineList = [
         ...componentLineList,
         ...moduleLineList
