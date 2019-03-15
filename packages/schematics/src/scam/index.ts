@@ -17,7 +17,8 @@ export function _isImportLine(line: string) {
  * @param moduleContent
  * @private
  */
-export function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
+export function _mergeComponentAndModule({componentContent, moduleContent}:
+                                             { componentContent: string, moduleContent: string }): string {
 
     let componentLineList = componentContent.split('\n');
     let moduleLineList = moduleContent.split('\n');
@@ -91,7 +92,7 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
     const moduleContent = tree.read(modulePath).toString();
     const componentContent = tree.read(componentPath).toString();
 
-    tree.overwrite(componentPath, _mergeComponentAndModule(componentContent, moduleContent));
+    tree.overwrite(componentPath, _mergeComponentAndModule({componentContent, moduleContent}));
 
     tree.delete(modulePath);
 
