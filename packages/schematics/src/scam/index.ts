@@ -5,7 +5,9 @@ export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
-export const _mergeModuleIntoComponentFile: Rule = (tree, context) => tree;
+export const _mergeModuleIntoComponentFile: Rule = (tree, context) => {
+    return tree;
+};
 
 export function scam(options: ScamOptions): Rule {
 
