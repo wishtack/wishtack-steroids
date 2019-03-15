@@ -44,6 +44,13 @@ describe('scam', () => {
             project: 'wishtack'
         }, appTree);
 
+        expect(tree.files).toContain('/projects/wishtack/src/app/hello-world/hello-world.component.ts');
+        expect(tree.files).not.toContain('/projects/wishtack/src/app/hello-world/hello-world.module.ts');
+
+        const component = tree.readContent('/projects/wishtack/src/app/hello-world/hello-world.component.ts');
+        expect(component).toMatch(/declarations:\s*\[HelloWorldComponent]/m);
+        expect(component).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
+
     });
 
     it('should create a module with a component in the same directory', () => {
