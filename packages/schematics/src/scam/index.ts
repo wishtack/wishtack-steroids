@@ -42,6 +42,10 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
 
             const trimmedLine = line.trim();
 
+            if (trimmedLine.startsWith('import') && trimmedLine.includes('@angular/core')) {
+                return line.replace(/Component,\s*OnInit/, 'Component, NgModule, OnInit');
+            }
+
             return line;
 
         });
