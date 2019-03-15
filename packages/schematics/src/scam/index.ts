@@ -55,6 +55,8 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
         ...moduleLineList
     ];
 
+    const importLineList = lineList.filter(line => line.trim().startsWith('import'));
+
     return lineList.join('\n');
 
 }
