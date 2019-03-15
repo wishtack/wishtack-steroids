@@ -16,9 +16,6 @@ export function scam(options: ScamOptions): Rule {
         })
     ];
 
-    if (!options.separateModule) {
-        throw new Error('😱 Not implemented yet!');
-    }
-
     return chain(ruleList);
+
 }
