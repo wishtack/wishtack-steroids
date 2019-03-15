@@ -139,7 +139,17 @@ export class HelloWorldComponent implements OnInit {
 export class HelloWorldModule { }
 `;
 
-            expect(_mergeComponentAndModule(componentContent, moduleContent)).toEqual(expectedContent);
+            const result = _mergeComponentAndModule(componentContent, moduleContent);
+
+            const lineList = result.split('\n');
+
+            expect(lineList).toContain(`import { Component, NgModule, OnInit } from '@angular/core';`);
+            expect(lineList).toContain(`import { CommonModule } from '@angular/common';`);
+            expect(lineList).not.toContain(`import { HelloWorldComponent } from './hello-world.component';`);
+            expect(lineList).toContain('declarations: [HelloWorldComponent],');
+            expect(lineList).toContain('exports: [HelloWorldComponent],');
+
+            expect(result).toEqual(expectedContent);
 
         });
 
