@@ -139,7 +139,7 @@ export class HelloWorldComponent implements OnInit {
 export class HelloWorldModule { }
 `;
 
-            const result = _mergeComponentAndModule(componentContent, moduleContent);
+            const result = _mergeComponentAndModule({componentContent, moduleContent});
 
             const lineList = result.split('\n')
                 .map(line => line.trim());
