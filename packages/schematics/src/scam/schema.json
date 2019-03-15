@@ -124,6 +124,11 @@
       "type": "boolean",
       "default": false,
       "description": "When true, applies lint fixes after generating the component."
+    },
+    "separateModule": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, creates a dedicated `module.ts` file. This is not the recommended behavior."
     }
   },
   "required": [
