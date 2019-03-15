@@ -88,10 +88,10 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
     /* @hack: Well, that's a dirty way for guessing the component's path from the module. */
     const componentPath = modulePath.replace(/module.ts$/, 'component.ts');
 
-    const moduleContent = tree.read(modulePath);
-    const componentContent = tree.read(componentPath);
+    const moduleContent = tree.read(modulePath).toString();
+    const componentContent = tree.read(componentPath).toString();
 
-    tree.overwrite(componentPath, _mergeComponentAndModule(componentContent.toString(), moduleContent.toString()));
+    tree.overwrite(componentPath, _mergeComponentAndModule(componentContent, moduleContent));
 
     tree.delete(modulePath);
 
