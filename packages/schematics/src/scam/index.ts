@@ -69,7 +69,7 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
 
     /* Merge multiple empty lines into one. */
     return content
-        .replace(/\n{2-}/, '\n\n');
+        .replace(/\n{2-}/g, '\n\n');
 
 }
 

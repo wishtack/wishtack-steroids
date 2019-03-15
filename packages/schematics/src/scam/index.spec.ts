@@ -151,7 +151,7 @@ export class HelloWorldModule { }
             expect(lineList).toContain('declarations: [HelloWorldComponent],');
             expect(lineList).toContain('exports: [HelloWorldComponent]');
 
-            // @todo: expect(result).toEqual(expectedContent);
+            expect(result).toEqual(expectedContent);
 
         });
 
