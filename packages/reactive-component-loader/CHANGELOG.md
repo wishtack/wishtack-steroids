@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.4...@wishtack/reactive-component-loader@0.2.5) (2019-03-15)
+
+**Note:** Version bump only for package @wishtack/reactive-component-loader
+
+
+
+
+
 ## [0.2.4](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.3...@wishtack/reactive-component-loader@0.2.4) (2019-03-14)
 
 
