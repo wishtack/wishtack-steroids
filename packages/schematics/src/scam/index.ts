@@ -7,6 +7,20 @@ export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
+/**
+ * A function that simply merges component and module, and removes useless imports.
+ * @param componentContent
+ * @param moduleContent
+ * @private
+ */
+export function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
+    throw new Error('😱 Not implemented yet!');
+}
+
+/**
+ * Schematics rule factory that merges module into component.
+ * @private
+ */
 export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
 
     const project = getProject(tree, options.project);

@@ -1,10 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-
-function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
-    throw new Error('😱 Not implemented yet!');
-}
+import { _mergeComponentAndModule } from './index';
 
 describe('scam', () => {
 
@@ -143,7 +140,6 @@ export class HelloWorldModule { }
 `;
 
             expect(_mergeComponentAndModule(componentContent, moduleContent)).toEqual(expectedContent);
-
 
         });
 
