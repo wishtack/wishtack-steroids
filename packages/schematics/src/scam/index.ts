@@ -1,6 +1,5 @@
 import { chain, externalSchematic, Rule } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
-import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 
 export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
