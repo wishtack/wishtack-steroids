@@ -16,7 +16,11 @@ export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (op
         path: options.path || buildDefaultPath(project)
     });
 
-    tree.read(modulePath);
+    /* @hack: Well, that's a dirty way for guessing the component's path from the module. */
+    const componentPath = modulePath.replace(/module.ts$/, 'component.ts');
+
+    const moduleContent = tree.read(modulePath);
+    const componentContent = tree.read(componentPath);
 
     // @todo: read module content.
     // @todo: merge module content in component.
