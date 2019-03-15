@@ -66,7 +66,8 @@ describe('scam', () => {
         expect(tree.files).toContain('/projects/wishtack/src/app/views/hello-world/hello-world.module.ts');
         expect(tree.files).toContain('/projects/wishtack/src/app/views/hello-world/hello-world.component.ts');
 
-        const moduleContent = tree.readContent('/projects/wishtack/src/app/views/hello-world/hello-world.module.ts');
+        const moduleContent = tree
+            .readContent('/projects/wishtack/src/app/views/hello-world/hello-world.module.ts');
         expect(moduleContent).toMatch(/import.*HelloWorldComponent.*from '.\/hello-world.component'/);
         expect(moduleContent).toMatch(/declarations:\s*\[HelloWorldComponent]/m);
         expect(moduleContent).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
