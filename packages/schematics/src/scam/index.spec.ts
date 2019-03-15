@@ -110,7 +110,7 @@ export class HelloWorldModule { }
 `;
 
 
-        xit('should merge component and module', () => {
+        it('should merge component and module', () => {
 
             const expectedContent = `import { Component, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -141,7 +141,8 @@ export class HelloWorldModule { }
 
             const result = _mergeComponentAndModule(componentContent, moduleContent);
 
-            const lineList = result.split('\n');
+            const lineList = result.split('\n')
+                .map(line => line.trim());
 
             // @todo: expect(lineList).toContain(`import { Component, NgModule, OnInit } from '@angular/core';`);
             expect(lineList).toContain(`import { CommonModule } from '@angular/common';`);
