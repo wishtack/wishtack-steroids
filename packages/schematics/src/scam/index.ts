@@ -60,8 +60,12 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
     ];
 
     const importLineList = lineList.filter(_isImportLine);
+    const otherLineList = lineList.filter(line => !_isImportLine(line));
 
-    return lineList.join('\n');
+    return [
+        ...importLineList,
+        ...otherLineList
+    ].join('\n');
 
 }
 
