@@ -19,6 +19,7 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
     const componentLineList = componentContent.split('\n');
     let moduleLineList = moduleContent.split('\n');
 
+    /* Remove useless imports from module. */
     moduleLineList = moduleLineList
         .filter(line => {
 
@@ -34,6 +35,9 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
                 && !line.includes('NgModule');
 
         });
+
+    /* @todo: Add `NgModule` import to component. */
+
 
     const lineList = [
         ...componentLineList,
