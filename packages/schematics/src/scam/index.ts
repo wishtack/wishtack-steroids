@@ -7,16 +7,18 @@ export interface ScamOptions extends NgComponentOptions {
 
 export function scam(options: ScamOptions): Rule {
 
-    if (!options.separateModule) {
-        throw new Error('😱 Not implemented yet!');
-    }
-
-    return chain([
+    const ruleList = [
         externalSchematic('@schematics/angular', 'module', options),
         externalSchematic('@schematics/angular', 'component', {
             ...options,
             export: true,
             module: options.name
-        }),
-    ]);
+        })
+    ];
+
+    if (!options.separateModule) {
+        throw new Error('😱 Not implemented yet!');
+    }
+
+    return chain(ruleList);
 }
