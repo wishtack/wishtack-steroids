@@ -7,6 +7,10 @@ export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
+export function _isImportLine(line: string) {
+    return line.trim().startsWith('import');
+}
+
 /**
  * A function that simply merges component and module, and removes useless imports.
  * @param componentContent
@@ -26,7 +30,7 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
             line = line.trim();
 
             /* Keep everything which is not an import. */
-            if (!line.startsWith('import')) {
+            if (!_isImportLine(line)) {
                 return true;
             }
 
@@ -42,7 +46,7 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
 
             const trimmedLine = line.trim();
 
-            if (trimmedLine.startsWith('import') && trimmedLine.includes('@angular/core')) {
+            if (_isImportLine(line) && trimmedLine.includes('@angular/core')) {
                 return line.replace(/Component,\s*OnInit/, 'Component, NgModule, OnInit');
             }
 
@@ -55,7 +59,7 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
         ...moduleLineList
     ];
 
-    const importLineList = lineList.filter(line => line.trim().startsWith('import'));
+    const importLineList = lineList.filter(_isImportLine);
 
     return lineList.join('\n');
 
