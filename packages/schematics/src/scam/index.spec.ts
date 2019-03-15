@@ -148,7 +148,7 @@ export class HelloWorldModule { }
             expect(lineList).toContain(`import { CommonModule } from '@angular/common';`);
             // @todo: expect(lineList).not.toContain(`import { HelloWorldComponent } from './hello-world.component';`);
             expect(lineList).toContain('declarations: [HelloWorldComponent],');
-            expect(lineList).toContain('exports: [HelloWorldComponent],');
+            expect(lineList).toContain('exports: [HelloWorldComponent]');
 
             // @todo: expect(result).toEqual(expectedContent);
 
