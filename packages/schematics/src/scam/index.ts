@@ -1,12 +1,23 @@
 import { chain, externalSchematic, Rule } from '@angular-devkit/schematics';
 import { Schema as NgComponentOptions } from '@schematics/angular/component/schema';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
+import { buildDefaultPath, getProject } from '@schematics/angular/utility/project';
 
 export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
 export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
+
+    const project = getProject(tree, options.project);
+
+    console.log(findModuleFromOptions(tree, {
+        ...options,
+        path: options.path || buildDefaultPath(project)
+    }));
+
     return tree;
+
 };
 
 export function scam(options: ScamOptions): Rule {
