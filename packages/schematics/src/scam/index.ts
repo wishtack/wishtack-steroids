@@ -14,7 +14,7 @@ export interface ScamOptions extends NgComponentOptions {
  * @private
  */
 export function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
-    throw new Error('😱 Not implemented yet!');
+    return componentContent + '\n' + moduleContent;
 }
 
 /**
