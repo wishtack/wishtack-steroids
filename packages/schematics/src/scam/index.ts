@@ -7,9 +7,54 @@ export interface ScamOptions extends NgComponentOptions {
     separateModule: boolean;
 }
 
-export function _isImportLine(line: string) {
-    return line.startsWith('import ');
+export function scam(options: ScamOptions): Rule {
+
+    let ruleList = [
+        externalSchematic('@schematics/angular', 'module', options),
+        externalSchematic('@schematics/angular', 'component', {
+            ...options,
+            export: true,
+            module: options.name
+        })
+    ];
+
+    if (!options.separateModule) {
+        ruleList = [
+            ...ruleList,
+            _mergeModuleIntoComponentFile(options)
+        ];
+    }
+
+    return chain(ruleList);
+
 }
+
+/**
+ * Schematics rule factory that merges module into component.
+ * @private
+ */
+export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
+
+    const project = getProject(tree, options.project);
+
+    const modulePath = findModuleFromOptions(tree, {
+        ...options,
+        path: options.path || buildDefaultPath(project)
+    });
+
+    /* @hack: Well, that's a dirty way for guessing the component's path from the module. */
+    const componentPath = modulePath.replace(/module.ts$/, 'component.ts');
+
+    const moduleContent = tree.read(modulePath).toString();
+    const componentContent = tree.read(componentPath).toString();
+
+    tree.overwrite(componentPath, _mergeComponentAndModule({componentContent, moduleContent}));
+
+    tree.delete(modulePath);
+
+    return tree;
+
+};
 
 /**
  * A function that simply merges component and module, and removes useless imports.
@@ -73,51 +118,6 @@ export function _mergeComponentAndModule({componentContent, moduleContent}:
 
 }
 
-/**
- * Schematics rule factory that merges module into component.
- * @private
- */
-export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
-
-    const project = getProject(tree, options.project);
-
-    const modulePath = findModuleFromOptions(tree, {
-        ...options,
-        path: options.path || buildDefaultPath(project)
-    });
-
-    /* @hack: Well, that's a dirty way for guessing the component's path from the module. */
-    const componentPath = modulePath.replace(/module.ts$/, 'component.ts');
-
-    const moduleContent = tree.read(modulePath).toString();
-    const componentContent = tree.read(componentPath).toString();
-
-    tree.overwrite(componentPath, _mergeComponentAndModule({componentContent, moduleContent}));
-
-    tree.delete(modulePath);
-
-    return tree;
-
-};
-
-export function scam(options: ScamOptions): Rule {
-
-    let ruleList = [
-        externalSchematic('@schematics/angular', 'module', options),
-        externalSchematic('@schematics/angular', 'component', {
-            ...options,
-            export: true,
-            module: options.name
-        })
-    ];
-
-    if (!options.separateModule) {
-        ruleList = [
-            ...ruleList,
-            _mergeModuleIntoComponentFile(options)
-        ];
-    }
-
-    return chain(ruleList);
-
+export function _isImportLine(line: string) {
+    return line.startsWith('import ');
 }
