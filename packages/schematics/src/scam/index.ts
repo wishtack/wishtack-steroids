@@ -24,11 +24,13 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
 
             line = line.trim();
 
+            /* Keep everything which is not an import. */
             if (!line.startsWith('import')) {
                 return true;
             }
 
-            return true;
+            /* Keep only imports from @angular scope. */
+            return line.includes('@angular/');
 
         });
 

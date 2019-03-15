@@ -146,7 +146,7 @@ export class HelloWorldModule { }
 
             // @todo: expect(lineList).toContain(`import { Component, NgModule, OnInit } from '@angular/core';`);
             expect(lineList).toContain(`import { CommonModule } from '@angular/common';`);
-            // @todo: expect(lineList).not.toContain(`import { HelloWorldComponent } from './hello-world.component';`);
+            expect(lineList).not.toContain(`import { HelloWorldComponent } from './hello-world.component';`);
             expect(lineList).toContain('declarations: [HelloWorldComponent],');
             expect(lineList).toContain('exports: [HelloWorldComponent]');
 
