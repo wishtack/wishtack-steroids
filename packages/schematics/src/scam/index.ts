@@ -8,7 +8,7 @@ export interface ScamOptions extends NgComponentOptions {
 }
 
 export function _isImportLine(line: string) {
-    return line.trim().startsWith('import');
+    return line.startsWith('import');
 }
 
 /**
