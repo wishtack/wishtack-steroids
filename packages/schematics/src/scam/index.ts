@@ -15,7 +15,6 @@ export function _isImportLine(line: string) {
  * A function that simply merges component and module, and removes useless imports.
  * @param componentContent
  * @param moduleContent
- * @deprecated wip
  * @private
  */
 export function _mergeComponentAndModule(componentContent: string, moduleContent: string): string {
@@ -75,7 +74,6 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
 
 /**
  * Schematics rule factory that merges module into component.
- * @deprecated wip
  * @private
  */
 export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
