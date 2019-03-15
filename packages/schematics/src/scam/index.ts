@@ -33,7 +33,7 @@ export function scam(options: ScamOptions): Rule {
  * Schematics rule factory that merges module into component.
  * @private
  */
-export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = (options) => (tree, context) => {
+export const _mergeModuleIntoComponentFile: (options: ScamOptions) => Rule = options => tree => {
 
     const project = getProject(tree, options.project);
 
