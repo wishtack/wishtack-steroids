@@ -62,10 +62,15 @@ export function _mergeComponentAndModule(componentContent: string, moduleContent
     const importLineList = lineList.filter(_isImportLine);
     const otherLineList = lineList.filter(line => !_isImportLine(line));
 
-    return [
+    const content = [
         ...importLineList,
         ...otherLineList
     ].join('\n');
+
+    /* Merge multiple empty lines into one. */
+    return content
+        .replace(/(\r\n)+/, '\r\n')
+        .replace(/(\n)+/, '\n');
 
 }
 
