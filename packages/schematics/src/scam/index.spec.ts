@@ -50,7 +50,7 @@ describe('scam', () => {
 
             const component = tree.readContent('/projects/wishtack/src/app/hello-world/hello-world.component.ts');
             expect(component).toMatch(/export class HelloWorldComponent/);
-            // @todo: expect(component).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
+            expect(component).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
 
         });
 
