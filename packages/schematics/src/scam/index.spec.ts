@@ -54,6 +54,10 @@ describe('scam', () => {
 
         });
 
+        xit('should create handle PascalCase names', () => {
+
+        });
+
         it('should create a module with a component in the same directory', () => {
 
             const runner = new SchematicTestRunner('schematics', collectionPath);
