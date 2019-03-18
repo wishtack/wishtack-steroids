@@ -10,6 +10,7 @@ export interface ScamOptions extends NgComponentOptions {
 
 export function scam(options: ScamOptions): Rule {
 
+    /* Dasherize component/module name. */
     options = {
         ...options,
         name: strings.dasherize(options.name)
