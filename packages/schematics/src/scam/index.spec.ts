@@ -36,7 +36,7 @@ describe('scam', () => {
 
         });
 
-        it(`WIP: should create module in the component's file`, () => {
+        it(`should create module in the component's file`, () => {
 
             const runner = new SchematicTestRunner('schematics', collectionPath);
 
