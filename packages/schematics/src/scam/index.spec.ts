@@ -56,6 +56,20 @@ describe('scam', () => {
 
         xit('should create handle PascalCase names', () => {
 
+            const runner = new SchematicTestRunner('schematics', collectionPath);
+
+            const tree = runner.runSchematic('scam', {
+                name: 'greetings/HelloWorld',
+                project: 'wishtack'
+            }, appTree);
+
+            expect(tree.files).toContain('/projects/wishtack/src/app/greetings/hello-world/hello-world.component.ts');
+
+            const component = tree
+                .readContent('/projects/wishtack/src/app/greetings/hello-world/hello-world.component.ts');
+            expect(component).toMatch(/export class HelloWorldComponent/);
+            expect(component).toMatch(/exports:\s*\[\s*HelloWorldComponent]/m);
+
         });
 
         it('should create a module with a component in the same directory', () => {
