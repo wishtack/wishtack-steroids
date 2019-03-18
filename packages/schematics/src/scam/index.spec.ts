@@ -55,7 +55,7 @@ describe('scam', () => {
 
         });
 
-        xit('should create handle PascalCase names', () => {
+        it('should create handle PascalCase names', () => {
 
             const runner = new SchematicTestRunner('schematics', collectionPath);
 
