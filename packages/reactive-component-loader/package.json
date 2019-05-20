@@ -37,10 +37,12 @@
     "type": "git",
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
+  "dependencies": {
+    "@wishtack/rx-scavenger": "^1.0.4",
+    "ng-dynamic-component": "^4.0.2"
+  },
   "peerDependencies": {
     "@angular/core": "~7.2.4",
-    "@wishtack/rx-scavenger": "^1.0.4",
-    "ng-dynamic-component": "^4.0.2",
     "rxjs": "^6.4.0",
     "zone.js": "~0.8.29"
   },
