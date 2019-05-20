@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.6...@wishtack/reactive-component-loader@0.2.7) (2019-05-20)
+
+
+### Bug Fixes
+
+* 🐞 Moved @wishtack/rx-scavenger and ng-dynamic-component from peerDependencies to dependencies. 🎯 users don't have to install ng-dynamic-component explicitly. ([f49e2f4](https://github.com/wishtack/wishtack-steroids/commit/f49e2f4))
+
+
+
+
+
 ## [0.2.6](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.5...@wishtack/reactive-component-loader@0.2.6) (2019-03-18)
 
 **Note:** Version bump only for package @wishtack/reactive-component-loader
