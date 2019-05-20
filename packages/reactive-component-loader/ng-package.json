@@ -3,5 +3,9 @@
   "dest": "dist/reactive-component-loader",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@wishtack/rx-scavenger",
+    "ng-dynamic-component"
+  ]
 }

@@ -38,7 +38,7 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "dependencies": {
-    "@wishtack/rx-scavenger": "^1.0.4",
+    "@wishtack/rx-scavenger": "^1.0.5",
     "ng-dynamic-component": "^4.0.2"
   },
   "peerDependencies": {
@@ -64,7 +64,6 @@
     "@types/jasmine": "~3.3.5",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~11.9.0",
-    "@wishtack/rx-scavenger": "^1.0.5",
     "codelyzer": "~4.5.0",
     "core-js": "^2.6.0",
     "jasmine-core": "~3.3.0",
@@ -74,7 +73,6 @@
     "karma-coverage-istanbul-reporter": "~2.0.4",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
-    "ng-dynamic-component": "^4.0.0",
     "ng-packagr": "^4.4.5",
     "protractor": "~5.4.1",
     "raw-loader": "^1.0.0",
