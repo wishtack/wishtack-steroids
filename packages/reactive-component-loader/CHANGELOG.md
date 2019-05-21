@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.7...@wishtack/reactive-component-loader@1.0.0) (2019-05-21)
+
+
+### Bug Fixes
+
+* Getting rid of `wtLazy` structural directive as it's causing trouble due to hacky access to ng-dynamic-component's IoService. ([ae7eeda](https://github.com/wishtack/wishtack-steroids/commit/ae7eeda)), closes [#173](https://github.com/wishtack/wishtack-steroids/issues/173) [#180](https://github.com/wishtack/wishtack-steroids/issues/180)
+
+
+### BREAKING CHANGES
+
+* Removed `wtLazy` structural directive.
+
+
+
+
+
 ## [0.2.7](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.6...@wishtack/reactive-component-loader@0.2.7) (2019-05-20)
 
 
