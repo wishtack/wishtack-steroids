@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://github.com/wishtack/wishtack-steroids/raw/master/packages/jest-tcr/tcr.png" alt="TCR Diagram">
+    <h1>Jest-TCR: Test && Commit || Revert for JavaScript
+</p>
 
 [![Build Status](https://travis-ci.org/wishtack/wishtack-steroids.svg?branch=master)](https://travis-ci.org/wishtack/wishtack-steroids)
 [![Greenkeeper badge](https://badges.greenkeeper.io/wishtack/wishtack-steroids.svg)](https://greenkeeper.io/)
