@@ -7,12 +7,11 @@
 
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, NgModuleFactoryLoader, SystemJsNgModuleLoader } from '@angular/core';
-import { provideRoutes, Route } from '@angular/router';
+import { provideRoutes } from '@angular/router';
 import { DynamicModule } from 'ng-dynamic-component';
 import { REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
 import { LazyComponent } from './lazy/lazy.component';
 import { ModuleInfo } from './module-info';
-import { LazyDirective } from './lazy/lazy.directive';
 
 export function noMatch() {
     return null;
@@ -44,12 +43,10 @@ export function noMatch() {
  */
 @NgModule({
     declarations: [
-        LazyComponent,
-        LazyDirective
+        LazyComponent
     ],
     exports: [
-        LazyComponent,
-        LazyDirective
+        LazyComponent
     ],
     imports: [
         CommonModule,
