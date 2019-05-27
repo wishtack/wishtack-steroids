@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@wishtack/rx-scavenger": "^1.0.5",
-    "ng-dynamic-component": "^4.0.2"
+    "ng-dynamic-component": "^4.0.3"
   },
   "peerDependencies": {
     "@angular/core": "~7.2.4",

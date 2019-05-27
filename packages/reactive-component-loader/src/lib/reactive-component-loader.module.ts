@@ -11,6 +11,7 @@ import { provideRoutes } from '@angular/router';
 import { DynamicModule } from 'ng-dynamic-component';
 import { REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY } from './_internals';
 import { LazyComponent } from './lazy/lazy.component';
+import { LazyDirective } from './lazy/lazy.directive';
 import { ModuleInfo } from './module-info';
 
 export function noMatch() {
@@ -43,10 +44,13 @@ export function noMatch() {
  */
 @NgModule({
     declarations: [
-        LazyComponent
+        LazyComponent,
+        LazyDirective
     ],
     exports: [
-        LazyComponent
+        DynamicModule,
+        LazyComponent,
+        LazyDirective
     ],
     imports: [
         CommonModule,

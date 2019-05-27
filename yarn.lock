@@ -7939,7 +7939,7 @@ next-tick@^1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-dynamic-component@^4.0.2:
+ng-dynamic-component@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/ng-dynamic-component/-/ng-dynamic-component-4.0.3.tgz#eedcf46bb8f29db9d3037b9ab66b98ba505a3510"
   integrity sha512-HX7xeJaC49oyroBkJZ/cWEl3iQZzVXw0yTx3BJGLXBQ9IGhyCFoXzbUnPUPl2Yl+/p6S1kzzE/Ra7GUAzOpYfg==
