@@ -2,7 +2,6 @@ import { NgComponentOutlet } from '@angular/common';
 import {
     ComponentRef,
     Directive,
-    forwardRef,
     Input,
     OnChanges,
     OnDestroy,
@@ -12,20 +11,13 @@ import {
 } from '@angular/core';
 import { Scavenger } from '@wishtack/rx-scavenger';
 import { ComponentInjector } from 'ng-dynamic-component';
-import { COMPONENT_INJECTOR } from 'ng-dynamic-component/dynamic/component-injector';
 import { ComponentLocation, ComponentRecipe, ReactiveComponentLoader } from '../reactive-component-loader.service';
 
 /**
  * @deprecated work in progress.
  */
 @Directive({
-    selector: '[wtLazy]',
-    providers: [
-        {
-            provide: COMPONENT_INJECTOR,
-            useValue: forwardRef(() => LazyDirective)
-        }
-    ]
+    selector: '[wtLazy]'
 })
 export class LazyDirective extends NgComponentOutlet implements ComponentInjector, OnChanges, OnDestroy {
 
