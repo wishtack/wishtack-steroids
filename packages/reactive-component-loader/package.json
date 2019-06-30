@@ -6,7 +6,7 @@
     "lazy loading",
     "typescript"
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -42,29 +42,28 @@
     "ng-dynamic-component": "^4.0.3"
   },
   "peerDependencies": {
-    "@angular/core": "~7.2.4",
+    "@angular/core": "~8.0.3",
     "rxjs": "^6.4.0",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.1",
-    "@angular-devkit/build-ng-packagr": "~0.13.1",
-    "@angular/animations": "~7.2.4",
-    "@angular/cli": "~7.3.1",
-    "@angular/common": "~7.2.4",
-    "@angular/compiler": "~7.2.4",
-    "@angular/compiler-cli": "~7.2.4",
-    "@angular/core": "~7.2.4",
-    "@angular/forms": "~7.2.4",
-    "@angular/http": "~7.2.4",
-    "@angular/language-service": "~7.2.4",
-    "@angular/platform-browser": "~7.2.4",
-    "@angular/platform-browser-dynamic": "~7.2.4",
-    "@angular/router": "~7.2.4",
+    "@angular-devkit/build-angular": "~0.800.6",
+    "@angular-devkit/build-ng-packagr": "~0.800.6",
+    "@angular/animations": "^8.0.3",
+    "@angular/cli": "^8.0.6",
+    "@angular/common": "~8.0.3",
+    "@angular/compiler": "~8.0.3",
+    "@angular/compiler-cli": "~8.0.3",
+    "@angular/core": "~8.0.3",
+    "@angular/forms": "~8.0.3",
+    "@angular/language-service": "~8.0.3",
+    "@angular/platform-browser": "~8.0.3",
+    "@angular/platform-browser-dynamic": "~8.0.3",
+    "@angular/router": "~8.0.3",
     "@types/jasmine": "~3.3.5",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~11.9.0",
-    "codelyzer": "~4.5.0",
+    "codelyzer": "^5.1.0",
     "core-js": "^2.6.0",
     "jasmine-core": "~3.3.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -80,8 +79,8 @@
     "ts-node": "~8.0.2",
     "tsickle": ">=0.29.0",
     "tslib": "^1.9.3",
-    "tslint": "~5.12.0",
-    "typescript": "~3.2.4",
-    "zone.js": "~0.8.26"
+    "tslint": "~5.11.0",
+    "typescript": "~3.4.5",
+    "zone.js": "~0.9.1"
   }
 }

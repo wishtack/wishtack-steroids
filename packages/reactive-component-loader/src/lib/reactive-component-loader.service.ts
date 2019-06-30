@@ -115,7 +115,10 @@ export class ReactiveComponentLoader {
      * Compile module or grab compiled module if AOT.
      */
     private async _getModuleFactory(moduleRegistryItem: ModuleInfo): Promise<NgModuleFactory<any>> {
-        return this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
+        if (typeof moduleRegistryItem.loadChildren === 'string') {
+          return this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
+        }
+        return await moduleRegistryItem.loadChildren();
     }
 
     private _findModuleInfo(moduleId: string) {
