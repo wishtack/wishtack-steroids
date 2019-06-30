@@ -1,4 +1,6 @@
+import { LoadChildren } from '@angular/router';
+
 export interface ModuleInfo {
-    loadChildren: string;
+    loadChildren: LoadChildren;
     moduleId: string;
 }
