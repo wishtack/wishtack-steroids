@@ -68,7 +68,7 @@ export class TodoListModule {
     template: `
     <wt-lazy
         [location]="todoFormComponentLocation"
-        [inputs]="{keywords: keywords}
+        [inputs]="{keywords: keywords}"
         [outputs]="{keywordsChange: onKeywordsChange}">
     `
 })
