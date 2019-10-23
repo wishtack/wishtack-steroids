@@ -5,8 +5,8 @@
  * $Id: $
  */
 
-import 'core-js/es6/map';
-import 'core-js/modules/es7.array.includes';
+import 'core-js/es/map';
+import 'core-js/modules/es.array.includes';
 
 import { OnDestroy } from '@angular/core';
 import { MonoTypeOperatorFunction, Observable, Subscription } from 'rxjs';
