@@ -1,7 +1,7 @@
 {
   "name": "@wishtack/jest-tcr",
   "description": "Jest TCR (Test && Commit || Revert) plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
