@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.0.1...@wishtack/reactive-component-loader@1.1.0) (2019-10-24)
+
+
+### Features
+
+* **reactive-component-loader:** ✅ handle dynamic module import ([5d4b5c7](https://github.com/wishtack/wishtack-steroids/commit/5d4b5c7faac4b193dd240c60dd90836b8e3fc396))
+
+
+
+
+
 ## [1.0.1](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.0.0...@wishtack/reactive-component-loader@1.0.1) (2019-10-23)
 
 **Note:** Version bump only for package @wishtack/reactive-component-loader
