@@ -2244,11 +2244,6 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@wishtack/rx-scavenger@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@wishtack/rx-scavenger/-/rx-scavenger-2.0.0.tgz#b6f29b0a32f9b67e61b46ccb041a111b69ed2b40"
-  integrity sha512-mkjDM25I0g2Wzc/NVSNqqW3P2Sgp0KyxggQh3uAZygLpZkeSrw6hhcY2dg5ZVPvm8mYn1dvttS/Y+5SBRjSy2w==
-
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -4125,7 +4120,7 @@ core-js@3.2.1:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.2.1.tgz#cd41f38534da6cc59f7db050fe67307de9868b09"
   integrity sha512-Qa5XSVefSVPRxy2XfUC13WbvqkxhkwB3ve+pgCQveNgYzbM/UxZeu1dcOX/xr4UmfUd+muuvsaxilQzCyUurMw==
 
-core-js@^2.2.0, core-js@^2.4.0, core-js@^2.5.0, core-js@^2.6.4:
+core-js@^2.2.0, core-js@^2.4.0, core-js@^2.5.0:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
   integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==

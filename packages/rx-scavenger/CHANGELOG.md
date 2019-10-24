@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@1.0.5...@wishtack/rx-scavenger@2.0.0) (2019-10-23)
+
+
+* feat(rx-scavenger)!: ✅ fix compatibility with Angular 8+ by upgrading to corejs 3 ([f87ce81](https://github.com/wishtack/wishtack-steroids/commit/f87ce81))
+
+
+### BREAKING CHANGES
+
+* not compatible with Angular 7 anymore
+
+
+
+
+
 ## [1.0.5](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@1.0.4...@wishtack/rx-scavenger@1.0.5) (2019-02-12)
 
 **Note:** Version bump only for package @wishtack/rx-scavenger
