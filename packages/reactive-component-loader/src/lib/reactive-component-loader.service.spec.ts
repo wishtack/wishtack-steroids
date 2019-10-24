@@ -5,10 +5,9 @@
  * $Id: $
  */
 
-import { NgModuleFactoryLoader } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { RouterTestingModule, SpyNgModuleFactoryLoader } from '@angular/router/testing';
-import { GreetingsComponent, GreetingsModule } from '../fixtures/greetings.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { GreetingsComponent } from '../fixtures/greetings.module';
 import { ReactiveComponentLoaderModule } from './reactive-component-loader.module';
 import { ReactiveComponentLoader } from './reactive-component-loader.service';
 import Spy = jasmine.Spy;
@@ -30,7 +29,7 @@ describe('ReactiveComponentLoader', () => {
             imports: [
                 ReactiveComponentLoaderModule.withModule({
                     moduleId: 'greetings',
-                    loadChildren: './path/to/greetings.module#GreetingsModule'
+                    loadChildren: () => import('../fixtures/greetings.module').then(m => m.GreetingsModule)
                 }),
                 RouterTestingModule
             ]
@@ -38,16 +37,6 @@ describe('ReactiveComponentLoader', () => {
 
         let reactiveComponentLoader: ReactiveComponentLoader;
         beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
-
-        let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
-        beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
-
-        beforeEach(() => {
-            /* Stubbing the lazy loaded module. */
-            spyNgModuleFactoryLoader.stubbedModules = {
-                './path/to/greetings.module#GreetingsModule': GreetingsModule
-            };
-        });
 
         it('should retrieve component recipe', async () => {
 
@@ -120,17 +109,6 @@ describe('ReactiveComponentLoader', () => {
 
         let reactiveComponentLoader: ReactiveComponentLoader;
         beforeEach(() => reactiveComponentLoader = TestBed.get(ReactiveComponentLoader));
-
-        let spyNgModuleFactoryLoader: SpyNgModuleFactoryLoader;
-        beforeEach(() => spyNgModuleFactoryLoader = TestBed.get(NgModuleFactoryLoader));
-
-        beforeEach(() => {
-            /* Stubbing the lazy loaded module. */
-            spyNgModuleFactoryLoader.stubbedModules = {
-                './path/to/greetings-1.module#GreetingsModule': GreetingsModule,
-                './path/to/greetings-2.module#GreetingsModule': GreetingsModule
-            };
-        });
 
         it('should throw an error if module is declared with different locations', fakeAsync(() => {
 
