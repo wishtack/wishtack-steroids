@@ -20,5 +20,8 @@
   },
   "devDependencies": {
     "lerna": "^3.14.1"
+  },
+  "dependencies": {
+    "@angular/compiler-cli": "8.2.12"
   }
 }
