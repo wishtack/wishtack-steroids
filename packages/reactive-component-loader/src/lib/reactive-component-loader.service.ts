@@ -6,6 +6,7 @@
  */
 
 import {
+    Compiler,
     ComponentFactory,
     Inject,
     Injectable,
@@ -46,6 +47,7 @@ export function moduleNotFoundError(moduleId: string) {
 export class ReactiveComponentLoader {
 
     constructor(
+        private _compiler: Compiler,
         private _injector: Injector,
         private _ngModuleFactoryLoader: NgModuleFactoryLoader,
         @Inject(REACTIVE_COMPONENT_LOADER_MODULE_REGISTRY) private _moduleRegistry: ModuleInfo[]
@@ -115,10 +117,19 @@ export class ReactiveComponentLoader {
      * Compile module or grab compiled module if AOT.
      */
     private async _getModuleFactory(moduleRegistryItem: ModuleInfo): Promise<NgModuleFactory<any>> {
+
         if (typeof moduleRegistryItem.loadChildren === 'string') {
-          return this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
+          return await this._ngModuleFactoryLoader.load(moduleRegistryItem.loadChildren);
         }
-        return await moduleRegistryItem.loadChildren();
+
+        /* Lazy load by calling `loadChildren` if it's a function
+         * e.g. () => import('.demo.module').then(m => m.DemoModule). */
+        const moduleTypeOrFactory = await moduleRegistryItem.loadChildren();
+        const isAot = moduleTypeOrFactory instanceof NgModuleFactory;
+        return isAot
+            ? moduleTypeOrFactory
+            : await this._compiler.compileModuleAsync(moduleTypeOrFactory);
+
     }
 
     private _findModuleInfo(moduleId: string) {
