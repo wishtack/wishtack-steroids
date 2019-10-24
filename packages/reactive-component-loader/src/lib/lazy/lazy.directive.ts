@@ -1,8 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
 import {
+    ComponentRef,
     Directive,
-    DoCheck,
-    Injector,
     Input,
     OnChanges,
     OnDestroy,
@@ -11,52 +10,30 @@ import {
     ViewContainerRef
 } from '@angular/core';
 import { Scavenger } from '@wishtack/rx-scavenger';
-import { DynamicComponent, DynamicDirective } from 'ng-dynamic-component';
-import { IoService } from 'ng-dynamic-component/dynamic/io.service';
+import { ComponentInjector } from 'ng-dynamic-component';
 import { ComponentLocation, ComponentRecipe, ReactiveComponentLoader } from '../reactive-component-loader.service';
-import { Inputs } from './inputs';
-import { Outputs } from './outputs';
 
+/**
+ * @deprecated work in progress.
+ */
 @Directive({
-    selector: '[wtLazy]',
-    providers: [
-        IoService
-    ]
+    selector: '[wtLazy]'
 })
-export class LazyDirective implements DoCheck, OnChanges, OnDestroy {
+export class LazyDirective extends NgComponentOutlet implements ComponentInjector, OnChanges, OnDestroy {
 
     @Input('wtLazy') location: ComponentLocation;
-    @Input() wtLazyInputs: Inputs;
-    @Input() wtLazyOutputs: Outputs;
 
-    private _dynamicDirective: DynamicDirective;
-    private _ngComponentOutlet: NgComponentOutlet;
     private _scavenger = new Scavenger(this);
 
     constructor(
         private _reactiveComponentLoader: ReactiveComponentLoader,
-        injector: Injector,
         viewContainerRef: ViewContainerRef
     ) {
+        super(viewContainerRef);
+    }
 
-        const ngComponentOutlet = this._ngComponentOutlet = new NgComponentOutlet(viewContainerRef);
-
-        /* @HACK: This hack wraps `DynamicDirective` hacks.
-         * Creating a fake `ComponentOutletInjectorDirective` that will allow
-         * `DynamicDirective` to grab `componentRef` from `NgComponentOutlet`. */
-        const componentOutletInjector: any = {
-            get componentRef() {
-                return ngComponentOutlet['_componentRef'];
-            }
-        };
-
-        this._dynamicDirective = new DynamicDirective(
-            injector,
-            injector.get(IoService),
-            DynamicComponent as any,
-            componentOutletInjector
-        );
-
+    get componentRef(): ComponentRef<any> {
+        return this['_componentRef'];
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -65,21 +42,9 @@ export class LazyDirective implements DoCheck, OnChanges, OnDestroy {
             this._onLocationChange(changes.location.isFirstChange());
         }
 
-        if (changes.wtLazyInputs || changes.wtLazyOutputs) {
-            this._onInputsAndOutputsChange(
-                (changes.wtLazyInputs && changes.wtLazyInputs.isFirstChange())
-                || (changes.wtLazyOutputs && changes.wtLazyOutputs.isFirstChange())
-            );
-        }
-
     }
 
     ngOnDestroy() {
-        this._ngComponentOutlet.ngOnDestroy();
-    }
-
-    ngDoCheck() {
-        this._dynamicDirective.ngDoCheck();
     }
 
     private _onLocationChange(isFirstChange: boolean) {
@@ -93,42 +58,26 @@ export class LazyDirective implements DoCheck, OnChanges, OnDestroy {
 
     }
 
-    private _onInputsAndOutputsChange(isFirstChange: boolean) {
-
-        this._dynamicDirective.ngOnChanges({
-            ndcDynamicInputs: new SimpleChange(
-                this._dynamicDirective.ndcDynamicInputs,
-                this._dynamicDirective.ndcDynamicInputs = this.wtLazyInputs,
-                isFirstChange
-            ),
-            ndcDynamicOutputs: new SimpleChange(
-                this._dynamicDirective.ndcDynamicOutputs,
-                this._dynamicDirective.ndcDynamicOutputs = this.wtLazyOutputs,
-                isFirstChange
-            )
-        });
-
-    }
-
-    private _onRecipeChange({isFirstChange, recipe}: {isFirstChange: boolean, recipe: ComponentRecipe<any>}) {
+    private _onRecipeChange({isFirstChange, recipe}: { isFirstChange: boolean, recipe: ComponentRecipe<any> }) {
 
         const {componentType = null, ngModuleFactory = null} = recipe || {};
 
         const ngComponentOutletChanges = {
             ngComponentOutlet: new SimpleChange(
-                this._ngComponentOutlet.ngComponentOutlet,
-                this._ngComponentOutlet.ngComponentOutlet = componentType,
+                this.ngComponentOutlet,
+                this.ngComponentOutlet = componentType,
                 isFirstChange
             ),
             ngComponentOutletNgModuleFactory: new SimpleChange(
-                this._ngComponentOutlet.ngComponentOutletNgModuleFactory,
-                this._ngComponentOutlet.ngComponentOutletNgModuleFactory = ngModuleFactory,
+                this.ngComponentOutletNgModuleFactory,
+                this.ngComponentOutletNgModuleFactory = ngModuleFactory,
                 isFirstChange
             )
         };
 
-        this._ngComponentOutlet.ngOnChanges(ngComponentOutletChanges);
+        super.ngOnChanges(ngComponentOutletChanges);
 
     }
 
 }
+

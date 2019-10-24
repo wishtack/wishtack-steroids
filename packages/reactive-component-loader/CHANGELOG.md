@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.0.1...@wishtack/reactive-component-loader@1.1.0) (2019-10-24)
+
+
+### Features
+
+* **reactive-component-loader:** ✅ handle dynamic module import ([5d4b5c7](https://github.com/wishtack/wishtack-steroids/commit/5d4b5c7faac4b193dd240c60dd90836b8e3fc396))
+
+
+
+
+
+## [1.0.1](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.0.0...@wishtack/reactive-component-loader@1.0.1) (2019-10-23)
+
+**Note:** Version bump only for package @wishtack/reactive-component-loader
+
+
+
+
+
+# [1.0.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.7...@wishtack/reactive-component-loader@1.0.0) (2019-05-21)
+
+
+### Bug Fixes
+
+* Getting rid of `wtLazy` structural directive as it's causing trouble due to hacky access to ng-dynamic-component's IoService. ([ae7eeda](https://github.com/wishtack/wishtack-steroids/commit/ae7eeda)), closes [#173](https://github.com/wishtack/wishtack-steroids/issues/173) [#180](https://github.com/wishtack/wishtack-steroids/issues/180)
+
+
+### BREAKING CHANGES
+
+* Removed `wtLazy` structural directive.
+
+
+
+
+
+## [0.2.7](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.6...@wishtack/reactive-component-loader@0.2.7) (2019-05-20)
+
+
+### Bug Fixes
+
+* 🐞 Moved @wishtack/rx-scavenger and ng-dynamic-component from peerDependencies to dependencies. 🎯 users don't have to install ng-dynamic-component explicitly. ([f49e2f4](https://github.com/wishtack/wishtack-steroids/commit/f49e2f4))
+
+
+
+
+
 ## [0.2.6](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@0.2.5...@wishtack/reactive-component-loader@0.2.6) (2019-03-18)
 
 **Note:** Version bump only for package @wishtack/reactive-component-loader

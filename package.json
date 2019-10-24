@@ -15,10 +15,13 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "lerna:publish": "yarn build && lerna publish --conventional-commits --npm-client=npm",
+    "lerna:publish": "yarn build && lerna publish --conventional-commits",
     "test": "lerna run test:single-run"
   },
   "devDependencies": {
-    "lerna": "^3.4.3"
+    "lerna": "^3.14.1"
+  },
+  "dependencies": {
+    "@angular/compiler-cli": "8.2.12"
   }
 }

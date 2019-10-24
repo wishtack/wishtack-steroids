@@ -8,7 +8,7 @@
     "rxjs",
     "typescript"
   ],
-  "version": "1.0.5",
+  "version": "2.0.0",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -27,13 +27,13 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "peerDependencies": {
-    "core-js": "^2.0.0",
+    "core-js": "^3.0.0",
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.3.8",
     "clean-webpack-plugin": "^2.0.2",
-    "core-js": "^3.0.1",
+    "core-js": "^3.3.3",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine": "^3.1.0",
     "karma": "~4.1.0",
