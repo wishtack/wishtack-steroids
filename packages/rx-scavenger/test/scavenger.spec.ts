@@ -151,13 +151,17 @@ describe('Scavenger', () => {
 
     });
 
-    it('should wrap ngOnDestroy and unsubscribe', () => {
+    it('should decorate ngOnDestroy and unsubscribe', () => {
 
-        const ngOnDestroy = jasmine.createSpy('ngOnDestroy');
+        const ngOnDestroySpy = jasmine.createSpy('ngOnDestroy');
 
-        const component: OnDestroy = {
-            ngOnDestroy
-        };
+        class Cmp implements OnDestroy {
+            ngOnDestroy() {
+                ngOnDestroySpy(this);
+            }
+        }
+
+        const component = new Cmp();
         const scavenger = new Scavenger(component);
 
         spyOn(scavenger, 'unsubscribe');
@@ -167,9 +171,64 @@ describe('Scavenger', () => {
         /* `ngOnDestroy()` should call `scavenger.unsubscribe()`... */
         expect(scavenger.unsubscribe).toHaveBeenCalledTimes(1);
         /* ... and the original `ngOnDestroy()`. */
-        expect(ngOnDestroy).toHaveBeenCalledTimes(1);
+        expect(ngOnDestroySpy).toHaveBeenCalledTimes(1);
         /* `ngOnDestroy` should be bound to `component`. */
-        expect(ngOnDestroy.calls.first().object).toBe(component);
+        expect(ngOnDestroySpy).toHaveBeenCalledWith(component);
+
+    });
+
+    it('should decorate ngOnDestroy once', () => {
+
+        class Cmp implements OnDestroy {
+            ngOnDestroy() {
+            }
+        }
+
+        const component = new Cmp();
+
+        const ngOnDestroy0 = component['__proto__'].ngOnDestroy;
+
+        const scavenger1 = new Scavenger(component);
+
+        const ngOnDestroy1 = component['__proto__'].ngOnDestroy;
+
+        const scavenger2 = new Scavenger(component);
+
+        const ngOnDestroy2 = component['__proto__'].ngOnDestroy;
+
+        expect(ngOnDestroy0).not.toEqual(ngOnDestroy1);
+        expect(ngOnDestroy1).toEqual(ngOnDestroy2);
+
+    });
+
+    it('should decorate ngOnDestroy and unsubscribe when using IVy', () => {
+
+        const ngOnDestroySpy = jasmine.createSpy('ngOnDestroy');
+
+        class Cmp {
+
+            static ɵcmp = {
+                onDestroy: function () {
+                    ngOnDestroySpy(this);
+                }
+            };
+
+        }
+
+        const component = new Cmp();
+
+        const scavenger = new Scavenger(component as any);
+
+        spyOn(scavenger, 'unsubscribe');
+
+        Cmp.ɵcmp.onDestroy.bind(component)();
+
+        /* `ngOnDestroy()` should call `scavenger.unsubscribe()`... */
+        expect(scavenger.unsubscribe).toHaveBeenCalledTimes(1);
+        /* ... and the original `ngOnDestroy()`. */
+        expect(ngOnDestroySpy).toHaveBeenCalledTimes(1);
+        /* `ngOnDestroy` should be bound to `component`. */
+        expect(ngOnDestroySpy).toHaveBeenCalledWith(component);
 
     });
 

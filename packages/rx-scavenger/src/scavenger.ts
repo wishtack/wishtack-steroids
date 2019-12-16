@@ -28,6 +28,10 @@ export class InvalidKeyError {
 
 }
 
+export interface ƟWithScavenger {
+    ɵscavenger: Scavenger;
+}
+
 export class Scavenger {
 
     private _subscriptionMap = new Map<string, Subscription>();
@@ -110,21 +114,43 @@ export class Scavenger {
      */
     private _tryRegisterNgOnDestroyHook(component: OnDestroy) {
 
-        if (component == null) {
+        const _component = component as OnDestroy & ƟWithScavenger;
+
+        if (_component == null) {
             return;
         }
 
-        const originalNgOnDestroy = component.ngOnDestroy.bind(component);
+        const prototype = _component['__proto__'];
 
-        component.ngOnDestroy = () => {
+        _component.ɵscavenger = this;
 
-            this.unsubscribe();
+        /* Mock once on the class. */
+        if (prototype.ɵscavengerWasHere) {
+            return;
+        }
 
-            if (originalNgOnDestroy != null) {
-                originalNgOnDestroy();
-            }
+        const decorateOnDestroy = (onDestroy) => {
+            return function () {
 
+                this.ɵscavenger.unsubscribe();
+
+                if (onDestroy) {
+                    onDestroy.bind(this)();
+                }
+
+            };
         };
+
+        const ivyComponentDef = component.constructor['ɵcmp'];
+
+        /* Is IVy. */
+        if (ivyComponentDef != null) {
+            ivyComponentDef.onDestroy = decorateOnDestroy(ivyComponentDef.onDestroy);
+        } else {
+            prototype.ngOnDestroy = decorateOnDestroy(prototype.ngOnDestroy);
+        }
+
+        prototype.ɵscavengerWasHere = true;
 
     }
 
