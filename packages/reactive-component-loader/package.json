@@ -6,7 +6,7 @@
     "lazy loading",
     "typescript"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Wishtack",
   "license": "MIT",
   "publishConfig": {
@@ -38,7 +38,7 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "dependencies": {
-    "@wishtack/rx-scavenger": "^2.0.0",
+    "@wishtack/rx-scavenger": "^2.0.1",
     "ng-dynamic-component": "^4.0.3"
   },
   "peerDependencies": {

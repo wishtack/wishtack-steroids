@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@2.0.0...@wishtack/rx-scavenger@2.0.1) (2019-12-16)
+
+
+### Bug Fixes
+
+* 🐞 fix RxScavenger compatibility with IVy ([295de91](https://github.com/wishtack/wishtack-steroids/commit/295de91a9717fe5b0c4c0e6896977cdf67679c3a))
+
+
+
+
+
 # [2.0.0](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/rx-scavenger@1.0.5...@wishtack/rx-scavenger@2.0.0) (2019-10-23)
 
 
