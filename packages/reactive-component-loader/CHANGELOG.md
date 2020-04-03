@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.1.1...@wishtack/reactive-component-loader@1.1.2) (2020-04-03)
+
+
+### Bug Fixes
+
+* **reactive-component-loader:** 🐞 handle IVy component factory ([781d17d](https://github.com/wishtack/wishtack-steroids/commit/781d17dbbc4bca8b7b4ab585877f608bc09ceb67))
+
+
+
+
+
 ## [1.1.1](https://github.com/wishtack/wishtack-steroids/compare/@wishtack/reactive-component-loader@1.1.0...@wishtack/reactive-component-loader@1.1.1) (2019-12-16)
 
 **Note:** Version bump only for package @wishtack/reactive-component-loader
