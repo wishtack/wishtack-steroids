@@ -144,9 +144,9 @@ export class Scavenger {
         const ivyComponentDef = component.constructor['ɵcmp'];
 
         /* Is IVy. */
-        if (ivyComponentDef != null) {
+        if (ivyComponentDef != null && ivyComponentDef.onDestroy) {
             ivyComponentDef.onDestroy = decorateOnDestroy(ivyComponentDef.onDestroy);
-        } else {
+        } else if(prototype.ngOnDestroy) {
             prototype.ngOnDestroy = decorateOnDestroy(prototype.ngOnDestroy);
         }
 
