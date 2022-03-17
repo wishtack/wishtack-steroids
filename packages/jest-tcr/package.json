@@ -13,6 +13,6 @@
     "url": "https://github.com/wishtack/wishtack-steroids.git"
   },
   "dependencies": {
-    "simple-git": "^1.113.0"
+    "simple-git": "^3.3.0"
   }
 }
